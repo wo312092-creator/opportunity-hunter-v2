@@ -1,20 +1,25 @@
-import os, json, time, re, hashlib, sys, urllib.parse
+import os, json, time, re, hashlib, sys, urllib.parse, html as html_mod
 from datetime import datetime, timezone
 from typing import Optional
 from dataclasses import dataclass, field
 
-os.system("pip install requests openpyxl google-auth google-auth-oauthlib google-auth-httplib2 google-api-python-client 2>/dev/null")
+# Install deps silently
+os.system("pip install requests openpyxl google-auth google-auth-oauthlib google-auth-httplib2 google-api-python-client playwright 2>/dev/null")
+# Install Chromium for Playwright
+os.system("playwright install chromium 2>/dev/null")
 
 import requests
 from openpyxl import Workbook, load_workbook
 
 FIRECRAWL_API_KEY = os.environ.get("FIRECRAWL_API_KEY", "")
+GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY", "")
 GOOGLE_OAUTH_CLIENT_ID = os.environ.get("GOOGLE_OAUTH_CLIENT_ID", "")
 GOOGLE_OAUTH_CLIENT_SECRET = os.environ.get("GOOGLE_OAUTH_CLIENT_SECRET", "")
 
 EXCEL_FILE = "opportunities.xlsx"
 MEMORY_FILE = "bot_memory.json"
 REPORT_DIR = "reports"
+TOP_FINDS_FILE = "top_automatable_finds.json"
 
 @dataclass
 class Opportunity:
@@ -27,6 +32,8 @@ class Opportunity:
     profit_per_week: str = ""
     profit_per_month: str = ""
     effort_level: str = ""
+    automation_potential: int = 0  # 0-10 score
+    automation_reason: str = ""
     source: str = ""
     found_date: str = ""
     tags: list = field(default_factory=list)
@@ -37,9 +44,9 @@ def load_excel():
         wb = Workbook()
         ws = wb.active
         ws.title = "Opportunities"
-        headers = ["ID", "Title", "URL", "Category", "Description", "Profit/Day", "Profit/Week", "Profit/Month", "Effort", "Source", "Found Date", "Tags", "Status"]
+        headers = ["ID","Title","URL","Category","Description","Profit/Day","Profit/Week","Profit/Month","Effort","AutoScore","AutoReason","Source","Found Date","Tags","Status"]
         ws.append(headers)
-        for col, w in [("A",8),("B",40),("C",50),("D",20),("E",60),("F",15),("G",15),("H",15),("I",12),("J",20),("K",20),("L",30),("M",10)]:
+        for col, w in [("A",8),("B",40),("C",50),("D",20),("E",60),("F",15),("G",15),("H",15),("I",12),("J",10),("K",50),("L",20),("M",20),("N",30),("O",10)]:
             ws.column_dimensions[col].width = w
         wb.save(EXCEL_FILE)
         return wb, ws
@@ -52,12 +59,13 @@ def opportunity_exists(ws, url: str) -> bool:
     return False
 
 def extract_ddg_url(u: str) -> str:
-    """Extract actual URL from DuckDuckGo redirect URL"""
-    if u.startswith("//duckduckgo.com/l/") or u.startswith("http://duckduckgo.com/l/") or u.startswith("https://duckduckgo.com/l/"):
+    if "duckduckgo.com/l/" in u:
         parsed = urllib.parse.urlparse(u)
         qs = urllib.parse.parse_qs(parsed.query)
         return qs.get("uddg", [u])[0]
     return u
+
+# â”€â”€ SEARCH ENGINES â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 def search_firecrawl(query: str) -> list:
     if not FIRECRAWL_API_KEY:
@@ -79,19 +87,17 @@ def search_ddg(query: str) -> list:
     try:
         resp = requests.get("https://html.duckduckgo.com/html/", params={"q": query},
             headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"}, timeout=15)
-        import html
         links = re.findall(r'<a[^>]+class="result__a"[^>]+href="([^"]+)"[^>]*>(.*?)</a>', resp.text, re.DOTALL)
         snippets = re.findall(r'<a[^>]+class="result__snippet"[^>]*>(.*?)</a>', resp.text, re.DOTALL)
         if not links:
-            # Check if DDG is showing a block/error page
             if "captcha" in resp.text.lower() or "blocked" in resp.text.lower():
                 print("[DuckDuckGo] Blocked (captcha)")
                 return []
-            print(f"[DuckDuckGo] No links found ({len(resp.text)} bytes)")
+            print(f"[DuckDuckGo] No links ({len(resp.text)} bytes)")
             return []
-        results = [{"title": html.unescape(re.sub(r'<[^>]+>', '', t)).strip(),
+        results = [{"title": html_mod.unescape(re.sub(r'<[^>]+>', '', t)).strip(),
                   "url": extract_ddg_url(u),
-                  "description": html.unescape(re.sub(r'<[^>]+>', '', snippets[i] if i < len(snippets) else "")).strip()[:300]}
+                  "description": html_mod.unescape(re.sub(r'<[^>]+>', '', snippets[i] if i < len(snippets) else "")).strip()[:300]}
                 for i, (u, t) in enumerate(links[:10])]
         print(f"[DuckDuckGo] {len(links)} links")
         return results
@@ -100,31 +106,67 @@ def search_ddg(query: str) -> list:
         return []
 
 def search_bing(query: str) -> list:
-    """Bing HTML search as fallback"""
     try:
         resp = requests.get("https://www.bing.com/search", params={"q": query},
             headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36", "Accept-Language": "en-US"}, timeout=15)
-        import html
         links = re.findall(r'<a[^>]+href="(https?://[^"]+)"[^>]*><h2>(.*?)</h2>', resp.text, re.DOTALL)
         if not links:
-            links = re.findall(r'<cite[^>]*>(.*?)</cite>', resp.text, re.DOTALL)
             titles = re.findall(r'<h2[^>]*><a[^>]+href="(https?://[^"]+)"[^>]*>(.*?)</a></h2>', resp.text, re.DOTALL)
             links = [(h, t) for h, t in titles] if titles else []
         snippets = re.findall(r'<p[^>]*>(.*?)</p>', resp.text, re.DOTALL)
         results = []
         for i, (u, t) in enumerate(links[:10]):
-            desc = html.unescape(re.sub(r'<[^>]+>', '', snippets[i] if i < len(snippets) else "")).strip()[:300] if i < len(snippets) else ""
-            results.append({"title": html.unescape(re.sub(r'<[^>]+>', '', t)).strip()[:200], "url": u, "description": desc})
+            desc = html_mod.unescape(re.sub(r'<[^>]+>', '', snippets[i] if i < len(snippets) else "")).strip()[:300] if i < len(snippets) else ""
+            results.append({"title": html_mod.unescape(re.sub(r'<[^>]+>', '', t)).strip()[:200], "url": u, "description": desc})
         print(f"[Bing] {len(results)} results")
         return results
     except Exception as e:
         print(f"[Bing] Error: {e}")
         return []
 
+def search_google_playwright(query: str) -> list:
+    """Search Google via headless Chromium â€” bypasses bot detection."""
+    try:
+        from playwright.sync_api import sync_playwright
+        results = []
+        with sync_playwright() as p:
+            browser = p.chromium.launch(headless=True, args=["--no-sandbox","--disable-setuid-sandbox"])
+            ctx = browser.new_context(user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/125.0.0.0 Safari/537.36")
+            page = ctx.new_page()
+            page.goto(f"https://www.google.com/search?q={urllib.parse.quote(query)}&hl=en", timeout=30000)
+            page.wait_for_timeout(2000)
+
+            # Extract search result divs
+            items = page.query_selector_all("div.g")
+            if not items:
+                # Fallback: try different selector
+                items = page.query_selector_all("[data-hveid]")
+            for el in items[:10]:
+                try:
+                    a = el.query_selector("a[href^='http']")
+                    if not a: continue
+                    url = a.get_attribute("href") or ""
+                    # Filter out Google internal links
+                    if any(x in url for x in ["google.com/search","google.com/intl","google.com/preferences"]): continue
+                    h3 = el.query_selector("h3")
+                    title = h3.inner_text() if h3 else ""
+                    desc_el = el.query_selector("div[data-sncf], span.aCOpRe, div.VwiC3b")
+                    desc = desc_el.inner_text()[:300] if desc_el else ""
+                    if url and title:
+                        results.append({"title": title, "url": url, "description": desc})
+                except: continue
+            browser.close()
+        print(f"[Google PW] {len(results)} results")
+        return results
+    except Exception as e:
+        print(f"[Google PW] Error: {e}")
+        return []
+
 def search_all(query: str) -> list:
     seen = set()
     results = []
-    for fn in [search_firecrawl, search_ddg, search_bing]:
+    engines = [search_google_playwright, search_firecrawl, search_ddg, search_bing]
+    for fn in engines:
         try:
             for r in fn(query):
                 if r["url"] and r["url"] not in seen:
@@ -134,6 +176,76 @@ def search_all(query: str) -> list:
             print(f"[Search] {fn.__name__} error: {e}")
         time.sleep(1)
     return results
+
+# â”€â”€ Gemini AI Scoring â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+
+def score_automation_gemini(title: str, desc: str, url: str) -> tuple:
+    """Use Gemini to score automation potential (0-10). Returns (score, reason)."""
+    if not GEMINI_API_KEY:
+        return rule_score_automation(title, desc, url)
+    try:
+        import google.generativeai as genai
+        genai.configure(api_key=GEMINI_API_KEY)
+        model = genai.GenerativeModel('gemini-2.0-flash')
+        prompt = f"""Rate this money-making opportunity's AUTOMATION POTENTIAL (0-10).
+
+A high score (7-10) means: can be fully automated with a GitHub Actions bot â€” auto-click, auto-claim, auto-faucet, auto-bot, auto-mining, auto-task scripts. No human needed after setup.
+A medium score (4-6) means: partially automatable â€” needs occasional human interaction like surveys, captchas, or approvals.
+A low score (0-3) means: requires continuous human work â€” typing, reading, supervising, manual trading.
+
+Title: {title[:200]}
+Description: {desc[:300]}
+URL: {url[:200]}
+
+Respond ONLY with a JSON object: {{"score": N, "reason": "short reason"}}"""
+        resp = model.generate_content(prompt)
+        text = resp.text.strip()
+        # Parse JSON from response
+        match = re.search(r'\{[^}]+\}', text)
+        if match:
+            data = json.loads(match.group())
+            score = max(0, min(10, int(data.get("score", 5))))
+            reason = str(data.get("reason", "Gemini analysis"))[:200]
+            return score, reason
+        return 5, "Gemini: parse error"
+    except Exception as e:
+        print(f"[Gemini] Score error: {e}")
+        return rule_score_automation(title, desc, url)
+
+def rule_score_automation(title: str, desc: str, url: str) -> tuple:
+    """Rule-based automation scoring when Gemini isn't available."""
+    c = f"{title} {desc} {url}".lower()
+    # High automation signals
+    high_signals = ["auto","bot","faucet","claim","withdraw","mining","cloud mining","free btc","free eth",
+                    "click","ptc","paid-to-click","earn per","automatic","passive","crypto faucet",
+                    "telegrab","telegram bot","earn crypto","stake"]
+    medium_signals = ["survey","offer","cashback","sign up","register","refer","affiliate",
+                      "trade","signal","copy trade"]
+    low_signals = ["data entry","freelance","writing","design","video","content"]
+
+    score = 0
+    bonus = 0
+    if "mining" in c or "miner" in c or "hash" in c: bonus += 3
+    if "faucet" in c or "claim" in c: bonus += 3
+    if "auto" in c or "bot" in c: bonus += 2
+    if "click" in c or "ptc" in c or "earn per" in c: bonus += 2
+    if "passive" in c or "staking" in c or "stake" in c: bonus += 2
+    if "refer" in c or "affiliate" in c: bonus += 1
+    if "survey" in c or "offer" in c: bonus -= 2
+    if "data entry" in c or "freelance" in c: bonus -= 3
+    if "withdraw" in c: bonus += 1
+    if "telegram" in c: bonus += 1
+
+    score = min(10, max(0, 5 + bonus))
+    if score >= 7:
+        reason = "High automation: bot-friendly signals detected"
+    elif score >= 4:
+        reason = "Medium automation: partially automatable"
+    else:
+        reason = "Low automation: requires human interaction"
+    return score, reason
+
+# â”€â”€ Classification â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 CLASSIFY_KEYWORDS = [
     (["faucet","free crypto","claim","earn satoshi","btc faucet","eth faucet","crypto faucet","bitcoin faucet"], "Crypto Faucet", ["faucet","crypto","free"]),
@@ -145,11 +257,12 @@ CLASSIFY_KEYWORDS = [
     (["arbitrage","flip","resell","flipping","buy low sell high"], "Arbitrage", ["arbitrage","flipping"]),
     (["stake","staking","defi","yield","lend","apr","liquidity","pool"], "DeFi / Staking", ["defi","staking","yield"]),
     (["play to earn","p2e","gamefi","nft game","play-to-earn","crypto game"], "Play-to-Earn", ["p2e","gaming","nft"]),
-    (["mining","cloud mining","hash","mine","miner","crypto mining"], "Mining", ["mining","crypto"]),
-    (["trading bot","auto trade","signal","copy trade","trading platform"], "Trading", ["trading","bot","automation"]),
-    (["micro task","microtask","captcha","data entry","freelance","micro job"], "Micro Tasks", ["micro-task","freelance"]),
-    (["browser automation","auto earn","auto claim","auto bot","automation bot"], "Automation", ["automation","bot"]),
-    (["earn crypto","free crypto","get crypto","crypto earn","crypto reward"], "Crypto Earnings", ["crypto","earn"]),
+    (["mining","cloud mining","hash","mine","miner","crypto mining","ltc miner","bitcoin miner","free mining","mining pool"], "Mining", ["mining","crypto"]),
+    (["trading bot","auto trade","signal","copy trade","trading platform","grid trading"], "Trading", ["trading","bot","automation"]),
+    (["micro task","microtask","captcha","data entry","freelance","micro job","gig"], "Micro Tasks", ["micro-task","freelance"]),
+    (["browser automation","auto earn","auto claim","auto bot","automation bot","auto click","auto faucet"], "Automation", ["automation","bot"]),
+    (["earn crypto","free crypto","get crypto","crypto earn","crypto reward","crypto bonus"], "Crypto Earnings", ["crypto","earn"]),
+    (["ltc","litecoin","dogecoin","doge coin","doge mining","ltc mining","free ltc","free doge"], "Altcoin Mining", ["mining","ltc","doge"]),
 ]
 
 def classify(item: dict) -> Optional[Opportunity]:
@@ -157,56 +270,71 @@ def classify(item: dict) -> Optional[Opportunity]:
     c = f"{t} {d}".lower()
     for keywords, cat, tags in CLASSIFY_KEYWORDS:
         if any(k in c for k in keywords):
+            # Score automation potential
+            auto_score, auto_reason = score_automation_gemini(t, d, u)
             return Opportunity(id=hashlib.md5(f"{t}{u}{time.time()}".encode()).hexdigest()[:12],
-                title=t[:100], url=u[:300], category=cat, description=d[:500],
+                title=t[:120], url=u[:300], category=cat, description=d[:500],
                 profit_per_day="Unknown", profit_per_week="Unknown", profit_per_month="Unknown",
-                effort_level="Unknown", source="web_search",
-                found_date=datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC"),
+                effort_level="Unknown", automation_potential=auto_score, automation_reason=auto_reason,
+                source="web_search", found_date=datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC"),
                 tags=tags, status="new")
-    # Catch-all: if it has a money-related word, tag as General
+    # Catch-all: money-related
     money_words = ["earn","money","income","profit","passive","free","reward","bonus","cash","pay","withdraw","crypto","bitcoin","eth","btc"]
     if any(k in c for k in money_words):
+        auto_score, auto_reason = score_automation_gemini(t, d, u)
         return Opportunity(id=hashlib.md5(f"{t}{u}{time.time()}".encode()).hexdigest()[:12],
-            title=t[:100], url=u[:300], category="General", description=d[:500],
+            title=t[:120], url=u[:300], category="General", description=d[:500],
             profit_per_day="Unknown", profit_per_week="Unknown", profit_per_month="Unknown",
-            effort_level="Unknown", source="web_search",
-            found_date=datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC"),
+            effort_level="Unknown", automation_potential=auto_score, automation_reason=auto_reason,
+            source="web_search", found_date=datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC"),
             tags=["money","earn"], status="new")
     return None
-    return Opportunity(id=hashlib.md5(f"{t}{u}{time.time()}".encode()).hexdigest()[:12],
-        title=t[:100], url=u[:300], category=cat, description=d[:500],
-        profit_per_day="Unknown", profit_per_week="Unknown", profit_per_month="Unknown",
-        effort_level="Unknown", source="web_search",
-        found_date=datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC"),
-        tags=tags, status="new")
+
+# â”€â”€ Queries â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 QUERIES = [
-    "best crypto faucets 2026 free bitcoin ethereum",
+    # Mining / faucet (high automation potential - like LTC miner)
+    "free ltc mining sites 2026 no deposit instant withdrawal",
+    "free dogecoin mining sites 2026 no deposit",
+    "free bitcoin mining cloud mining 2026 no deposit withdraw",
+    "free ethereum mining sites 2026 no investment",
+    "crypto mining faucet earn free btc eth ltc doge 2026",
+    "best crypto faucets 2026 free bitcoin ethereum litecoin",
+    "auto claim crypto faucet bot 2026",
+    # PTC / click (easy automation)
+    "paid to click sites that pay instantly 2026 free registration",
+    "best GPT sites earn money free 2026 auto earn",
+    "earn crypto by clicking ads 2026",
+    # Airdrops
     "new crypto airdrops 2026 free tokens claim",
-    "paid to click sites that pay instantly 2026",
-    "best GPT sites earn money free 2026",
-    "passive income crypto staking defi 2026",
-    "play to earn crypto games 2026 free",
-    "browser automation earn crypto free",
-    "auto claim crypto faucet bot",
-    "free bitcoin mining sites 2026 no deposit",
-    "earn crypto by completing tasks 2026",
-    "best cashback apps 2026 free money",
-    "micro task sites pay crypto 2026",
-    "affiliate programs crypto 2026 high paying",
-    "arbitrage opportunities crypto 2026",
-    "trading bots free crypto 2026",
     "solana airdrop 2026 claim free",
-    "free eth faucet 2026 working",
-    "binance earn free crypto 2026",
-    "new ways to earn money online 2026 free",
-    "AI tools that pay money 2026",
-    "data entry jobs from home 2026 pay daily",
-    "referral programs that pay instantly 2026",
+    "telegram bot airdrop claim 2026",
+    # Passive income (staking / defi)
+    "passive income crypto staking defi 2026 no minimum",
     "crypto savings account high apr 2026",
+    "free crypto staking rewards 2026",
+    # Automation bots
+    "browser automation earn crypto free 2026",
+    "telegram bot earn crypto 2026 free automated",
+    "auto trading crypto bot free 2026",
+    "free crypto arbitrage bot 2026",
+    # Play-to-earn / games
+    "play to earn crypto games 2026 free no investment",
     "nft play to earn 2026 free mint",
-    "telegram bot earn crypto 2026",
+    # Micro tasks
+    "micro task sites pay crypto 2026",
+    "earn crypto by completing tasks 2026",
+    # Cashback / rewards
+    "best cashback apps 2026 free money crypto",
+    # Affiliate
+    "affiliate programs crypto 2026 high paying free",
+    # General free earn
+    "earn free crypto no deposit 2026 withdraw instantly",
+    "new ways to earn money online 2026 free automated",
+    "free money making websites 2026 crypto",
 ]
+
+# â”€â”€ Output â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 def write_report(wb, total_new, categories):
     os.makedirs(REPORT_DIR, exist_ok=True)
@@ -220,12 +348,37 @@ def write_report(wb, total_new, categories):
         f.write("## Categories\n\n")
         for cat, cnt in sorted(categories.items(), key=lambda x: -x[1]):
             f.write(f"- **{cat}**: {cnt}\n")
-        f.write("\n## Latest 20\n\n| Title | Category | Profit/Month | Link |\n|---|---|---|---|\n")
+        f.write("\n## Top Automatable Finds (AutoScore >= 6)\n\n")
+        f.write("| Title | Automation | Category | Link |\n|---|---|---|---|\n")
+        ws2 = wb.active
+        for row in ws2.iter_rows(min_row=2, values_only=True):
+            if len(row) > 9 and row[9] and isinstance(row[9], (int,float)) and row[9] >= 6:
+                f.write(f"| {str(row[1] or '')[:40]} | {row[9]}/10 | {row[3]} | {str(row[2] or '')[:50]} |\n")
+        f.write("\n## Latest 20\n\n| Title | Category | AutoScore | Link |\n|---|---|---|---|\n")
         for i, row in enumerate(ws.iter_rows(min_row=2, values_only=True)):
             if i >= 20: break
-            if len(row) > 12:
-                f.write(f"| {str(row[1] or '')[:40]} | {row[3]} | {row[7]} | {str(row[2] or '')[:50]} |\n")
+            if len(row) > 9:
+                f.write(f"| {str(row[1] or '')[:40]} | {row[3]} | {row[9] or '?'}/10 | {str(row[2] or '')[:50]} |\n")
     return path
+
+def write_top_finds(ws):
+    """Write top automatable finds to JSON for opencode to read."""
+    top = []
+    for row in ws.iter_rows(min_row=2, values_only=True):
+        if len(row) > 9 and row[9] and isinstance(row[9], (int,float)) and row[9] >= 7:
+            top.append({
+                "title": row[1] or "",
+                "url": row[2] or "",
+                "category": row[3] or "",
+                "description": (row[4] or "")[:200],
+                "automation_score": row[9],
+                "automation_reason": row[10] or "",
+                "tags": row[13] or "",
+            })
+    top = sorted(top, key=lambda x: -x["automation_score"])[:30]
+    with open(TOP_FINDS_FILE, "w", encoding="utf-8") as f:
+        json.dump({"updated": datetime.now(timezone.utc).isoformat(), "top_finds": top}, f, indent=2)
+    print(f"[Top Finds] {len(top)} high-automation opportunities saved")
 
 def write_google_doc(report_path):
     if not GOOGLE_OAUTH_CLIENT_ID or not GOOGLE_OAUTH_CLIENT_SECRET:
@@ -258,6 +411,8 @@ def write_google_doc(report_path):
         print(f"[Google Docs] {e}")
         return False
 
+# â”€â”€ Main â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+
 def main():
     mem = json.load(open(MEMORY_FILE)) if os.path.exists(MEMORY_FILE) else {"runs":0,"total_found":0,"categories_found":{},"last_run":None,"learning":[]}
     mem["runs"] += 1
@@ -276,7 +431,8 @@ def main():
             if opp and not opportunity_exists(ws, opp.url):
                 ws.append([opp.id, opp.title, opp.url, opp.category, opp.description,
                     opp.profit_per_day, opp.profit_per_week, opp.profit_per_month,
-                    opp.effort_level, opp.source, opp.found_date, ",".join(opp.tags), opp.status])
+                    opp.effort_level, opp.automation_potential, opp.automation_reason,
+                    opp.source, opp.found_date, ",".join(opp.tags), opp.status])
                 new_for_query += 1
                 total_new += 1
                 categories[opp.category] = categories.get(opp.category, 0) + 1
@@ -291,6 +447,9 @@ def main():
     for cat, cnt in categories.items():
         mem["categories_found"][cat] = mem["categories_found"].get(cat, 0) + cnt
     json.dump(mem, open(MEMORY_FILE, "w"), indent=2)
+
+    # Write top finds for opencode to reference
+    write_top_finds(ws)
 
     report_path = write_report(wb, total_new, categories)
     print(f"Run #{mem['runs']}: +{total_new} new, {max(0, ws.max_row-1)} total")

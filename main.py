@@ -125,35 +125,63 @@ def search_bing(query: str) -> list:
         return []
 
 def search_google_playwright(query: str) -> list:
-    """Search Google via headless Chromium â€” bypasses bot detection."""
+    """Search Google via headless Chromium with stealth measures."""
     try:
         from playwright.sync_api import sync_playwright
         results = []
         with sync_playwright() as p:
-            browser = p.chromium.launch(headless=True, args=["--no-sandbox","--disable-setuid-sandbox"])
-            ctx = browser.new_context(user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/125.0.0.0 Safari/537.36")
+            browser = p.chromium.launch(
+                headless=True,
+                args=[
+                    "--no-sandbox","--disable-setuid-sandbox",
+                    "--disable-blink-features=AutomationControlled",
+                    "--window-size=1920,1080",
+                ]
+            )
+            ctx = browser.new_context(
+                user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
+                viewport={"width": 1920, "height": 1080},
+                locale="en-US",
+                timezone_id="America/New_York",
+            )
+            # Remove webdriver detection vectors
+            ctx.add_init_script("""
+                Object.defineProperty(navigator, 'webdriver', { get: () => undefined });
+                Object.defineProperty(navigator, 'plugins', { get: () => [1, 2, 3, 4, 5] });
+                Object.defineProperty(navigator, 'languages', { get: () => ['en-US', 'en'] });
+                window.chrome = { runtime: {} };
+                // Override permissions
+                const originalQuery = window.navigator.permissions.query;
+                window.navigator.permissions.query = (parameters) => (
+                    parameters.name === 'notifications' ?
+                    Promise.resolve({ state: Notification.permission }) :
+                    originalQuery(parameters)
+                );
+            """)
             page = ctx.new_page()
-            page.goto(f"https://www.google.com/search?q={urllib.parse.quote(query)}&hl=en", timeout=30000)
-            page.wait_for_timeout(2000)
+            page.goto(f"https://www.google.com/search?q={urllib.parse.quote(query)}&hl=en&num=10", timeout=30000)
+            page.wait_for_timeout(3000)
+
+            # Check if blocked by captcha
+            if "unusual traffic" in page.content().lower() or "captcha" in page.content().lower():
+                print("[Google PW] Blocked by Google (captcha/unusual traffic)")
+                browser.close()
+                return []
 
             # Extract search result divs
-            items = page.query_selector_all("div.g")
-            if not items:
-                # Fallback: try different selector
-                items = page.query_selector_all("[data-hveid]")
+            items = page.query_selector_all("div.g, div[data-hveid]")
             for el in items[:10]:
                 try:
                     a = el.query_selector("a[href^='http']")
                     if not a: continue
                     url = a.get_attribute("href") or ""
-                    # Filter out Google internal links
-                    if any(x in url for x in ["google.com/search","google.com/intl","google.com/preferences"]): continue
+                    if any(x in url for x in ["google.com/search","google.com/intl","google.com/preferences","accounts.google.com"]): continue
                     h3 = el.query_selector("h3")
                     title = h3.inner_text() if h3 else ""
-                    desc_el = el.query_selector("div[data-sncf], span.aCOpRe, div.VwiC3b")
+                    desc_el = el.query_selector("div.VwiC3b, span.aCOpRe, div[data-sncf]")
                     desc = desc_el.inner_text()[:300] if desc_el else ""
                     if url and title:
-                        results.append({"title": title, "url": url, "description": desc})
+                        results.append({"title": title.strip(), "url": url, "description": desc.strip()})
                 except: continue
             browser.close()
         print(f"[Google PW] {len(results)} results")
@@ -215,28 +243,39 @@ Respond ONLY with a JSON object: {{"score": N, "reason": "short reason"}}"""
 def rule_score_automation(title: str, desc: str, url: str) -> tuple:
     """Rule-based automation scoring when Gemini isn't available."""
     c = f"{title} {desc} {url}".lower()
-    # High automation signals
-    high_signals = ["auto","bot","faucet","claim","withdraw","mining","cloud mining","free btc","free eth",
-                    "click","ptc","paid-to-click","earn per","automatic","passive","crypto faucet",
-                    "telegrab","telegram bot","earn crypto","stake"]
-    medium_signals = ["survey","offer","cashback","sign up","register","refer","affiliate",
-                      "trade","signal","copy trade"]
-    low_signals = ["data entry","freelance","writing","design","video","content"]
+    edu_signals = ["dictionary","meaning","definition","grammar","wikipedia","encyclopedia",
+                   "how to","tutorial","course","learn","educational","academic"]
 
-    score = 0
+    # Penalize educational/dictionary content
+    if any(s in c for s in edu_signals):
+        return 1, "Educational/dictionary content â€” not a money opportunity"
+
+    # Penalize clearly non-earning sites
+    if any(s in url for s in ["autotrader","carsforsale","autonation","kbb.com"]):
+        return 1, "Auto/car site â€” not an earning opportunity"
+
     bonus = 0
-    if "mining" in c or "miner" in c or "hash" in c: bonus += 3
-    if "faucet" in c or "claim" in c: bonus += 3
-    if "auto" in c or "bot" in c: bonus += 2
-    if "click" in c or "ptc" in c or "earn per" in c: bonus += 2
-    if "passive" in c or "staking" in c or "stake" in c: bonus += 2
-    if "refer" in c or "affiliate" in c: bonus += 1
-    if "survey" in c or "offer" in c: bonus -= 2
-    if "data entry" in c or "freelance" in c: bonus -= 3
-    if "withdraw" in c: bonus += 1
-    if "telegram" in c: bonus += 1
+    total_signals = 0
+    mining_words = ["mining","miner","hash","cloud mining","free btc","free eth","free ltc","free doge"]
+    faucet_words = ["faucet","claim","withdraw","crypto faucet"]
+    bot_words = ["auto","bot","telegram bot","auto claim","auto bot"]
+    click_words = ["click","ptc","paid-to-click","earn per"]
+    passive_words = ["passive income","staking","stake","passive"]
+    earn_words = ["refer","affiliate","earn crypto","reward","bonus","cash","withdraw"]
 
-    score = min(10, max(0, 5 + bonus))
+    for words, pts in [(mining_words, 3), (faucet_words, 3), (bot_words, 2),
+                        (click_words, 2), (passive_words, 2), (earn_words, 1)]:
+        for w in words:
+            if w in c:
+                bonus += pts
+                total_signals += 1
+                break
+
+    if "survey" in c or "data entry" in c or "freelance" in c:
+        bonus -= 2
+
+    score = min(10, max(0, 5 + bonus // max(1, abs(total_signals // 2)))) if total_signals > 0 else 0
+
     if score >= 7:
         reason = "High automation: bot-friendly signals detected"
     elif score >= 4:

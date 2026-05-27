@@ -1,8 +1,16 @@
 {
-  "runs": 1,
-  "total_found": 0,
-  "categories_found": {},
-  "last_run": "2026-05-27T18:33:31.382599+00:00",
+  "runs": 2,
+  "total_found": 152,
+  "categories_found": {
+    "DeFi / Staking": 35,
+    "Affiliate": 26,
+    "Paid Surveys": 3,
+    "Mining": 1,
+    "General": 66,
+    "Cashback": 13,
+    "Arbitrage": 8
+  },
+  "last_run": "2026-05-27T18:39:54.578554+00:00",
   "learning": [
     {
       "date": "2026-05-27T18:31:48.204910+00:00",
@@ -153,6 +161,156 @@
       "query": "telegram bot earn crypto 2026",
       "results": 0,
       "new_opps": 0
+    },
+    {
+      "date": "2026-05-27T18:37:35.199735+00:00",
+      "query": "best crypto faucets 2026 free bitcoin ethereum",
+      "results": 7,
+      "new_opps": 5
+    },
+    {
+      "date": "2026-05-27T18:37:41.023817+00:00",
+      "query": "new crypto airdrops 2026 free tokens claim",
+      "results": 10,
+      "new_opps": 2
+    },
+    {
+      "date": "2026-05-27T18:37:46.650400+00:00",
+      "query": "paid to click sites that pay instantly 2026",
+      "results": 10,
+      "new_opps": 10
+    },
+    {
+      "date": "2026-05-27T18:37:52.250053+00:00",
+      "query": "best GPT sites earn money free 2026",
+      "results": 7,
+      "new_opps": 6
+    },
+    {
+      "date": "2026-05-27T18:37:58.411866+00:00",
+      "query": "passive income crypto staking defi 2026",
+      "results": 10,
+      "new_opps": 5
+    },
+    {
+      "date": "2026-05-27T18:38:04.044765+00:00",
+      "query": "play to earn crypto games 2026 free",
+      "results": 10,
+      "new_opps": 8
+    },
+    {
+      "date": "2026-05-27T18:38:10.140924+00:00",
+      "query": "browser automation earn crypto free",
+      "results": 10,
+      "new_opps": 5
+    },
+    {
+      "date": "2026-05-27T18:38:16.080963+00:00",
+      "query": "auto claim crypto faucet bot",
+      "results": 10,
+      "new_opps": 2
+    },
+    {
+      "date": "2026-05-27T18:38:21.674891+00:00",
+      "query": "free bitcoin mining sites 2026 no deposit",
+      "results": 10,
+      "new_opps": 0
+    },
+    {
+      "date": "2026-05-27T18:38:27.244790+00:00",
+      "query": "earn crypto by completing tasks 2026",
+      "results": 9,
+      "new_opps": 2
+    },
+    {
+      "date": "2026-05-27T18:38:32.842662+00:00",
+      "query": "best cashback apps 2026 free money",
+      "results": 7,
+      "new_opps": 6
+    },
+    {
+      "date": "2026-05-27T18:38:38.443352+00:00",
+      "query": "micro task sites pay crypto 2026",
+      "results": 9,
+      "new_opps": 3
+    },
+    {
+      "date": "2026-05-27T18:38:44.094346+00:00",
+      "query": "affiliate programs crypto 2026 high paying",
+      "results": 10,
+      "new_opps": 10
+    },
+    {
+      "date": "2026-05-27T18:38:49.715494+00:00",
+      "query": "arbitrage opportunities crypto 2026",
+      "results": 10,
+      "new_opps": 10
+    },
+    {
+      "date": "2026-05-27T18:38:55.328040+00:00",
+      "query": "trading bots free crypto 2026",
+      "results": 10,
+      "new_opps": 8
+    },
+    {
+      "date": "2026-05-27T18:39:01.397262+00:00",
+      "query": "solana airdrop 2026 claim free",
+      "results": 10,
+      "new_opps": 6
+    },
+    {
+      "date": "2026-05-27T18:39:07.484664+00:00",
+      "query": "free eth faucet 2026 working",
+      "results": 10,
+      "new_opps": 10
+    },
+    {
+      "date": "2026-05-27T18:39:13.108238+00:00",
+      "query": "binance earn free crypto 2026",
+      "results": 10,
+      "new_opps": 9
+    },
+    {
+      "date": "2026-05-27T18:39:18.760843+00:00",
+      "query": "new ways to earn money online 2026 free",
+      "results": 10,
+      "new_opps": 4
+    },
+    {
+      "date": "2026-05-27T18:39:24.375608+00:00",
+      "query": "AI tools that pay money 2026",
+      "results": 10,
+      "new_opps": 4
+    },
+    {
+      "date": "2026-05-27T18:39:30.039390+00:00",
+      "query": "data entry jobs from home 2026 pay daily",
+      "results": 10,
+      "new_opps": 6
+    },
+    {
+      "date": "2026-05-27T18:39:35.640321+00:00",
+      "query": "referral programs that pay instantly 2026",
+      "results": 10,
+      "new_opps": 10
+    },
+    {
+      "date": "2026-05-27T18:39:41.278515+00:00",
+      "query": "crypto savings account high apr 2026",
+      "results": 10,
+      "new_opps": 10
+    },
+    {
+      "date": "2026-05-27T18:39:47.001208+00:00",
+      "query": "nft play to earn 2026 free mint",
+      "results": 10,
+      "new_opps": 7
+    },
+    {
+      "date": "2026-05-27T18:39:52.573025+00:00",
+      "query": "telegram bot earn crypto 2026",
+      "results": 9,
+      "new_opps": 4
     }
   ]
 }

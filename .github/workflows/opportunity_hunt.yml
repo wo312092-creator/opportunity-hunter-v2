@@ -25,6 +25,7 @@ jobs:
 
       - name: Run opportunity hunter
         env:
+          PYTHONUNBUFFERED: 1
           FIRECRAWL_API_KEY: ${{ secrets.FIRECRAWL_API_KEY }}
           GOOGLE_OAUTH_CLIENT_ID: ${{ secrets.GOOGLE_OAUTH_CLIENT_ID }}
           GOOGLE_OAUTH_CLIENT_SECRET: ${{ secrets.GOOGLE_OAUTH_CLIENT_SECRET }}

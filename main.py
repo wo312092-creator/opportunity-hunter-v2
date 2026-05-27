@@ -13,11 +13,19 @@ FIRECRAWL_API_KEY = os.environ.get("FIRECRAWL_API_KEY", "")
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY", "")
 GOOGLE_OAUTH_CLIENT_ID = os.environ.get("GOOGLE_OAUTH_CLIENT_ID", "")
 GOOGLE_OAUTH_CLIENT_SECRET = os.environ.get("GOOGLE_OAUTH_CLIENT_SECRET", "")
+GOOGLE_REFRESH_TOKEN = os.environ.get("GOOGLE_REFRESH_TOKEN", "")
 
 EXCEL_FILE = "opportunities.xlsx"
 MEMORY_FILE = "bot_memory.json"
 REPORT_DIR = "reports"
 TOP_FINDS_FILE = "top_automatable_finds.json"
+
+SHEET_COLUMNS = [
+    "ID", "Website Name", "URL", "Category", "What It Does",
+    "How To Earn", "Per Hour", "Per Day", "Per Week", "Per Month", "Per Year",
+    "Auto Score", "How To Automate (GitHub)", "Feasibility", "Source",
+    "Found Date", "Status"
+]
 
 @dataclass
 class Opportunity:
@@ -36,6 +44,75 @@ class Opportunity:
     found_date: str = ""
     tags: list = field(default_factory=list)
     status: str = "new"
+    how_to_earn: str = ""
+    how_to_automate: str = ""
+    feasibility: str = ""
+
+def get_google_service(api_name, api_version, scopes):
+    if not GOOGLE_REFRESH_TOKEN:
+        return None
+    try:
+        from google.auth.transport.requests import Request
+        from google.oauth2.credentials import Credentials
+        from googleapiclient.discovery import build
+        creds = Credentials(token=None, client_id=GOOGLE_OAUTH_CLIENT_ID,
+            client_secret=GOOGLE_OAUTH_CLIENT_SECRET,
+            refresh_token=GOOGLE_REFRESH_TOKEN,
+            token_uri="https://oauth2.googleapis.com/token",
+            scopes=scopes)
+        creds.refresh(Request())
+        return build(api_name, api_version, credentials=creds)
+    except Exception as e:
+        print(f"[Google {api_name}] Auth error: {e}")
+        return None
+
+def setup_google_sheet(service, mem):
+    sheet_id = mem.get("google_sheet_id")
+    if sheet_id:
+        try:
+            service.spreadsheets().get(spreadsheetId=sheet_id).execute()
+            print(f"[Sheet] Using: https://docs.google.com/spreadsheets/d/{sheet_id}")
+            return sheet_id
+        except:
+            print("[Sheet] Stored ID stale, creating new...")
+            mem.pop("google_sheet_id", None)
+    sheet = service.spreadsheets().create(body={
+        "properties": {"title": "Opportunity Hunter - Master Findings"}
+    }).execute()
+    sheet_id = sheet["spreadsheetId"]
+    service.spreadsheets().values().update(
+        spreadsheetId=sheet_id, range="A1:Q1",
+        valueInputOption="USER_ENTERED",
+        body={"values": [SHEET_COLUMNS]}
+    ).execute()
+    service.spreadsheets().batchUpdate(spreadsheetId=sheet_id, body={"requests": [{
+        "repeatCell": {
+            "range": {"startRowIndex": 0, "endRowIndex": 1},
+            "cell": {"userEnteredFormat": {"textFormat": {"bold": True}}},
+            "fields": "userEnteredFormat.textFormat.bold"
+        }
+    }]}).execute()
+    mem["google_sheet_id"] = sheet_id
+    print(f"[Sheet] Created: https://docs.google.com/spreadsheets/d/{sheet_id}")
+    return sheet_id
+
+def append_google_sheet_row(service, sheet_id, opp):
+    row = [opp.id, opp.title, opp.url, opp.category, opp.description,
+        opp.how_to_earn or opp.automation_reason,
+        opp.profit_per_day, opp.profit_per_week, opp.profit_per_month,
+        "", "", opp.automation_potential,
+        opp.how_to_automate, opp.feasibility,
+        opp.source, opp.found_date, opp.status]
+    try:
+        service.spreadsheets().values().append(
+            spreadsheetId=sheet_id, range="A:Q",
+            valueInputOption="USER_ENTERED",
+            insertDataOption="INSERT_ROWS",
+            body={"values": [row]}
+        ).execute()
+        print(f"[Sheet] Appended: {opp.title[:40]}")
+    except Exception as e:
+        print(f"[Sheet] Append error: {e}")
 
 def load_excel():
     if not os.path.exists(EXCEL_FILE):
@@ -64,7 +141,6 @@ def extract_ddg_url(u: str) -> str:
         return qs.get("uddg", [u])[0]
     return u
 
-# Pool of user agents to rotate
 USER_AGENTS = [
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
@@ -180,16 +256,12 @@ class PlaywrightPool:
 def search_all(query: str, pw: PlaywrightPool, q_idx: int) -> list:
     seen = set()
     results = []
-
-    # PW first with fresh context (worked best in old runs)
     pw_results = pw.search(query, q_idx)
     print(f"[Bing PW] {len(pw_results)} results", end=" ", flush=True)
     for r in pw_results:
         if r["url"] and r["url"] not in seen:
             seen.add(r["url"])
             results.append(r)
-
-    # Bing HTML next with rotating UA
     time.sleep(random.uniform(0.3, 0.8))
     html_results = search_bing_html(query, q_idx)
     print(f"[Bing HTML] {len(html_results)}", end=" ", flush=True)
@@ -197,8 +269,6 @@ def search_all(query: str, pw: PlaywrightPool, q_idx: int) -> list:
         if r["url"] and r["url"] not in seen:
             seen.add(r["url"])
             results.append(r)
-
-    # DDG if we still need more
     if len(results) < 3:
         time.sleep(random.uniform(0.3, 0.8))
         ddg_results = search_ddg(query, q_idx)
@@ -207,8 +277,6 @@ def search_all(query: str, pw: PlaywrightPool, q_idx: int) -> list:
             if r["url"] and r["url"] not in seen:
                 seen.add(r["url"])
                 results.append(r)
-
-    # Startpage as last resort
     if len(results) < 2:
         time.sleep(random.uniform(0.3, 0.8))
         sp_results = search_startpage(query, q_idx)
@@ -217,7 +285,6 @@ def search_all(query: str, pw: PlaywrightPool, q_idx: int) -> list:
             if r["url"] and r["url"] not in seen:
                 seen.add(r["url"])
                 results.append(r)
-
     print(f"=> {len(results)} unique", flush=True)
     return results
 
@@ -237,15 +304,15 @@ Title: {title[:200]}
 Description: {desc[:300]}
 URL: {url[:200]}
 
-Respond ONLY with JSON: {{"score": N, "reason": "short reason"}}"""
+Respond ONLY with JSON: {{"score": N, "reason": "short reason", "how_to_earn": "how to earn from this", "how_to_automate": "how to automate with GitHub Actions"}}"""
         resp = model.generate_content(prompt)
         text = resp.text.strip()
         match = re.search(r'\{[^}]+\}', text)
         if match:
             data = json.loads(match.group())
             score = max(0, min(10, int(data.get("score", 5))))
-            return score, str(data.get("reason", "Gemini analysis"))[:200]
-        return 5, "Gemini: parse error"
+            return score, str(data.get("reason", ""))[:200], str(data.get("how_to_earn", ""))[:300], str(data.get("how_to_automate", ""))[:300]
+        return 5, "Parse error", "", ""
     except Exception as e:
         print(f"[Gemini] Error: {e}")
         return rule_score_automation(title, desc, url)
@@ -253,7 +320,7 @@ Respond ONLY with JSON: {{"score": N, "reason": "short reason"}}"""
 def rule_score_automation(title: str, desc: str, url: str) -> tuple:
     c = f"{title} {desc} {url}".lower()
     if any(s in c for s in ["dictionary","meaning","definition","wikipedia","encyclopedia","tutorial","course","educational","academic"]):
-        return 1, "Educational content"
+        return 1, "Educational content", "", ""
     bonus, signals = 0, 0
     for words, pts in [(["mining","miner","hash","cloud mining","free btc","free eth","free ltc","free doge"], 3),
                        (["faucet","claim","withdraw","crypto faucet"], 3),
@@ -266,10 +333,16 @@ def rule_score_automation(title: str, desc: str, url: str) -> tuple:
             signals += 1
     if "survey" in c or "data entry" in c:
         bonus -= 2
-    score = min(10, max(0, 5 + bonus // max(1, signals // 2 if signals else 1))) if signals > 0 else 0
-    if score >= 7: return score, "High automation: bot-friendly signals"
-    elif score >= 4: return score, "Medium: partially automatable"
-    return score, "Low: human interaction needed"
+    score = min(10, max(0, 5 + bonus // max(1, signals // 2 if signals else 1)))
+    if signals == 0:
+        return 0, "Low: no automation signals", "", ""
+    how_to_earn = "Visit website, complete tasks/claims, withdraw earnings to wallet"
+    how_to_automate = "Use Playwright browser automation on GitHub Actions to login, claim, and withdraw on schedule"
+    if score >= 7:
+        return score, "High automation: bot-friendly signals", how_to_earn, how_to_automate
+    elif score >= 4:
+        return score, "Medium: partially automatable", how_to_earn, how_to_automate
+    return score, "Low: human interaction needed", how_to_earn, how_to_automate
 
 CLASSIFY_KEYWORDS = [
     (["faucet","free crypto","claim","btc faucet","eth faucet","crypto faucet","bitcoin faucet"], "Crypto Faucet", ["faucet","crypto","free"]),
@@ -288,24 +361,34 @@ CLASSIFY_KEYWORDS = [
     (["ltc","litecoin","dogecoin","doge coin","doge mining","ltc mining","free ltc","free doge"], "Altcoin Mining", ["mining","ltc","doge"]),
 ]
 
-def classify(item: dict) -> Optional[Opportunity]:
+def classify(item: dict, genai_scoring: bool = True) -> Optional[Opportunity]:
     t, u, d = item.get("title",""), item.get("url",""), item.get("description","")
     c = f"{t} {d}".lower()
     for keywords, cat, tags in CLASSIFY_KEYWORDS:
         if any(k in c for k in keywords):
-            auto_score, auto_reason = score_automation_gemini(t, d, u)
+            if genai_scoring:
+                auto_score, auto_reason, how_to_earn, how_to_automate = score_automation_gemini(t, d, u)
+            else:
+                auto_score, auto_reason, how_to_earn, how_to_automate = rule_score_automation(t, d, u)
+            fea = "Easy" if auto_score >= 7 else "Medium" if auto_score >= 4 else "Hard"
             return Opportunity(id=hashlib.md5(f"{t}{u}{time.time()}".encode()).hexdigest()[:12],
                 title=t[:120], url=u[:300], category=cat, description=d[:500],
                 profit_per_day="Unknown", profit_per_week="Unknown", profit_per_month="Unknown",
                 effort_level="Unknown", automation_potential=auto_score, automation_reason=auto_reason,
+                how_to_earn=how_to_earn, how_to_automate=how_to_automate, feasibility=fea,
                 source="web_search", found_date=datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC"),
                 tags=tags, status="new")
     if any(k in c for k in ["earn","money","income","profit","passive","free","reward","bonus","cash","crypto","bitcoin"]):
-        auto_score, auto_reason = score_automation_gemini(t, d, u)
+        if genai_scoring:
+            auto_score, auto_reason, how_to_earn, how_to_automate = score_automation_gemini(t, d, u)
+        else:
+            auto_score, auto_reason, how_to_earn, how_to_automate = rule_score_automation(t, d, u)
+        fea = "Easy" if auto_score >= 7 else "Medium" if auto_score >= 4 else "Hard"
         return Opportunity(id=hashlib.md5(f"{t}{u}{time.time()}".encode()).hexdigest()[:12],
             title=t[:120], url=u[:300], category="General", description=d[:500],
             profit_per_day="Unknown", profit_per_week="Unknown", profit_per_month="Unknown",
             effort_level="Unknown", automation_potential=auto_score, automation_reason=auto_reason,
+            how_to_earn=how_to_earn, how_to_automate=how_to_automate, feasibility=fea,
             source="web_search", found_date=datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC"),
             tags=["money","earn"], status="new")
     return None
@@ -384,21 +467,18 @@ def write_top_finds(ws):
         json.dump({"updated": datetime.now(timezone.utc).isoformat(), "top_finds": top}, f, indent=2)
     print(f"[Top Finds] {len(top)} high-automation opportunities saved")
 
-def write_google_doc(report_path):
-    if not GOOGLE_OAUTH_CLIENT_ID or not GOOGLE_OAUTH_CLIENT_SECRET:
-        print("[Google Docs] No OAuth - skipping")
+def write_google_doc(report_path, sheet_url=""):
+    if not GOOGLE_REFRESH_TOKEN:
+        print("[Google Docs] No token - skipping")
         return False
     try:
         from google.auth.transport.requests import Request as GoogleRequest
         from google.oauth2.credentials import Credentials
         from googleapiclient.discovery import build
-        refresh_token = os.environ.get("GOOGLE_REFRESH_TOKEN")
-        if not refresh_token:
-            print("[Google Docs] No GOOGLE_REFRESH_TOKEN - skipping")
-            return False
         creds = Credentials(token=None, client_id=GOOGLE_OAUTH_CLIENT_ID,
             client_secret=GOOGLE_OAUTH_CLIENT_SECRET,
-            refresh_token=refresh_token, token_uri="https://oauth2.googleapis.com/token")
+            refresh_token=GOOGLE_REFRESH_TOKEN,
+            token_uri="https://oauth2.googleapis.com/token")
         creds.refresh(GoogleRequest())
         docs = build("docs", "v1", credentials=creds)
         date_str = datetime.now(timezone.utc).strftime("%Y-%m-%d")
@@ -415,7 +495,12 @@ def write_google_doc(report_path):
                 cells = [c.strip() for c in line.split('|')[1:-1]]
                 line = ' | '.join(cells)
             clean_lines.append(line)
-        clean_text = '\n'.join(clean_lines)
+
+        if sheet_url:
+            clean_text = f"Master Sheet: {sheet_url}\n\n" + '\n'.join(clean_lines)
+        else:
+            clean_text = '\n'.join(clean_lines)
+
         docs.documents().batchUpdate(documentId=doc_id,
             body={"requests": [{"insertText": {"endOfSegmentLocation": {}, "text": clean_text}}]}).execute()
         print(f"[Google Docs] Created: https://docs.google.com/document/d/{doc_id}")
@@ -425,14 +510,31 @@ def write_google_doc(report_path):
         return False
 
 def main():
-    mem = json.load(open(MEMORY_FILE)) if os.path.exists(MEMORY_FILE) else {"runs":0,"total_found":0,"categories_found":{},"last_run":None,"learning":[]}
+    mem = json.load(open(MEMORY_FILE)) if os.path.exists(MEMORY_FILE) else {
+        "runs": 0, "total_found": 0, "categories_found": {}, "last_run": None,
+        "learning": [], "google_sheet_id": None
+    }
     mem["runs"] += 1
     wb, ws = load_excel()
     total_new, categories = 0, {}
 
+    sheets_service = None
+    sheet_id = None
+    if GOOGLE_REFRESH_TOKEN:
+        sheets_service = get_google_service("sheets", "v4", [
+            "https://www.googleapis.com/auth/spreadsheets",
+            "https://www.googleapis.com/auth/drive"
+        ])
+        if sheets_service:
+            sheet_id = setup_google_sheet(sheets_service, mem)
+    else:
+        print("[Sheet] No GOOGLE_REFRESH_TOKEN - Google Sheets disabled")
+
     pw = PlaywrightPool()
     pw.start()
     start_time = time.time()
+
+    genai_available = bool(GEMINI_API_KEY)
 
     for i, q in enumerate(QUERIES):
         elapsed = time.time() - start_time
@@ -440,12 +542,14 @@ def main():
         items = search_all(q, pw, i)
         new_for_query = 0
         for item in items:
-            opp = classify(item)
+            opp = classify(item, genai_scoring=genai_available)
             if opp and not opportunity_exists(ws, opp.url):
                 ws.append([opp.id, opp.title, opp.url, opp.category, opp.description,
                     opp.profit_per_day, opp.profit_per_week, opp.profit_per_month,
                     opp.effort_level, opp.automation_potential, opp.automation_reason,
                     opp.source, opp.found_date, ",".join(opp.tags), opp.status])
+                if sheets_service and sheet_id:
+                    append_google_sheet_row(sheets_service, sheet_id, opp)
                 new_for_query += 1
                 total_new += 1
                 categories[opp.category] = categories.get(opp.category, 0) + 1
@@ -465,8 +569,11 @@ def main():
     write_top_finds(ws)
     report_path = write_report(wb, total_new, categories)
     elapsed = time.time() - start_time
+    sheet_url = f"https://docs.google.com/spreadsheets/d/{sheet_id}" if sheet_id else ""
     print(f"Run #{mem['runs']}: +{total_new} new, {max(0, ws.max_row-1)} total in {elapsed:.0f}s")
-    write_google_doc(report_path)
+    if sheet_url:
+        print(f"Master Sheet: {sheet_url}")
+    write_google_doc(report_path, sheet_url)
     print(f"[{datetime.now(timezone.utc).isoformat()}] Done!")
 
 if __name__ == "__main__":

@@ -4,7 +4,7 @@ from typing import Optional
 from dataclasses import dataclass, field
 
 # Install deps silently
-os.system("pip install requests openpyxl google-auth google-auth-oauthlib google-auth-httplib2 google-api-python-client playwright 2>/dev/null")
+os.system("pip install requests openpyxl google-auth google-auth-oauthlib google-auth-httplib2 google-api-python-client playwright google-generativeai 2>/dev/null")
 # Install Chromium for Playwright
 os.system("playwright install chromium 2>/dev/null")
 

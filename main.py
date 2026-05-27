@@ -329,6 +329,8 @@ def rule_score_automation(title: str, desc: str, url: str) -> tuple:
                        (["passive income","staking","stake","passive"], 2),
                        (["refer","affiliate","earn crypto","reward","bonus","cash"], 1)]:
         if any(w in c for w in words):
+            if words[0] == "faucet" and any(pk in c for pk in PLUMBING_FAUCET_KEYWORDS):
+                continue
             bonus += pts
             signals += 1
     if "survey" in c or "data entry" in c:
@@ -343,6 +345,8 @@ def rule_score_automation(title: str, desc: str, url: str) -> tuple:
     elif score >= 4:
         return score, "Medium: partially automatable", how_to_earn, how_to_automate
     return score, "Low: human interaction needed", how_to_earn, how_to_automate
+
+PLUMBING_FAUCET_KEYWORDS = ["kitchen","bathroom","sink","plumbing","delta","lowes","homedepot","home depot","ferguson","moen","toilet","shower","plumber","vanity","pipe","tub","spout","cartridge","hardware store","plumbing supply"]
 
 CLASSIFY_KEYWORDS = [
     (["faucet","free crypto","claim","btc faucet","eth faucet","crypto faucet","bitcoin faucet"], "Crypto Faucet", ["faucet","crypto","free"]),
@@ -366,6 +370,8 @@ def classify(item: dict, genai_scoring: bool = True) -> Optional[Opportunity]:
     c = f"{t} {d}".lower()
     for keywords, cat, tags in CLASSIFY_KEYWORDS:
         if any(k in c for k in keywords):
+            if cat == "Crypto Faucet" and any(pk in c for pk in PLUMBING_FAUCET_KEYWORDS):
+                continue
             if genai_scoring:
                 auto_score, auto_reason, how_to_earn, how_to_automate = score_automation_gemini(t, d, u)
             else:

@@ -66,7 +66,7 @@ def get_google_service(api_name, api_version, scopes):
         print(f"[Google {api_name}] Auth error: {e}")
         return None
 
-def setup_google_sheet(service, mem):
+def get_or_create_spreadsheet(service, mem):
     sheet_id = mem.get("google_sheet_id")
     if sheet_id:
         try:
@@ -77,26 +77,47 @@ def setup_google_sheet(service, mem):
             print("[Sheet] Stored ID stale, creating new...")
             mem.pop("google_sheet_id", None)
     sheet = service.spreadsheets().create(body={
-        "properties": {"title": "Opportunity Hunter - Master Findings"}
+        "properties": {"title": "Opportunity Hunter - Daily Findings"}
     }).execute()
     sheet_id = sheet["spreadsheetId"]
-    service.spreadsheets().values().update(
-        spreadsheetId=sheet_id, range="A1:Q1",
-        valueInputOption="USER_ENTERED",
-        body={"values": [SHEET_COLUMNS]}
-    ).execute()
-    service.spreadsheets().batchUpdate(spreadsheetId=sheet_id, body={"requests": [{
-        "repeatCell": {
-            "range": {"startRowIndex": 0, "endRowIndex": 1},
-            "cell": {"userEnteredFormat": {"textFormat": {"bold": True}}},
-            "fields": "userEnteredFormat.textFormat.bold"
-        }
-    }]}).execute()
     mem["google_sheet_id"] = sheet_id
     print(f"[Sheet] Created: https://docs.google.com/spreadsheets/d/{sheet_id}")
     return sheet_id
 
-def append_google_sheet_row(service, sheet_id, opp):
+def create_run_sheet(service, sheet_id, date_str, total_new, categories):
+    try:
+        result = service.spreadsheets().batchUpdate(
+            spreadsheetId=sheet_id,
+            body={"requests": [{"addSheet": {"properties": {"title": date_str}}}]}
+        ).execute()
+        new_sheet_id = result["replies"][0]["addSheet"]["properties"]["sheetId"]
+        header_row = [f"Run Date: {date_str}", f"Total New: {total_new}"]
+        for cat, cnt in sorted(categories.items(), key=lambda x: -x[1]):
+            header_row += [f"{cat}: {cnt}"]
+        service.spreadsheets().values().update(
+            spreadsheetId=sheet_id, range=f"'{date_str}'!A1",
+            valueInputOption="USER_ENTERED",
+            body={"values": [header_row]}
+        ).execute()
+        service.spreadsheets().values().update(
+            spreadsheetId=sheet_id, range=f"'{date_str}'!A2",
+            valueInputOption="USER_ENTERED",
+            body={"values": [SHEET_COLUMNS]}
+        ).execute()
+        service.spreadsheets().batchUpdate(spreadsheetId=sheet_id, body={"requests": [{
+            "repeatCell": {
+                "range": {"sheetId": new_sheet_id, "startRowIndex": 1, "endRowIndex": 2},
+                "cell": {"userEnteredFormat": {"textFormat": {"bold": True}}},
+                "fields": "userEnteredFormat.textFormat.bold"
+            }
+        }]}).execute()
+        print(f"[Sheet] Created run tab: {date_str}")
+        return date_str
+    except Exception as e:
+        print(f"[Sheet] Error creating run tab: {e}")
+        return None
+
+def append_google_sheet_row(service, sheet_id, opp, sheet_name):
     row = [opp.id, opp.title, opp.url, opp.category, opp.description,
         opp.how_to_earn or opp.automation_reason,
         opp.profit_per_day, opp.profit_per_week, opp.profit_per_month,
@@ -105,12 +126,11 @@ def append_google_sheet_row(service, sheet_id, opp):
         opp.source, opp.found_date, opp.status]
     try:
         service.spreadsheets().values().append(
-            spreadsheetId=sheet_id, range="A:Q",
+            spreadsheetId=sheet_id, range=f"'{sheet_name}'!A:Q",
             valueInputOption="USER_ENTERED",
             insertDataOption="INSERT_ROWS",
             body={"values": [row]}
         ).execute()
-        print(f"[Sheet] Appended: {opp.title[:40]}")
     except Exception as e:
         print(f"[Sheet] Append error: {e}")
 
@@ -445,7 +465,11 @@ def write_report(wb, total_new, categories):
     total = max(0, ws.max_row - 1)
     with open(path, "w", encoding="utf-8") as f:
         f.write(f"# Opportunity Hunter Report - {date_str}\n\n")
-        f.write(f"**Total tracked:** {total}  |  **New today:** {total_new}\n\n")
+        f.write(f"**Total tracked (all time):** {total}  |  **New today:** {total_new}\n\n")
+        if total_new == 0:
+            f.write("## No new opportunities found today\n\n")
+            f.write("The search completed but all results were duplicates of previously discovered sites. No daily sheet was created in the spreadsheet.\n\n")
+            return path
         f.write("## Categories\n\n")
         for cat, cnt in sorted(categories.items(), key=lambda x: -x[1]):
             f.write(f"- **{cat}**: {cnt}\n")
@@ -532,7 +556,7 @@ def main():
             "https://www.googleapis.com/auth/drive"
         ])
         if sheets_service:
-            sheet_id = setup_google_sheet(sheets_service, mem)
+            sheet_id = get_or_create_spreadsheet(sheets_service, mem)
     else:
         print("[Sheet] No GOOGLE_REFRESH_TOKEN - Google Sheets disabled")
 
@@ -541,6 +565,7 @@ def main():
     start_time = time.time()
 
     genai_available = bool(GEMINI_API_KEY)
+    new_opps = []
 
     for i, q in enumerate(QUERIES):
         elapsed = time.time() - start_time
@@ -554,8 +579,7 @@ def main():
                     opp.profit_per_day, opp.profit_per_week, opp.profit_per_month,
                     opp.effort_level, opp.automation_potential, opp.automation_reason,
                     opp.source, opp.found_date, ",".join(opp.tags), opp.status])
-                if sheets_service and sheet_id:
-                    append_google_sheet_row(sheets_service, sheet_id, opp)
+                new_opps.append(opp)
                 new_for_query += 1
                 total_new += 1
                 categories[opp.category] = categories.get(opp.category, 0) + 1
@@ -572,14 +596,28 @@ def main():
         mem["categories_found"][cat] = mem["categories_found"].get(cat, 0) + cnt
     json.dump(mem, open(MEMORY_FILE, "w"), indent=2)
 
+    run_date = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+
+    if new_opps and sheets_service and sheet_id:
+        run_sheet_name = create_run_sheet(sheets_service, sheet_id, run_date, total_new, categories)
+        if run_sheet_name:
+            for opp in new_opps:
+                append_google_sheet_row(sheets_service, sheet_id, opp, run_sheet_name)
+            print(f"[Sheet] {len(new_opps)} opps written to tab '{run_sheet_name}'")
+    elif sheet_id:
+        print(f"[Sheet] No new opportunities found - no daily sheet created")
+
     write_top_finds(ws)
     report_path = write_report(wb, total_new, categories)
     elapsed = time.time() - start_time
     sheet_url = f"https://docs.google.com/spreadsheets/d/{sheet_id}" if sheet_id else ""
-    print(f"Run #{mem['runs']}: +{total_new} new, {max(0, ws.max_row-1)} total in {elapsed:.0f}s")
+    print(f"Run #{mem['runs']}: +{total_new} new, {mem['total_found']} total in {elapsed:.0f}s")
     if sheet_url:
         print(f"Master Sheet: {sheet_url}")
-    write_google_doc(report_path, sheet_url)
+    if total_new > 0:
+        write_google_doc(report_path, sheet_url)
+    else:
+        print("[Google Docs] No new findings - skipping doc")
     print(f"[{datetime.now(timezone.utc).isoformat()}] Done!")
 
 if __name__ == "__main__":

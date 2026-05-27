@@ -1,4 +1,4 @@
-import os, json, time, re, hashlib, sys, urllib.parse, html as html_mod
+import os, json, time, re, hashlib, sys, urllib.parse, html as html_mod, random
 from datetime import datetime, timezone
 from typing import Optional
 from dataclasses import dataclass, field
@@ -63,66 +63,96 @@ def extract_ddg_url(u: str) -> str:
         return qs.get("uddg", [u])[0]
     return u
 
-def search_bing_html(query: str) -> list:
+# Pool of user agents to rotate
+USER_AGENTS = [
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
+    "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
+]
+
+def search_bing_html(query: str, ua_idx: int = 0) -> list:
     try:
-        resp = requests.get("https://www.bing.com/search", params={"q": query, "count": 15},
-            headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36", "Accept-Language": "en-US"},
+        resp = requests.get("https://www.bing.com/search", params={"q": query, "count": 10},
+            headers={"User-Agent": USER_AGENTS[ua_idx % len(USER_AGENTS)], "Accept-Language": "en-US,en;q=0.9"},
             timeout=10)
         links = re.findall(r'<a[^>]+href="(https?://[^"]+)"[^>]*><h2>(.*?)</h2>', resp.text, re.DOTALL)
         if not links:
             links = re.findall(r'<h2[^>]*><a[^>]+href="(https?://[^"]+)"[^>]*>(.*?)</a></h2>', resp.text, re.DOTALL)
         snippets = re.findall(r'<p[^>]*>(.*?)</p>', resp.text, re.DOTALL)
         results = []
-        for i, (u, t) in enumerate(links[:12]):
+        for i, (u, t) in enumerate(links[:10]):
             desc = html_mod.unescape(re.sub(r'<[^>]+>', '', snippets[i] if i < len(snippets) else "")).strip()[:300] if i < len(snippets) else ""
             results.append({"title": html_mod.unescape(re.sub(r'<[^>]+>', '', t)).strip()[:200], "url": u, "description": desc})
-        print(f"[Bing HTML] {len(results)} results")
         return results
     except Exception as e:
         print(f"[Bing HTML] Error: {e}")
         return []
 
-def search_ddg(query: str) -> list:
+def search_ddg(query: str, ua_idx: int = 0) -> list:
     try:
         resp = requests.get("https://html.duckduckgo.com/html/", params={"q": query},
-            headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"}, timeout=8)
+            headers={"User-Agent": USER_AGENTS[ua_idx % len(USER_AGENTS)]}, timeout=8)
         links = re.findall(r'<a[^>]+class="result__a"[^>]+href="([^"]+)"[^>]*>(.*?)</a>', resp.text, re.DOTALL)
         snippets = re.findall(r'<a[^>]+class="result__snippet"[^>]*>(.*?)</a>', resp.text, re.DOTALL)
         if not links:
             return []
-        results = [{"title": html_mod.unescape(re.sub(r'<[^>]+>', '', t)).strip(),
-                  "url": extract_ddg_url(u),
-                  "description": html_mod.unescape(re.sub(r'<[^>]+>', '', snippets[i] if i < len(snippets) else "")).strip()[:300]}
-                for i, (u, t) in enumerate(links[:10]) if u]
+        results = []
+        for i, (u, t) in enumerate(links[:10]):
+            desc = html_mod.unescape(re.sub(r'<[^>]+>', '', snippets[i] if i < len(snippets) else "")).strip()[:300] if i < len(snippets) else ""
+            url = extract_ddg_url(u)
+            if url:
+                results.append({"title": html_mod.unescape(re.sub(r'<[^>]+>', '', t)).strip()[:200], "url": url, "description": desc})
         return results
+    except:
+        return []
+
+def search_startpage(query: str, ua_idx: int = 0) -> list:
+    try:
+        resp = requests.post("https://www.startpage.com/sp/search",
+            data={"query": query, "language": "en", "cat": "web", "page": 1},
+            headers={"User-Agent": USER_AGENTS[ua_idx % len(USER_AGENTS)]}, timeout=10)
+        if resp.status_code == 200:
+            links = re.findall(r'<a[^>]+class="w-gl__result-title"[^>]+href="([^"]+)"[^>]*>(.*?)</a>', resp.text, re.DOTALL)
+            descs = re.findall(r'<p class="w-gl__description[^>]*>(.*?)</p>', resp.text, re.DOTALL)
+            results = []
+            for i, (u, t) in enumerate(links[:10]):
+                desc = html_mod.unescape(re.sub(r'<[^>]+>', '', descs[i] if i < len(descs) else "")).strip()[:300]
+                results.append({"title": html_mod.unescape(re.sub(r'<[^>]+>', '', t)).strip()[:200], "url": u, "description": desc})
+            return results
+        return []
     except:
         return []
 
 class PlaywrightPool:
     def __init__(self):
         self.browser = None
-        self.ctx = None
+        self._pw = None
     def start(self):
         from playwright.sync_api import sync_playwright
         self._pw = sync_playwright()
         p = self._pw.start()
         self.browser = p.chromium.launch(headless=True, args=["--no-sandbox","--disable-setuid-sandbox","--window-size=1920,1080"])
-        self.ctx = self.browser.new_context(user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36", viewport={"width": 1920, "height": 1080}, locale="en-US")
-    def search(self, query: str) -> list:
+    def search(self, query: str, q_idx: int = 0) -> list:
         if not self.browser:
             self.start()
         try:
-            page = self.ctx.new_page()
-            page.goto(f"https://www.bing.com/search?q={urllib.parse.quote(query)}&count=15", timeout=20000)
-            page.wait_for_timeout(1500)
+            ctx = self.browser.new_context(
+                user_agent=USER_AGENTS[q_idx % len(USER_AGENTS)],
+                viewport={"width": 1920, "height": 1080},
+                locale="en-US",
+            )
+            page = ctx.new_page()
+            page.goto(f"https://www.bing.com/search?q={urllib.parse.quote(query)}&count=10", timeout=20000)
+            page.wait_for_timeout(2000)
             if "captcha" in page.content().lower():
-                page.close()
+                ctx.close()
                 return []
             page.evaluate("window.scrollBy(0, 400)")
             page.wait_for_timeout(500)
             items = page.query_selector_all("li.b_algo")
             results = []
-            for el in items[:15]:
+            for el in items[:12]:
                 try:
                     h2 = el.query_selector("h2")
                     a = h2.query_selector("a[href^='http']") if h2 else None
@@ -134,35 +164,60 @@ class PlaywrightPool:
                     if url and title:
                         results.append({"title": title, "url": url, "description": desc.strip()})
                 except: continue
-            page.close()
+            ctx.close()
             return results
-        except:
+        except Exception as e:
+            print(f"[Bing PW] Error: {e}")
             return []
     def close(self):
         if self.browser:
             self.browser.close()
+        if self._pw:
+            try: self._pw.__exit__(None, None, None)
+            except: pass
 
-def search_all(query: str, pw: PlaywrightPool) -> list:
+def search_all(query: str, pw: PlaywrightPool, q_idx: int) -> list:
     seen = set()
     results = []
-    bing_results = search_bing_html(query)
-    for r in bing_results:
+
+    # PW first with fresh context (worked best in old runs)
+    pw_results = pw.search(query, q_idx)
+    print(f"[Bing PW] {len(pw_results)} results", end=" ", flush=True)
+    for r in pw_results:
         if r["url"] and r["url"] not in seen:
             seen.add(r["url"])
             results.append(r)
-    time.sleep(0.5)
-    if len(bing_results) < 3:
-        pw_results = pw.search(query)
-        for r in pw_results:
+
+    # Bing HTML next with rotating UA
+    time.sleep(random.uniform(0.3, 0.8))
+    html_results = search_bing_html(query, q_idx)
+    print(f"[Bing HTML] {len(html_results)}", end=" ", flush=True)
+    for r in html_results:
+        if r["url"] and r["url"] not in seen:
+            seen.add(r["url"])
+            results.append(r)
+
+    # DDG if we still need more
+    if len(results) < 3:
+        time.sleep(random.uniform(0.3, 0.8))
+        ddg_results = search_ddg(query, q_idx)
+        print(f"[DDG] {len(ddg_results)}", end=" ", flush=True)
+        for r in ddg_results:
             if r["url"] and r["url"] not in seen:
                 seen.add(r["url"])
                 results.append(r)
-        time.sleep(0.3)
-    ddg_results = search_ddg(query)
-    for r in ddg_results:
-        if r["url"] and r["url"] not in seen:
-            seen.add(r["url"])
-            results.append(r)
+
+    # Startpage as last resort
+    if len(results) < 2:
+        time.sleep(random.uniform(0.3, 0.8))
+        sp_results = search_startpage(query, q_idx)
+        print(f"[SP] {len(sp_results)}", end=" ", flush=True)
+        for r in sp_results:
+            if r["url"] and r["url"] not in seen:
+                seen.add(r["url"])
+                results.append(r)
+
+    print(f"=> {len(results)} unique", flush=True)
     return results
 
 def score_automation_gemini(title: str, desc: str, url: str) -> tuple:
@@ -172,11 +227,10 @@ def score_automation_gemini(title: str, desc: str, url: str) -> tuple:
         import google.generativeai as genai
         genai.configure(api_key=GEMINI_API_KEY)
         model = genai.GenerativeModel('gemini-2.0-flash')
-        prompt = f"""Rate this money-making opportunity's AUTOMATION POTENTIAL (0-10).
-
-High score (7-10): fully automatable with a GitHub bot - auto-click, auto-claim, auto-faucet, auto-mining, auto-task scripts.
-Medium score (4-6): partially automatable - needs occasional captchas or approvals.
-Low score (0-3): requires continuous human work - typing, reading, manual trading.
+        prompt = f"""Rate this opportunity's AUTOMATION POTENTIAL (0-10).
+High (7-10): fully automatable with a GitHub bot - auto-click, auto-claim, auto-mining, auto-faucet, auto-task scripts. No human needed.
+Medium (4-6): partially automatable - needs occasional captchas or approvals.
+Low (0-3): requires continuous human work - typing, reading, manual trading.
 
 Title: {title[:200]}
 Description: {desc[:300]}
@@ -192,45 +246,42 @@ Respond ONLY with JSON: {{"score": N, "reason": "short reason"}}"""
             return score, str(data.get("reason", "Gemini analysis"))[:200]
         return 5, "Gemini: parse error"
     except Exception as e:
-        print(f"[Gemini] Score error: {e}")
+        print(f"[Gemini] Error: {e}")
         return rule_score_automation(title, desc, url)
 
 def rule_score_automation(title: str, desc: str, url: str) -> tuple:
     c = f"{title} {desc} {url}".lower()
     if any(s in c for s in ["dictionary","meaning","definition","wikipedia","encyclopedia","tutorial","course","educational","academic"]):
         return 1, "Educational content"
-    if any(s in url for s in ["autotrader","carsforsale","kbb.com"]):
-        return 1, "Car site - not earnings"
     bonus, signals = 0, 0
-    word_groups = [(["mining","miner","hash","cloud mining","free btc","free eth","free ltc","free doge"], 3),
-                   (["faucet","claim","withdraw","crypto faucet"], 3),
-                   (["auto","bot","telegram bot","auto claim","auto bot"], 2),
-                   (["click","ptc","paid-to-click","earn per"], 2),
-                   (["passive income","staking","stake","passive"], 2),
-                   (["refer","affiliate","earn crypto","reward","bonus","cash"], 1)]
-    for words, pts in word_groups:
+    for words, pts in [(["mining","miner","hash","cloud mining","free btc","free eth","free ltc","free doge"], 3),
+                       (["faucet","claim","withdraw","crypto faucet"], 3),
+                       (["auto","bot","telegram bot","auto claim","auto bot"], 2),
+                       (["click","ptc","paid-to-click","earn per"], 2),
+                       (["passive income","staking","stake","passive"], 2),
+                       (["refer","affiliate","earn crypto","reward","bonus","cash"], 1)]:
         if any(w in c for w in words):
             bonus += pts
             signals += 1
-    if "survey" in c or "data entry" in c or "freelance" in c:
+    if "survey" in c or "data entry" in c:
         bonus -= 2
-    score = min(10, max(0, 5 + bonus // max(1, abs(signals // 2)))) if signals > 0 else 0
-    reasons = {7: "High automation: bot-friendly", 4: "Medium: partially automatable", 0: "Low: human needed"}
-    reason = next((r for threshold, r in sorted(reasons.items(), reverse=True) if score >= threshold), "Low: human needed")
-    return score, reason
+    score = min(10, max(0, 5 + bonus // max(1, signals // 2 if signals else 1))) if signals > 0 else 0
+    if score >= 7: return score, "High automation: bot-friendly signals"
+    elif score >= 4: return score, "Medium: partially automatable"
+    return score, "Low: human interaction needed"
 
 CLASSIFY_KEYWORDS = [
     (["faucet","free crypto","claim","btc faucet","eth faucet","crypto faucet","bitcoin faucet"], "Crypto Faucet", ["faucet","crypto","free"]),
     (["airdrop","token distribution","free token","claim airdrop","crypto airdrop"], "Airdrop", ["airdrop","crypto","free"]),
     (["ptc","paid-to-click","bux","click ads","get paid to","paidtoclick","earn per click"], "PTC / GPT", ["ptc","gpt","click"]),
-    (["survey","paid survey","market research","survey site","paid surveys"], "Paid Surveys", ["survey","research"]),
+    (["survey","paid survey","market research","paid surveys"], "Paid Surveys", ["survey","research"]),
     (["cashback","cash back","rebate","shopping","cashback site"], "Cashback", ["cashback","shopping"]),
     (["affiliate","referral","refer","affiliate program"], "Affiliate", ["affiliate","referral"]),
     (["stake","staking","defi","yield","lend","apr","liquidity","pool"], "DeFi / Staking", ["defi","staking","yield"]),
     (["play to earn","p2e","gamefi","nft game","play-to-earn","crypto game"], "Play-to-Earn", ["p2e","gaming","nft"]),
     (["mining","cloud mining","hash","mine","miner","crypto mining","ltc miner","bitcoin miner","free mining","mining pool"], "Mining", ["mining","crypto"]),
     (["trading bot","auto trade","signal","copy trade","trading platform","grid trading"], "Trading", ["trading","bot","automation"]),
-    (["micro task","microtask","captcha","data entry","freelance","micro job","gig"], "Micro Tasks", ["micro-task","freelance"]),
+    (["micro task","microtask","data entry","freelance","micro job","gig"], "Micro Tasks", ["micro-task","freelance"]),
     (["browser automation","auto earn","auto claim","auto bot","automation bot","auto click","auto faucet"], "Automation Bot", ["automation","bot"]),
     (["earn crypto","free crypto","get crypto","crypto earn","crypto reward","crypto bonus"], "Crypto Earnings", ["crypto","earn"]),
     (["ltc","litecoin","dogecoin","doge coin","doge mining","ltc mining","free ltc","free doge"], "Altcoin Mining", ["mining","ltc","doge"]),
@@ -305,7 +356,6 @@ def write_report(wb, total_new, categories):
     with open(path, "w", encoding="utf-8") as f:
         f.write(f"# Opportunity Hunter Report - {date_str}\n\n")
         f.write(f"**Total tracked:** {total}  |  **New today:** {total_new}\n\n")
-        f.write(f"**Queries:** {len(QUERIES)}  |  **Run:** #{json.load(open(MEMORY_FILE)).get('runs',0) if os.path.exists(MEMORY_FILE) else 1}\n\n")
         f.write("## Categories\n\n")
         for cat, cnt in sorted(categories.items(), key=lambda x: -x[1]):
             f.write(f"- **{cat}**: {cnt}\n")
@@ -385,11 +435,8 @@ def main():
 
     for i, q in enumerate(QUERIES):
         elapsed = time.time() - start_time
-        sys.stdout.write(f"[{i+1}/{len(QUERIES)}] ({elapsed:.0f}s) {q[:55]}... ")
-        sys.stdout.flush()
-        items = search_all(q, pw)
-        sys.stdout.write(f"{len(items)} items... ")
-        sys.stdout.flush()
+        print(f"[{i+1}/{len(QUERIES)}] ({elapsed:.0f}s) {q[:55]}... ", end="", flush=True)
+        items = search_all(q, pw, i)
         new_for_query = 0
         for item in items:
             opp = classify(item)
@@ -405,7 +452,7 @@ def main():
         print(f"+{new_for_query}")
         mem["learning"].append({"date": datetime.now(timezone.utc).isoformat(), "query": q, "results": len(items), "new_opps": new_for_query})
         if len(mem["learning"]) > 100: mem["learning"] = mem["learning"][-100:]
-        time.sleep(1)
+        time.sleep(random.uniform(1.0, 2.5))
 
     pw.close()
     wb.save(EXCEL_FILE)

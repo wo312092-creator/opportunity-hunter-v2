@@ -48,7 +48,8 @@ def load_excel():
             ws.column_dimensions[col].width = w
         wb.save(EXCEL_FILE)
         return wb, ws
-    return load_workbook(EXCEL_FILE), load_workbook(EXCEL_FILE).active
+    wb = load_workbook(EXCEL_FILE)
+    return wb, wb.active
 
 def opportunity_exists(ws, url: str) -> bool:
     for row in ws.iter_rows(min_row=2, values_only=True):

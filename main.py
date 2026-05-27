@@ -141,8 +141,6 @@ class PlaywrightPool:
     def close(self):
         if self.browser:
             self.browser.close()
-        if hasattr(self, '_pw') and self._pw:
-            self._pw.stop()
 
 def search_all(query: str, pw: PlaywrightPool) -> list:
     seen = set()
@@ -153,7 +151,7 @@ def search_all(query: str, pw: PlaywrightPool) -> list:
             seen.add(r["url"])
             results.append(r)
     time.sleep(0.5)
-    if len(bing_results) < 5:
+    if len(bing_results) < 3:
         pw_results = pw.search(query)
         for r in pw_results:
             if r["url"] and r["url"] not in seen:

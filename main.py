@@ -232,13 +232,18 @@ def write_google_doc(report_path):
         print("[Google Docs] No OAuth - skipping")
         return False
     try:
+        from google.auth.transport.requests import Request as GoogleRequest
         from google.oauth2.credentials import Credentials
         from googleapiclient.discovery import build
+        refresh_token = os.environ.get("GOOGLE_REFRESH_TOKEN")
+        if not refresh_token:
+            print("[Google Docs] No GOOGLE_REFRESH_TOKEN - skipping")
+            return False
         creds = Credentials(token=None, client_id=GOOGLE_OAUTH_CLIENT_ID,
             client_secret=GOOGLE_OAUTH_CLIENT_SECRET,
-            refresh_token=os.environ.get("GOOGLE_REFRESH_TOKEN"),
+            refresh_token=refresh_token,
             token_uri="https://oauth2.googleapis.com/token")
-        if not creds.valid: creds.refresh(requests.Request())
+        creds.refresh(GoogleRequest())
         docs = build("docs", "v1", credentials=creds)
         date_str = datetime.now(timezone.utc).strftime("%Y-%m-%d")
         doc = docs.documents().create(body={"title": f"Opportunity Hunter Report - {date_str}"}).execute()

@@ -19,18 +19,13 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Install system deps for Playwright
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y libnss3 libnspr4 libatk1.0-0 libatk-bridge2.0-0 libcups2 libdrm2 libdbus-1-3 libxkbcommon0 libxcomposite1 libxdamage1 libxfixes3 libxrandr2 libgbm1 libpango-1.0-0 libcairo2 libasound2
-
       - name: Install Python dependencies
         run: |
-          pip install requests openpyxl google-auth google-auth-oauthlib google-auth-httplib2 google-api-python-client playwright
+          pip install requests openpyxl google-auth google-auth-oauthlib google-auth-httplib2 google-api-python-client playwright google-generativeai
 
       - name: Install Chromium for Playwright
         run: |
-          playwright install chromium
+          playwright install --with-deps chromium
 
       - name: Run opportunity hunter
         env:

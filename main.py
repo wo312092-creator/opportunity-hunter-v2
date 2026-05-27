@@ -124,76 +124,57 @@ def search_bing(query: str) -> list:
         print(f"[Bing] Error: {e}")
         return []
 
-def search_google_playwright(query: str) -> list:
-    """Search Google via headless Chromium with stealth measures."""
+def search_bing_playwright(query: str) -> list:
+    """Search Bing via headless Chromium â€” Bing doesn't block datacenter IPs."""
     try:
         from playwright.sync_api import sync_playwright
         results = []
         with sync_playwright() as p:
             browser = p.chromium.launch(
                 headless=True,
-                args=[
-                    "--no-sandbox","--disable-setuid-sandbox",
-                    "--disable-blink-features=AutomationControlled",
-                    "--window-size=1920,1080",
-                ]
+                args=["--no-sandbox","--disable-setuid-sandbox","--window-size=1920,1080"]
             )
             ctx = browser.new_context(
                 user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
                 viewport={"width": 1920, "height": 1080},
                 locale="en-US",
-                timezone_id="America/New_York",
             )
-            # Remove webdriver detection vectors
-            ctx.add_init_script("""
-                Object.defineProperty(navigator, 'webdriver', { get: () => undefined });
-                Object.defineProperty(navigator, 'plugins', { get: () => [1, 2, 3, 4, 5] });
-                Object.defineProperty(navigator, 'languages', { get: () => ['en-US', 'en'] });
-                window.chrome = { runtime: {} };
-                // Override permissions
-                const originalQuery = window.navigator.permissions.query;
-                window.navigator.permissions.query = (parameters) => (
-                    parameters.name === 'notifications' ?
-                    Promise.resolve({ state: Notification.permission }) :
-                    originalQuery(parameters)
-                );
-            """)
             page = ctx.new_page()
-            page.goto(f"https://www.google.com/search?q={urllib.parse.quote(query)}&hl=en&num=10", timeout=30000)
-            page.wait_for_timeout(3000)
+            page.goto(f"https://www.bing.com/search?q={urllib.parse.quote(query)}&count=10", timeout=30000)
+            page.wait_for_timeout(2500)
 
-            # Check if blocked by captcha
-            if "unusual traffic" in page.content().lower() or "captcha" in page.content().lower():
-                print("[Google PW] Blocked by Google (captcha/unusual traffic)")
+            # Check if blocked
+            if "captcha" in page.content().lower():
+                print("[Bing PW] Blocked by Bing (captcha)")
                 browser.close()
                 return []
 
-            # Extract search result divs
-            items = page.query_selector_all("div.g, div[data-hveid]")
+            # Bing result items
+            items = page.query_selector_all("li.b_algo")
             for el in items[:10]:
                 try:
-                    a = el.query_selector("a[href^='http']")
+                    h2 = el.query_selector("h2")
+                    if not h2: continue
+                    a = h2.query_selector("a[href^='http']")
                     if not a: continue
                     url = a.get_attribute("href") or ""
-                    if any(x in url for x in ["google.com/search","google.com/intl","google.com/preferences","accounts.google.com"]): continue
-                    h3 = el.query_selector("h3")
-                    title = h3.inner_text() if h3 else ""
-                    desc_el = el.query_selector("div.VwiC3b, span.aCOpRe, div[data-sncf]")
+                    title = h2.inner_text().strip()
+                    desc_el = el.query_selector("div.b_caption p, div.b_snippet")
                     desc = desc_el.inner_text()[:300] if desc_el else ""
                     if url and title:
-                        results.append({"title": title.strip(), "url": url, "description": desc.strip()})
+                        results.append({"title": title, "url": url, "description": desc.strip()})
                 except: continue
             browser.close()
-        print(f"[Google PW] {len(results)} results")
+        print(f"[Bing PW] {len(results)} results")
         return results
     except Exception as e:
-        print(f"[Google PW] Error: {e}")
+        print(f"[Bing PW] Error: {e}")
         return []
 
 def search_all(query: str) -> list:
     seen = set()
     results = []
-    engines = [search_google_playwright, search_firecrawl, search_ddg, search_bing]
+    engines = [search_bing_playwright, search_firecrawl, search_ddg, search_bing]
     for fn in engines:
         try:
             for r in fn(query):

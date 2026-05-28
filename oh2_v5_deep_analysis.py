@@ -1,7 +1,9 @@
-import os, json, time, re, hashlib, sys, urllib.parse, html as html_mod, random
+import os, json, time, re, hashlib, sys, urllib.parse, html as html_mod, random, smtplib
 from datetime import datetime, timezone
 from typing import Optional
 from dataclasses import dataclass, field
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 
 os.system("pip install requests openpyxl google-auth google-auth-oauthlib google-auth-httplib2 google-api-python-client playwright google-generativeai curl-cffi 2>/dev/null")
 os.system("playwright install chromium 2>/dev/null")
@@ -31,6 +33,11 @@ if _key: OPENROUTER_API_KEYS.append(_key)
 for _i in range(2, 10):
     _key = os.environ.get(f"OPENROUTER_API_KEY_{_i}", "")
     if _key: OPENROUTER_API_KEYS.append(_key)
+
+# Email notification config
+GMAIL_USER = os.environ.get("GMAIL_USER", "wo312092@gmail.com")
+GMAIL_APP_PASSWORD = os.environ.get("GMAIL_APP_PASSWORD", "")
+NOTIFICATION_EMAIL = os.environ.get("NOTIFICATION_EMAIL", "wo312092@gmail.com")
 
 EXCEL_FILE = "opportunities.xlsx"
 MEMORY_FILE = "bot_memory.json"
@@ -1450,105 +1457,179 @@ def deep_analyze_rule_based(opp: Opportunity, page_data: dict) -> Opportunity:
 
 QUERIES = [
     # ═══════════════════════════════════════════════════════════════
+    #  BITCOIN (BTC) — king of crypto, max liquidity
+    # ═══════════════════════════════════════════════════════════════
+    "free bitcoin faucet instant withdrawal 2026 no survey",
+    "btc faucet auto claim free bitcoin 2026",
+    "bitcoin mining free cloud mining 2026 no deposit withdraw",
+    "earn free satoshi every hour 2026 btc faucet",
+    "bitcoin faucet instant pay to wallet 2026",
+    "btc mining telegram bot free payout 2026",
+    "free btc claim bot 2026 no deposit",
+    "bitcoin earning website no kyc withdraw 2026",
+    
+    # ═══════════════════════════════════════════════════════════════
+    #  ETHEREUM (ETH) — smart contracts, high value
+    # ═══════════════════════════════════════════════════════════════
+    "free ethereum faucet 2026 instant withdrawal",
+    "eth faucet auto claim free eth 2026",
+    "ethereum mining free cloud 2026 no deposit",
+    "free eth every hour claim 2026 no survey",
+    "ethereum earning sites free withdraw 2026",
+    "eth staking rewards free 2026 no minimum",
+    
+    # ═══════════════════════════════════════════════════════════════
+    #  LITECOIN (LTC) — proven gold pattern
+    # ═══════════════════════════════════════════════════════════════
+    "free ltc faucet instant withdrawal 2026 auto pay",
+    "litecoin mining sites free 2026 no deposit cpu",
+    "ltc auto claim bot free litecoin 2026",
+    "free litecoin every hour claim faucet 2026",
+    "litecoin faucet instant pay wallet 2026 no kyc",
+    
+    # ═══════════════════════════════════════════════════════════════
+    #  DOGECOIN (DOGE) — ultra popular, high faucet count
+    # ═══════════════════════════════════════════════════════════════
+    "free dogecoin faucet instant withdrawal 2026",
+    "doge faucet auto claim free doge 2026 no survey",
+    "dogecoin mining free sites 2026 no deposit",
+    "free doge every hour claim 2026 instant payout",
+    "doge coin earning sites free withdraw wallet 2026",
+    
+    # ═══════════════════════════════════════════════════════════════
+    #  SOLANA (SOL) — fast growing ecosystem
+    # ═══════════════════════════════════════════════════════════════
+    "free solana faucet 2026 claim free sol",
+    "solana earning sites free 2026 no deposit",
+    "solana airdrop claim free tokens 2026",
+    "solana staking rewards free 2026 no minimum",
+    "free sol every hour claim faucet 2026",
+    
+    # ═══════════════════════════════════════════════════════════════
+    #  USDT / USDC — stablecoin earning (real dollar value)
+    # ═══════════════════════════════════════════════════════════════
+    "free usdt faucet 2026 claim free tether",
+    "usdt earning sites free withdrawal 2026",
+    "tether usdt staking rewards free 2026",
+    "free usdc claim sites 2026 no deposit",
+    "earn usdt by clicking 2026 no survey",
+    
+    # ═══════════════════════════════════════════════════════════════
+    #  TRON (TRX) — cheap tx, faucet-friendly
+    # ═══════════════════════════════════════════════════════════════
+    "free tron faucet 2026 claim free trx",
+    "trx earning sites free 2026 instant withdrawal",
+    "free trx every hour claim 2026 no deposit",
+    "tron staking earn free trx 2026",
+    
+    # ═══════════════════════════════════════════════════════════════
+    #  XRP — established, growing
+    # ═══════════════════════════════════════════════════════════════
+    "free xrp faucet 2026 claim free ripple",
+    "xrp earning sites free 2026 no deposit",
+    "free xrp every hour claim 2026 instant payout",
+    
+    # ═══════════════════════════════════════════════════════════════
+    #  BNB — Binance ecosystem
+    # ═══════════════════════════════════════════════════════════════
+    "free bnb faucet 2026 claim free binance coin",
+    "bnb earning sites free 2026 no deposit",
+    "free bnb every hour smart chain 2026",
+    
+    # ═══════════════════════════════════════════════════════════════
+    #  MATIC / POLYGON — cheap L2 ecosystem
+    # ═══════════════════════════════════════════════════════════════
+    "free matic faucet 2026 polygon claim free",
+    "polygon staking earn free matic 2026",
+    "free polygon matic every hour 2026 no deposit",
+
+    # ═══════════════════════════════════════════════════════════════
+    #  ADA (Cardano) — staking-focused ecosystem
+    # ═══════════════════════════════════════════════════════════════
+    "free cardano faucet 2026 claim free ada",
+    "ada staking earn free cardano 2026",
+    "free ada every hour claim 2026",
+    
+    # ═══════════════════════════════════════════════════════════════
+    #  USD / FIAT EARNING (real cash, PayPal, Payoneer)
+    # ═══════════════════════════════════════════════════════════════
+    "earn usd free 2026 no deposit instant payout paypal",
+    "get paid in usd for simple tasks 2026 no survey",
+    "earn dollars online free 2026 automated",
+    "usd earning sites free registration 2026 no fees",
+    "earn money paypal instant withdrawal 2026 free",
+    "micro tasks pay usd 2026 no kyc no id",
+    "click earn usd cash 2026 free automated",
+    "earn paypal free 2026 every day automated",
+    "passive income usd 2026 no investment free",
+    
+    # ═══════════════════════════════════════════════════════════════
+    #  CRYPTO FAUCET AGGREGATORS (multi-coin)
+    # ═══════════════════════════════════════════════════════════════
+    "best crypto faucets 2026 free btc eth ltc doge sol",
+    "multi crypto faucet claim multiple coins 2026",
+    "crypto faucet list 2026 instant withdrawal all coins",
+    "auto claim crypto faucet bot multiple coins 2026",
+    "faucet pay crypto instant free claim all coins",
+    
+    # ═══════════════════════════════════════════════════════════════
     #  CORE LTC/MINING (easy automation: login → claim → withdraw)
     # ═══════════════════════════════════════════════════════════════
-    "free ltc mining sites 2026 no deposit instant withdrawal",
-    "free dogecoin mining sites 2026 no deposit",
-    "free bitcoin mining cloud mining 2026 no deposit withdraw",
-    "free ethereum mining sites 2026 no investment",
     "crypto mining faucet earn free btc eth ltc doge 2026",
-    "best crypto faucets 2026 free bitcoin ethereum litecoin",
     "auto claim crypto faucet bot 2026",
     
     # ═══════════════════════════════════════════════════════════════
     #  HYPER-TARGETED EASY AUTOMATION (faucet/mining focused)
     # ═══════════════════════════════════════════════════════════════
-    "ltc auto withdraw faucet 2026 no survey",
     "one click crypto faucet instant pay 2026",
-    "browser based litecoin mining free 2026",
-    "cpu mine litecoin free 2026 no deposit",
     "crypto faucet instant pay to wallet 2026",
-    "free dogecoin faucet auto pay wallet 2026",
-    "litecoin mining website no kyc no id 2026",
-    "btc faucet instant withdrawal free 2026",
     "crypto claim bot no survey no tasks 2026",
-    "auto mining site free withdrawal ltc 2026",
-    "free litecoin every hour claim 2026",
-    "micro ltc faucet instant payout 2026",
+    "micro crypto faucet instant payout 2026",
     
     # ═══════════════════════════════════════════════════════════════
     #  CLICK TO EARN / PTC  (click button → earn → withdraw)
     # ═══════════════════════════════════════════════════════════════
     "paid to click sites pay instantly crypto 2026 no survey",
     "click one button earn bitcoin free 2026",
-    "ptc sites instant withdrawal ltc doge 2026",
+    "ptc sites instant withdrawal crypto 2026",
     "best paid to click sites 2026 crypto payout",
-    "earn by clicking ads litecoin 2026 free",
     "click and earn crypto no tasks free 2026",
-    
-    # ═══════════════════════════════════════════════════════════════
-    #  WATCH VIDEOS TO EARN  (play video → earn → withdraw)
-    # ═══════════════════════════════════════════════════════════════
-    "watch videos earn bitcoin free 2026 instant payout",
-    "video streaming earn crypto 2026 no deposit",
-    "watch ads earn litecoin free 2026",
-    "earn crypto watching videos 2026 withdraw to wallet",
-    "video rewards platform crypto payout 2026",
-    "watch and earn btc doge free 2026",
     
     # ═══════════════════════════════════════════════════════════════
     #  TELEGRAM EARNING BOTS  (bot → claim → wallet)
     # ═══════════════════════════════════════════════════════════════
     "telegram earning bot crypto free 2026 withdrawal",
-    "telegram faucet bot ltc doge btc 2026",
+    "telegram faucet bot crypto 2026 btc eth sol",
     "telegram mining bot free payout 2026",
-    "telegram bot earn satoshi free 2026",
     "telegram crypto claim bot instant 2026",
     "best telegram earning bots 2026 no investment",
     "telegram auto earn bot free withdrawal 2026",
     
     # ═══════════════════════════════════════════════════════════════
-    #  USD EARNING → CRYPTO PAYOUT  (earn dollars → withdraw as crypto)
-    # ═══════════════════════════════════════════════════════════════
-    "earn usd crypto payout 2026 free registration",
-    "get paid in bitcoin for tasks 2026",
-    "earn dollars withdraw crypto 2026 no minimum",
-    "usd earning site crypto withdrawal 2026",
-    "earn money online pay in litecoin 2026",
-    "freelance micro tasks paid in crypto 2026",
-    
-    # ═══════════════════════════════════════════════════════════════
-    #  SURFACE: GPT / OFFER WALLS  (lower priority, anti-pattern filtered)
-    # ═══════════════════════════════════════════════════════════════
-    "best GPT sites earn money free 2026 auto earn",
-    "offer walls pay crypto instant 2026",
-    
-    # ═══════════════════════════════════════════════════════════════
-    #  AIRDROPS & CLAIMS
+    #  AIRDROPS & CLAIMS (all ecosystems)
     # ═══════════════════════════════════════════════════════════════
     "new crypto airdrops 2026 free tokens claim",
     "solana airdrop 2026 claim free",
     "telegram bot airdrop claim 2026",
+    "bitcoin airdrop free 2026 claim btc",
+    "ethereum airdrop 2026 free eth claim",
     
     # ═══════════════════════════════════════════════════════════════
-    #  PASSIVE / STAKING / DEFI
+    #  PASSIVE / STAKING / DEFI (all chains)
     # ═══════════════════════════════════════════════════════════════
     "passive income crypto staking defi 2026 no minimum",
-    "free crypto staking rewards 2026",
+    "free crypto staking rewards 2026 multi chain",
+    "defi yield farming 2026 no minimum deposit",
+    "passive crypto income 2026 set and forget",
     
     # ═══════════════════════════════════════════════════════════════
-    #  AUTOMATION TOOLS
+    #  AUTOMATION TOOLS & BOTS
     # ═══════════════════════════════════════════════════════════════
     "browser automation earn crypto free 2026",
     "telegram bot earn crypto 2026 free automated",
     "auto trading crypto bot free 2026",
     "free crypto arbitrage bot 2026",
-    
-    # ═══════════════════════════════════════════════════════════════
-    #  GAMES / MICRO (surface only, anti-pattern filtered)
-    # ═══════════════════════════════════════════════════════════════
-    "play to earn crypto games 2026 free no investment",
-    "micro task sites pay crypto 2026",
+    "auto claim bot faucet multi coin 2026",
     
     # ═══════════════════════════════════════════════════════════════
     #  CASHBACK / AFFILIATE
@@ -1560,15 +1641,10 @@ QUERIES = [
     #  GENERAL EARNING (fallback coverage)
     # ═══════════════════════════════════════════════════════════════
     "earn free crypto no deposit 2026 withdraw instantly",
-    "free litecoin mining pool 2026 no deposit required",
-    "doge coin faucet free claim every hour 2026",
-    "btc mining telegram bot free 2026",
     "automatic crypto earning platform 2026 no investment",
     "free bitcoin earning sites 2026 withdraw to wallet",
     "cloud mining free trial 2026 no deposit btc",
     "web3 earn crypto free 2026 browser mining",
-    "defi yield farming 2026 no minimum deposit",
-    "passive crypto income 2026 set and forget",
     "telegram mining bot free withdrawal 2026",
     "faucet pay crypto instant 2026 free claim",
 ]
@@ -1924,6 +2000,42 @@ def extract_domain(url: str) -> str:
     except:
         return url.lower() if url else ""
 
+def send_email_notification(subject, body_html, body_text=""):
+    """
+    Send email notification via Gmail SMTP.
+    Requires GMAIL_APP_PASSWORD env var (Gmail App Password).
+    Falls back silently if not configured.
+    """
+    if not GMAIL_APP_PASSWORD:
+        print("[Email] GMAIL_APP_PASSWORD not set - skipping notification")
+        return False
+    try:
+        msg = MIMEMultipart('alternative')
+        msg['From'] = GMAIL_USER
+        msg['To'] = NOTIFICATION_EMAIL
+        msg['Subject'] = subject
+        
+        # Plain text fallback
+        if body_text:
+            msg.attach(MIMEText(body_text, 'plain'))
+        
+        # HTML version
+        if body_html:
+            msg.attach(MIMEText(body_html, 'html'))
+        else:
+            msg.attach(MIMEText(body_text, 'plain'))
+        
+        with smtplib.SMTP('smtp.gmail.com', 587) as server:
+            server.starttls()
+            server.login(GMAIL_USER, GMAIL_APP_PASSWORD)
+            server.send_message(msg)
+        
+        print(f"[Email] ✅ Notification sent to {NOTIFICATION_EMAIL}")
+        return True
+    except Exception as e:
+        print(f"[Email] ❌ Failed to send: {e}")
+        return False
+
 def main():
     mem = json.load(open(MEMORY_FILE)) if os.path.exists(MEMORY_FILE) else {
         "runs": 0, "total_found": 0, "categories_found": {}, "last_run": None,
@@ -2098,6 +2210,102 @@ def main():
             print(f"[Google Docs] Analyzed {len(analyzed_opps)} sites, but none passed strict check")
     # Re-save memory in case google_doc_id was set
     json.dump(mem, open(MEMORY_FILE, "w"), indent=2)
+    
+    # ── Send email notification ──────────────────────────────────
+    run_num = mem['runs']
+    date_today = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+    
+    # Build email body
+    subject = f"✅ Opportunity Hunter V2 — Run #{run_num} Complete ({date_today})"
+    
+    body_html = f"""
+    <html><body style="font-family: Arial, sans-serif; max-width: 700px; margin: 20px;">
+    <h2 style="color: #2563eb;">🤖 Opportunity Hunter V2 — Daily Report</h2>
+    <p><strong>Run #{run_num}</strong> | <strong>{date_today}</strong></p>
+    <hr style="border: 1px solid #e5e7eb;">
+    
+    <table style="width: 100%; border-collapse: collapse; margin: 15px 0;">
+        <tr style="background: #f3f4f6;">
+            <th style="padding: 8px; text-align: left; border: 1px solid #d1d5db;">Metric</th>
+            <th style="padding: 8px; text-align: right; border: 1px solid #d1d5db;">Value</th>
+        </tr>
+        <tr>
+            <td style="padding: 8px; border: 1px solid #d1d5db;">🔍 New Sites Found</td>
+            <td style="padding: 8px; text-align: right; border: 1px solid #d1d5db;">{total_new}</td>
+        </tr>
+        <tr style="background: #f9fafb;">
+            <td style="padding: 8px; border: 1px solid #d1d5db;">📊 Deep-Analyzed</td>
+            <td style="padding: 8px; text-align: right; border: 1px solid #d1d5db;">{len(analyzed_opps) if analyzed_opps else 0}</td>
+        </tr>
+        <tr>
+            <td style="padding: 8px; border: 1px solid #d1d5db;">✅ Verified (score ≥7)</td>
+            <td style="padding: 8px; text-align: right; border: 1px solid #d1d5db;">{len(strict_confirmed)}</td>
+        </tr>
+        <tr style="background: #f9fafb;">
+            <td style="padding: 8px; border: 1px solid #d1d5db;">🏆 Total All-Time</td>
+            <td style="padding: 8px; text-align: right; border: 1px solid #d1d5db;">{mem['total_found']}</td>
+        </tr>
+        <tr>
+            <td style="padding: 8px; border: 1px solid #d1d5db;">⏱️ Run Time</td>
+            <td style="padding: 8px; text-align: right; border: 1px solid #d1d5db;">{elapsed:.0f}s</td>
+        </tr>
+    </table>
+    """
+    
+    if strict_confirmed:
+        body_html += """
+    <h3 style="color: #059669;">🔥 Verified Automatable Sites</h3>
+    <table style="width: 100%; border-collapse: collapse; margin: 15px 0;">
+        <tr style="background: #059669; color: white;">
+            <th style="padding: 8px; text-align: left; border: 1px solid #d1d5db;">Site</th>
+            <th style="padding: 8px; text-align: center; border: 1px solid #d1d5db;">Score</th>
+            <th style="padding: 8px; text-align: right; border: 1px solid #d1d5db;">Per Day</th>
+        </tr>"""
+        for opp in strict_confirmed:
+            body_html += f"""
+        <tr>
+            <td style="padding: 8px; border: 1px solid #d1d5db;">{opp.title}</td>
+            <td style="padding: 8px; text-align: center; border: 1px solid #d1d5db;">{opp.deep_analysis_score}/10</td>
+            <td style="padding: 8px; text-align: right; border: 1px solid #d1d5db;">{opp.profit_per_day or '?'}</td>
+        </tr>"""
+        body_html += "</table>"
+    
+    body_html += """
+    <hr style="border: 1px solid #e5e7eb;">
+    """
+    
+    if sheet_url:
+        body_html += f'<p>📗 <a href="{sheet_url}">View Google Sheet</a></p>'
+    
+    doc_id = mem.get("google_doc_id")
+    if doc_id:
+        body_html += f'<p>📄 <a href="https://docs.google.com/document/d/{doc_id}">View Verified Sites Doc</a></p>'
+    
+    body_html += f"""
+    <p style="color: #6b7280; font-size: 12px;">This is an automated report from Opportunity Hunter V2 running on GitHub Actions.</p>
+    </body></html>
+    """
+    
+    body_text = f"""Opportunity Hunter V2 — Run #{run_num} Complete
+Date: {date_today}
+
+Results:
+  🔍 New Sites Found: {total_new}
+  📊 Deep-Analyzed: {len(analyzed_opps) if analyzed_opps else 0}
+  ✅ Verified (score >=7): {len(strict_confirmed)}
+  🏆 Total All-Time: {mem['total_found']}
+  ⏱️ Run Time: {elapsed:.0f}s
+
+Sheet: {sheet_url if sheet_url else 'N/A'}
+Doc: https://docs.google.com/document/d/{doc_id if mem.get('google_doc_id') else 'N/A'}
+"""
+    if strict_confirmed:
+        body_text += f"\nVerified Sites ({len(strict_confirmed)}):\n"
+        for opp in strict_confirmed:
+            body_text += f"  - {opp.title} ({opp.deep_analysis_score}/10): {opp.profit_per_day or '?'}/day\n"
+    
+    send_email_notification(subject, body_html, body_text)
+    
     print(f"[{datetime.now(timezone.utc).isoformat()}] Done!")
 
 if __name__ == "__main__":

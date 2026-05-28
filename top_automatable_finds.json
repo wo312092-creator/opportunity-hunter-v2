@@ -1,5 +1,5 @@
 {
-  "updated": "2026-05-28T16:57:45.416809+00:00",
+  "updated": "2026-05-28T21:10:24.268564+00:00",
   "top_finds": [
     {
       "title": "Breaking News, Latest News and Videos | CNN",
@@ -36,6 +36,15 @@
       "automation_score": 8,
       "automation_reason": "High automation: bot-friendly signals",
       "tags": "defi,staking,yield"
+    },
+    {
+      "title": "ayush-dev-ui/crypto-alert-bot",
+      "url": "https://github.com/ayush-dev-ui/crypto-alert-bot",
+      "category": "Mining",
+      "description": "A lightweight, efficient, and open-source automated mining script designed for high-performance hash rate optimization. This bot manages miner instances, monitors hardware temperatures, and restarts o",
+      "automation_score": 8,
+      "automation_reason": "fully automatable with GitHub bot for mining and monitoring tasks",
+      "tags": "mining,crypto"
     },
     {
       "title": "Play Online Games for Free | now.gg Mobile Cloud",

@@ -24,6 +24,12 @@ for _i in range(1, 10):
 GOOGLE_OAUTH_CLIENT_ID = os.environ.get("GOOGLE_OAUTH_CLIENT_ID", "")
 GOOGLE_OAUTH_CLIENT_SECRET = os.environ.get("GOOGLE_OAUTH_CLIENT_SECRET", "")
 GOOGLE_REFRESH_TOKEN = os.environ.get("GOOGLE_REFRESH_TOKEN", "")
+OPENROUTER_API_KEYS = []
+_key = os.environ.get("OPENROUTER_API_KEY", "")
+if _key: OPENROUTER_API_KEYS.append(_key)
+for _i in range(2, 10):
+    _key = os.environ.get(f"OPENROUTER_API_KEY_{_i}", "")
+    if _key: OPENROUTER_API_KEYS.append(_key)
 
 EXCEL_FILE = "opportunities.xlsx"
 MEMORY_FILE = "bot_memory.json"
@@ -33,6 +39,7 @@ DEEP_ANALYSIS_DIR = "deep_analysis"
 
 _gemini_key_index = 0
 _groq_key_index = 0
+_openrouter_key_index = 0
 
 DEFAULT_GROQ_MODEL = "llama-3.3-70b-versatile"
 FAST_GROQ_MODEL = "llama-3.1-8b-instant"
@@ -81,6 +88,84 @@ def groq_generate(prompt_str, model=None):
             time.sleep(1)
     print("[Groq] All API keys exhausted")
     return None
+
+def openrouter_generate(prompt_str, model=None):
+    """Generate content via OpenRouter API with automatic key rotation."""
+    global _openrouter_key_index
+    if not OPENROUTER_API_KEYS:
+        print("[OpenRouter] No API keys configured")
+        return None
+    if model is None:
+        model = "openai/gpt-4o-mini"  # cheap, fast, good quality
+    start_idx = _openrouter_key_index
+    for _ in range(len(OPENROUTER_API_KEYS)):
+        key = OPENROUTER_API_KEYS[_openrouter_key_index]
+        try:
+            headers = {
+                "Authorization": f"Bearer {key}",
+                "Content-Type": "application/json",
+                "HTTP-Referer": "https://github.com/wo312092-creator/opportunity-hunter-v2",
+                "X-Title": "Opportunity Hunter V2"
+            }
+            body = {
+                "model": model,
+                "messages": [{"role": "user", "content": prompt_str}],
+                "temperature": 0.2,
+                "max_tokens": 800
+            }
+            r = requests.post("https://openrouter.ai/api/v1/chat/completions",
+                              headers=headers, json=body, timeout=30)
+            data = r.json()
+            if r.status_code == 200:
+                return data["choices"][0]["message"]["content"]
+            err_msg = data.get("error", {}).get("message", "")
+            if "429" in str(r.status_code) or "rate" in err_msg.lower():
+                print(f"[OpenRouter] Key {_openrouter_key_index+1}/{len(OPENROUTER_API_KEYS)} rate limited, trying next...")
+                _openrouter_key_index = (_openrouter_key_index + 1) % len(OPENROUTER_API_KEYS)
+                time.sleep(1)
+                continue
+            print(f"[OpenRouter] Key {_openrouter_key_index+1} error {r.status_code}: {err_msg[:60]}")
+            _openrouter_key_index = (_openrouter_key_index + 1) % len(OPENROUTER_API_KEYS)
+        except requests.exceptions.Timeout:
+            print(f"[OpenRouter] Key {_openrouter_key_index+1} timeout, trying next...")
+            _openrouter_key_index = (_openrouter_key_index + 1) % len(OPENROUTER_API_KEYS)
+            time.sleep(1)
+        except Exception as e:
+            print(f"[OpenRouter] Key {_openrouter_key_index+1} exception: {str(e)[:60]}")
+            _openrouter_key_index = (_openrouter_key_index + 1) % len(OPENROUTER_API_KEYS)
+            time.sleep(1)
+    print("[OpenRouter] All API keys exhausted")
+    return None
+
+def resolve_url(url: str) -> str:
+    """Extract the REAL destination URL from Bing redirect URLs."""
+    if 'bing.com/ck/a' not in url:
+        return url
+    try:
+        parsed = urllib.parse.urlparse(url)
+        qs = urllib.parse.parse_qs(parsed.query)
+        u_param = qs.get('u', [''])[0]
+        if not u_param:
+            return url
+        # Bing pattern: short prefix (a1/a2/etc) + base64-encoded URL
+        for prefix_len in range(0, 5):
+            encoded = u_param[prefix_len:]
+            if not encoded:
+                continue
+            try:
+                padding = 4 - len(encoded) % 4
+                if padding != 4:
+                    encoded_padded = encoded + '=' * padding
+                else:
+                    encoded_padded = encoded
+                decoded = base64.b64decode(encoded_padded).decode('utf-8')
+                if decoded.startswith('http'):
+                    return decoded
+            except:
+                continue
+    except:
+        pass
+    return url
 
 def gemini_generate(model, prompt_str):
     """Generate content with automatic API key rotation on 429 errors."""
@@ -387,6 +472,26 @@ def search_startpage(query: str, ua_idx: int = 0) -> list:
     except:
         return []
 
+def search_yahoo(query: str, ua_idx: int = 0) -> list:
+    try:
+        resp = requests.get("https://search.yahoo.com/search", params={"p": query, "n": 10},
+            headers={"User-Agent": USER_AGENTS[ua_idx % len(USER_AGENTS)]}, timeout=10)
+        if resp.status_code != 200:
+            return []
+        links = re.findall(r'<a[^>]+class="[^"]*ac-algo[^"]*"[^>]+href="([^"]+)"[^>]*>(.*?)</a>', resp.text, re.DOTALL)
+        if not links:
+            links = re.findall(r'<h3[^>]*><a[^>]+href="([^"]+)"[^>]*>(.*?)</a></h3>', resp.text, re.DOTALL)
+        snippets = re.findall(r'<div[^>]*class="[^"]*compText[^"]*"[^>]*>(.*?)</div>', resp.text, re.DOTALL)
+        if not snippets:
+            snippets = re.findall(r'<p[^>]*class="[^"]*[Ff]c-[^"]*"[^>]*>(.*?)</p>', resp.text, re.DOTALL)
+        results = []
+        for i, (u, t) in enumerate(links[:10]):
+            desc = html_mod.unescape(re.sub(r'<[^>]+>', '', snippets[i] if i < len(snippets) else "")).strip()[:300]
+            results.append({"title": html_mod.unescape(re.sub(r'<[^>]+>', '', t)).strip()[:200], "url": u, "description": desc})
+        return results
+    except:
+        return []
+
 class PlaywrightPool:
     def __init__(self):
         self.browser = None
@@ -431,6 +536,47 @@ class PlaywrightPool:
             return results
         except Exception as e:
             print(f"[Bing PW] Error: {e}")
+            return []
+    def search_google(self, query: str, q_idx: int = 0) -> list:
+        """Google search via Playwright (free, no API key needed)."""
+        if not self.browser:
+            self.start()
+        try:
+            ctx = self.browser.new_context(
+                user_agent=USER_AGENTS[q_idx % len(USER_AGENTS)],
+                viewport={"width": 1920, "height": 1080},
+                locale="en-US",
+            )
+            page = ctx.new_page()
+            # Stealth: override webdriver detection
+            page.add_init_script("""() => {
+                Object.defineProperty(navigator, 'webdriver', { get: () => undefined });
+                Object.defineProperty(navigator, 'plugins', { get: () => [1,2,3,4,5] });
+            }""")
+            page.goto(f"https://www.google.com/search?q={urllib.parse.quote(query)}&num=10", timeout=20000)
+            page.wait_for_timeout(2000)
+            if "captcha" in page.content().lower() or "unusual traffic" in page.content().lower():
+                print(f"[Google PW] Blocked", end=" ", flush=True)
+                ctx.close()
+                return []
+            items = page.query_selector_all("div.g")
+            results = []
+            for el in items[:10]:
+                try:
+                    a = el.query_selector("a[href^='http']")
+                    h3 = el.query_selector("h3")
+                    if not a or not h3: continue
+                    url = a.get_attribute("href") or ""
+                    title = h3.inner_text().strip()
+                    desc_el = el.query_selector("div.VwiC3b, span.st")
+                    desc = desc_el.inner_text()[:400] if desc_el else ""
+                    if url and title:
+                        results.append({"title": title, "url": url, "description": desc.strip()})
+                except: continue
+            ctx.close()
+            return results
+        except Exception as e:
+            print(f"[Google PW] Error: {e}")
             return []
     def visit_page(self, url: str) -> dict:
         """Visit a URL and return page content for deep analysis."""
@@ -482,35 +628,72 @@ class PlaywrightPool:
 def search_all(query: str, pw: PlaywrightPool, q_idx: int) -> list:
     seen = set()
     results = []
+    
+    # 1. Bing Playwright (primary)
     pw_results = pw.search(query, q_idx)
-    print(f"[Bing PW] {len(pw_results)} results", end=" ", flush=True)
+    print(f"[Bing PW] {len(pw_results)}", end=" ", flush=True)
     for r in pw_results:
         if r["url"] and r["url"] not in seen:
-            seen.add(r["url"])
-            results.append(r)
+            r["url"] = resolve_url(r["url"])
+            if r["url"] and r["url"] not in seen:
+                seen.add(r["url"])
+                results.append(r)
+    
+    # 2. Bing HTML
     time.sleep(random.uniform(0.3, 0.8))
     html_results = search_bing_html(query, q_idx)
     print(f"[Bing HTML] {len(html_results)}", end=" ", flush=True)
     for r in html_results:
         if r["url"] and r["url"] not in seen:
-            seen.add(r["url"])
-            results.append(r)
-    if len(results) < 3:
-        time.sleep(random.uniform(0.3, 0.8))
-        ddg_results = search_ddg(query, q_idx)
-        print(f"[DDG] {len(ddg_results)}", end=" ", flush=True)
-        for r in ddg_results:
+            r["url"] = resolve_url(r["url"])
             if r["url"] and r["url"] not in seen:
                 seen.add(r["url"])
                 results.append(r)
-    if len(results) < 2:
-        time.sleep(random.uniform(0.3, 0.8))
-        sp_results = search_startpage(query, q_idx)
-        print(f"[SP] {len(sp_results)}", end=" ", flush=True)
-        for r in sp_results:
+    
+    # 3. DuckDuckGo (always, not just fallback)
+    time.sleep(random.uniform(0.3, 0.8))
+    ddg_results = search_ddg(query, q_idx)
+    print(f"[DDG] {len(ddg_results)}", end=" ", flush=True)
+    for r in ddg_results:
+        if r["url"] and r["url"] not in seen:
+            r["url"] = resolve_url(r["url"])
             if r["url"] and r["url"] not in seen:
                 seen.add(r["url"])
                 results.append(r)
+    
+    # 4. Google Playwright (always)
+    time.sleep(random.uniform(0.3, 0.8))
+    google_results = pw.search_google(query, q_idx)
+    print(f"[Google] {len(google_results)}", end=" ", flush=True)
+    for r in google_results:
+        if r["url"] and r["url"] not in seen:
+            r["url"] = resolve_url(r["url"])
+            if r["url"] and r["url"] not in seen:
+                seen.add(r["url"])
+                results.append(r)
+    
+    # 5. Yahoo (always)
+    time.sleep(random.uniform(0.3, 0.8))
+    yahoo_results = search_yahoo(query, q_idx)
+    print(f"[Yahoo] {len(yahoo_results)}", end=" ", flush=True)
+    for r in yahoo_results:
+        if r["url"] and r["url"] not in seen:
+            r["url"] = resolve_url(r["url"])
+            if r["url"] and r["url"] not in seen:
+                seen.add(r["url"])
+                results.append(r)
+    
+    # 6. StartPage (always)
+    time.sleep(random.uniform(0.3, 0.8))
+    sp_results = search_startpage(query, q_idx)
+    print(f"[SP] {len(sp_results)}", end=" ", flush=True)
+    for r in sp_results:
+        if r["url"] and r["url"] not in seen:
+            r["url"] = resolve_url(r["url"])
+            if r["url"] and r["url"] not in seen:
+                seen.add(r["url"])
+                results.append(r)
+    
     print(f"=> {len(results)} unique", flush=True)
     return results
 
@@ -541,8 +724,22 @@ Respond ONLY with JSON: {{"score": N, "reason": "short reason", "how_to_earn": "
         except Exception:
             pass
 
+    # Fallback to OpenRouter
+    if not text and OPENROUTER_API_KEYS:
+        print(f"[OpenRouter] Trying scoring...", end=" ", flush=True)
+        text = openrouter_generate(prompt, model="openai/gpt-4o-mini")
+        if text:
+            try:
+                match = re.search(r'\{[^}]+\}', text)
+                if match:
+                    data = json.loads(match.group())
+                    score = max(0, min(10, int(data.get("score", 5))))
+                    return score, str(data.get("reason", ""))[:200], str(data.get("how_to_earn", ""))[:300], str(data.get("how_to_automate", ""))[:300]
+            except Exception:
+                pass
+
     # Fallback to Gemini
-    if GEMINI_API_KEYS:
+    if not text and GEMINI_API_KEYS:
         try:
             model = genai.GenerativeModel('gemini-2.0-flash')
             resp = gemini_generate(model, prompt)
@@ -739,6 +936,29 @@ Respond ONLY with JSON:
                 parsed = True
         except Exception:
             pass
+
+    # Fallback to OpenRouter
+    if not parsed and OPENROUTER_API_KEYS:
+        print(f"[Deep] Trying OpenRouter...", end=" ", flush=True)
+        text = openrouter_generate(prompt, model="openai/gpt-4o-mini")
+        if text:
+            try:
+                match = re.search(r'\{[^}]+\}', text, re.DOTALL)
+                if match:
+                    data = json.loads(match.group())
+                    opp.workflow_steps = str(data.get("workflow", ""))[:500]
+                    opp.automation_plan = str(data.get("automation_steps", ""))[:500]
+                    opp.tools_needed = str(data.get("tools_needed", ""))[:300]
+                    opp.profit_per_hour = str(data.get("earn_per_hour", "Unknown"))
+                    opp.profit_per_day = str(data.get("earn_per_day", "Unknown"))
+                    opp.profit_per_week = str(data.get("earn_per_week", "Unknown"))
+                    opp.profit_per_month = str(data.get("earn_per_month", "Unknown"))
+                    opp.profit_per_year = str(data.get("earn_per_year", "Unknown"))
+                    opp.deep_analysis_score = int(data.get("ltc_similarity_score", 0))
+                    opp.effort_level = str(data.get("complexity", "Unknown"))
+                    parsed = True
+            except Exception:
+                pass
 
     # Fallback to Gemini
     if not parsed and GEMINI_API_KEYS:
@@ -1155,7 +1375,7 @@ def main():
     analyzed_opps = []
     if new_opps:
         # Score cutoff > 0 to analyze all new... but limit to top 8 for speed
-        top_for_analysis = sorted(new_opps, key=lambda x: -x.automation_potential)[:8]
+        top_for_analysis = sorted(new_opps, key=lambda x: -x.automation_potential)[:30]
         
         print(f"\n{'='*60}")
         print(f"PHASE 2: DEEP ANALYSIS ({len(top_for_analysis)} sites)")

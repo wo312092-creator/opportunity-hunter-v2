@@ -107,7 +107,7 @@ SHEET_COLUMNS = [
     "ID", "Website Name", "URL", "Category", "What It Does",
     "How To Earn", "Per Hour", "Per Day", "Per Week", "Per Month", "Per Year",
     "Auto Score", "How To Automate (GitHub)", "Feasibility", "Source",
-    "Found Date", "Status"
+    "Found Date", "Status", "Verification"
 ]
 
 @dataclass
@@ -175,7 +175,7 @@ def get_or_create_spreadsheet(service, mem):
     print(f"[Sheet] Created: https://docs.google.com/spreadsheets/d/{sheet_id}")
     return sheet_id
 
-def create_run_sheet(service, sheet_id, date_str, total_new, categories):
+def create_run_sheet(service, sheet_id, date_str, total_new, categories, verification):
     try:
         # Check if sheet already exists
         try:
@@ -191,6 +191,30 @@ def create_run_sheet(service, sheet_id, date_str, total_new, categories):
             body={"requests": [{"addSheet": {"properties": {"title": date_str}}}]}
         ).execute()
         new_sheet_id = result["replies"][0]["addSheet"]["properties"]["sheetId"]
+        
+        if total_new == 0:
+            # "Still searching" mode — write notice row
+            still_searching_row = [f"🔍 No new unique sites found on {date_str} — continuing daily search"]
+            service.spreadsheets().values().update(
+                spreadsheetId=sheet_id, range=f"'{date_str}'!A1",
+                valueInputOption="USER_ENTERED",
+                body={"values": [still_searching_row]}
+            ).execute()
+            # Bold + yellow background on the notice
+            service.spreadsheets().batchUpdate(spreadsheetId=sheet_id, body={"requests": [{
+                "repeatCell": {
+                    "range": {"sheetId": new_sheet_id, "startRowIndex": 0, "endRowIndex": 1, "startColumnIndex": 0, "endColumnIndex": 1},
+                    "cell": {"userEnteredFormat": {
+                        "textFormat": {"bold": True, "fontSize": 12},
+                        "backgroundColor": {"red": 1.0, "green": 1.0, "blue": 0.8}
+                    }},
+                    "fields": "userEnteredFormat(textFormat,backgroundColor)"
+                }
+            }]}).execute()
+            print(f"[Sheet] Created 'still searching' tab: {date_str}")
+            return date_str
+        
+        # Normal mode — write header with categories
         header_row = [f"Run Date: {date_str}", f"Total New: {total_new}"]
         for cat, cnt in sorted(categories.items(), key=lambda x: -x[1]):
             header_row += [f"{cat}: {cnt}"]
@@ -204,6 +228,7 @@ def create_run_sheet(service, sheet_id, date_str, total_new, categories):
             valueInputOption="USER_ENTERED",
             body={"values": [SHEET_COLUMNS]}
         ).execute()
+        # Bold header row
         service.spreadsheets().batchUpdate(spreadsheetId=sheet_id, body={"requests": [{
             "repeatCell": {
                 "range": {"sheetId": new_sheet_id, "startRowIndex": 1, "endRowIndex": 2},
@@ -217,22 +242,63 @@ def create_run_sheet(service, sheet_id, date_str, total_new, categories):
         print(f"[Sheet] Error creating run tab: {e}")
         return None
 
-def append_google_sheet_row(service, sheet_id, opp, sheet_name):
+def append_google_sheet_row(service, sheet_id, opp, sheet_name, verification):
+    """Append a row with color-coded verification background."""
+    # Determine verification status and color
+    ver = verification.get(opp.url, {})
+    count = ver.get("count", 0)
+    last_confirmed = ver.get("last_confirmed")
+    
+    if opp.status == "confirmed" or (count >= 3 and last_confirmed):
+        verification_status = "✅ Verified"
+        color = {"red": 0.8, "green": 1.0, "blue": 0.8}  # Green
+    elif count >= 2:
+        verification_status = f"🟡 Checking ({count}x)"
+        color = {"red": 1.0, "green": 0.9, "blue": 0.6}  # Orange/Yellow
+    else:
+        verification_status = "🟠 First seen"
+        color = {"red": 1.0, "green": 0.7, "blue": 0.5}  # Light red/orange
+    
     row = [opp.id, opp.title, opp.url, opp.category, opp.description,
         opp.how_to_earn or opp.automation_reason,
         opp.profit_per_hour, opp.profit_per_day, opp.profit_per_week, opp.profit_per_month, opp.profit_per_year,
         opp.automation_potential,
         opp.how_to_automate, opp.feasibility,
-        opp.source, opp.found_date, opp.status]
+        opp.source, opp.found_date, opp.status, verification_status]
     try:
-        service.spreadsheets().values().append(
-            spreadsheetId=sheet_id, range=f"'{sheet_name}'!A:Q",
+        result = service.spreadsheets().values().append(
+            spreadsheetId=sheet_id, range=f"'{sheet_name}'!A:R",
             valueInputOption="USER_ENTERED",
             insertDataOption="INSERT_ROWS",
             body={"values": [row]}
         ).execute()
+        # Get the row range that was just written and apply color
+        updated_range = result.get("updates", {}).get("updatedRange", "")
+        if updated_range:
+            m = re.search(r'!A(\d+):R(\d+)', updated_range)
+            if m:
+                row_num = int(m.group(1))
+                # Apply color to all columns in this row
+                service.spreadsheets().batchUpdate(spreadsheetId=sheet_id, body={"requests": [{
+                    "repeatCell": {
+                        "range": {"sheetId": _get_sheet_id(service, sheet_id, sheet_name), "startRowIndex": row_num - 1, "endRowIndex": row_num},
+                        "cell": {"userEnteredFormat": {"backgroundColor": color}},
+                        "fields": "userEnteredFormat.backgroundColor"
+                    }
+                }]}).execute()
     except Exception as e:
         print(f"[Sheet] Append error: {e}")
+
+def _get_sheet_id(service, spreadsheet_id, sheet_name):
+    """Helper to get sheetId by tab name."""
+    try:
+        existing = service.spreadsheets().get(spreadsheetId=spreadsheet_id).execute()
+        for s in existing.get("sheets", []):
+            if s["properties"]["title"] == sheet_name:
+                return s["properties"]["sheetId"]
+    except:
+        pass
+    return 0
 
 def load_excel():
     if not os.path.exists(EXCEL_FILE):
@@ -865,7 +931,8 @@ def write_top_finds(ws):
         json.dump({"updated": datetime.now(timezone.utc).isoformat(), "top_finds": top}, f, indent=2)
     print(f"[Top Finds] {len(top)} high-automation opportunities saved")
 
-def write_google_doc(report_path, sheet_url="", analyzed_opps=None):
+def write_google_doc(mem, sheet_url="", analyzed_opps=None):
+    """Append ONLY confirmed (LTC-automatable) sites to a single permanent Google Doc."""
     if not GOOGLE_REFRESH_TOKEN:
         print("[Google Docs] No token - skipping")
         return False
@@ -881,95 +948,72 @@ def write_google_doc(report_path, sheet_url="", analyzed_opps=None):
         docs = build("docs", "v1", credentials=creds)
         date_str = datetime.now(timezone.utc).strftime("%Y-%m-%d")
         
-        # Create a detailed automation plan doc
-        doc = docs.documents().create(body={
-            "title": f"Opportunity Hunter - Automation Plans ({date_str})"
-        }).execute()
-        doc_id = doc["documentId"]
+        doc_id = mem.get("google_doc_id")
+        if doc_id:
+            # Open existing doc
+            try:
+                docs.documents().get(documentId=doc_id).execute()
+                print(f"[Google Docs] Using existing doc: https://docs.google.com/document/d/{doc_id}")
+            except:
+                print("[Google Docs] Stored doc ID stale, creating new...")
+                doc_id = None
         
-        # Build rich content
+        confirmed = [o for o in (analyzed_opps or []) if o.status == "confirmed"]
+        if not confirmed:
+            print("[Google Docs] No confirmed automatable sites to document")
+            return False
+        
+        # Build content for this run
         lines = []
-        lines.append(f"OPPORTUNITY HUNTER - DETAILED AUTOMATION PLANS")
-        lines.append(f"Date: {date_str}")
+        lines.append(f"\n\n=== RUN DATE: {date_str} ===")
         if sheet_url:
             lines.append(f"Master Sheet: {sheet_url}")
+        lines.append(f"Verified automatable sites: {len(confirmed)}")
         lines.append("")
         
-        if analyzed_opps:
-            confirmed = [o for o in analyzed_opps if o.status == "confirmed"]
-            lines.append("=" * 60)
-            lines.append(f"AUTOMATABLE FINDS: {len(confirmed)} site(s) ready to build")
-            lines.append("=" * 60)
-            lines.append("")
-            
-            for i, opp in enumerate(confirmed, 1):
-                lines.append(f"--- OPPORTUNITY #{i} ---")
-                lines.append(f"Site: {opp.title}")
-                lines.append(f"URL: {opp.url}")
-                lines.append(f"Category: {opp.category}")
-                lines.append(f"LTC Similarity: {opp.deep_analysis_score}/10")
-                lines.append(f"")
-                lines.append(f"HOW IT WORKS:")
-                lines.append(f"{opp.workflow_steps}")
-                lines.append(f"")
-                lines.append(f"ESTIMATED EARNINGS:")
-                lines.append(f"  Per Hour:  {opp.profit_per_hour}")
-                lines.append(f"  Per Day:   {opp.profit_per_day}")
-                lines.append(f"  Per Week:  {opp.profit_per_week}")
-                lines.append(f"  Per Month: {opp.profit_per_month}")
-                lines.append(f"  Per Year:  {opp.profit_per_year}")
-                lines.append(f"")
-                lines.append(f"AUTOMATION PLAN (GitHub Actions + Playwright):")
-                lines.append(f"{opp.automation_plan}")
-                lines.append(f"")
-                lines.append(f"TOOLS & CREDENTIALS NEEDED:")
-                lines.append(f"{opp.tools_needed}")
-                lines.append(f"")
-                lines.append(f"DIFFICULTY: {opp.effort_level}")
-                lines.append(f"")
-            
-            non_confirmed = [o for o in analyzed_opps if o.status != "confirmed"]
-            if non_confirmed:
-                lines.append("=" * 60)
-                lines.append(f"COMPLEX SITES (not recommended for automation):")
-                lines.append("=" * 60)
-                for opp in non_confirmed:
-                    lines.append(f"- {opp.title} ({opp.effort_level})")
-                lines.append("")
-        
-        lines.append("=" * 60)
-        lines.append(f"Report generated: {datetime.now(timezone.utc).isoformat()}")
+        for i, opp in enumerate(confirmed, 1):
+            lines.append(f"--- SITE #{i}: {opp.title} ---")
+            lines.append(f"URL: {opp.url}")
+            lines.append(f"Category: {opp.category}")
+            lines.append(f"LTC Automation Match: {opp.deep_analysis_score}/10")
+            lines.append(f"")
+            lines.append(f"HOW IT WORKS:")
+            lines.append(f"{opp.workflow_steps}")
+            lines.append(f"")
+            lines.append(f"ESTIMATED EARNINGS:")
+            lines.append(f"  Per Hour:  {opp.profit_per_hour}")
+            lines.append(f"  Per Day:   {opp.profit_per_day}")
+            lines.append(f"  Per Week:  {opp.profit_per_week}")
+            lines.append(f"  Per Month: {opp.profit_per_month}")
+            lines.append(f"  Per Year:  {opp.profit_per_year}")
+            lines.append(f"")
+            lines.append(f"AUTOMATION PLAN:")
+            lines.append(f"{opp.automation_plan}")
+            lines.append(f"")
+            lines.append(f"TOOLS & CREDENTIALS NEEDED:")
+            lines.append(f"{opp.tools_needed}")
+            lines.append(f"")
+            lines.append(f"DIFFICULTY: {opp.effort_level}")
+            lines.append(f"")
         
         clean_text = "\n".join(lines)
         
-        docs.documents().batchUpdate(documentId=doc_id,
-            body={"requests": [{"insertText": {"endOfSegmentLocation": {}, "text": clean_text}}]}).execute()
-        print(f"[Google Docs] Created automation plans doc: https://docs.google.com/document/d/{doc_id}")
+        if not doc_id:
+            # Create the permanent doc
+            doc = docs.documents().create(body={
+                "title": "Opportunity Hunter - Verified Automatable Sites (LTC-Gold)"
+            }).execute()
+            doc_id = doc["documentId"]
+            mem["google_doc_id"] = doc_id
+            print(f"[Google Docs] Created permanent doc: https://docs.google.com/document/d/{doc_id}")
+            docs.documents().batchUpdate(documentId=doc_id,
+                body={"requests": [{"insertText": {"endOfSegmentLocation": {}, "text": clean_text}}]}).execute()
+        else:
+            # Append to existing doc — find end and insert
+            docs.documents().batchUpdate(documentId=doc_id,
+                body={"requests": [{"insertText": {"endOfSegmentLocation": {}, "text": clean_text}}]}).execute()
+            print(f"[Google Docs] Appended {len(confirmed)} sites to doc: https://docs.google.com/document/d/{doc_id}")
         
-        # Also create the standard report
-        with open(report_path, encoding="utf-8") as f:
-            content = f.read()
-        clean_lines = []
-        for line in content.split('\n'):
-            line = re.sub(r'^#{1,6}\s+', '', line)
-            line = line.replace('**', '').replace('*', '').replace('__', '').replace('_', '')
-            if re.match(r'^\|[\s\-:]+\|$', line): continue
-            if line.startswith('|') and '|' in line[1:]:
-                cells = [c.strip() for c in line.split('|')[1:-1]]
-                line = ' | '.join(cells)
-            clean_lines.append(line)
-        
-        report_doc = docs.documents().create(body={
-            "title": f"Opportunity Hunter Report - {date_str}"
-        }).execute()
-        report_doc_id = report_doc["documentId"]
-        report_text = '\n'.join(clean_lines)
-        if sheet_url:
-            report_text = f"Master Sheet: {sheet_url}\n\n" + report_text
-        
-        docs.documents().batchUpdate(documentId=report_doc_id,
-            body={"requests": [{"insertText": {"endOfSegmentLocation": {}, "text": report_text}}]}).execute()
-        print(f"[Google Docs] Created report doc: https://docs.google.com/document/d/{report_doc_id}")
         return True
     except Exception as e:
         print(f"[Google Docs] Error: {e}")
@@ -978,8 +1022,11 @@ def write_google_doc(report_path, sheet_url="", analyzed_opps=None):
 def main():
     mem = json.load(open(MEMORY_FILE)) if os.path.exists(MEMORY_FILE) else {
         "runs": 0, "total_found": 0, "categories_found": {}, "last_run": None,
-        "learning": [], "google_sheet_id": None
+        "learning": [], "google_sheet_id": None, "google_doc_id": None,
+        "seen_urls": [], "verification": {}
     }
+    seen_urls_set = set(mem.get("seen_urls", []))
+    verification = mem.get("verification", {})
     mem["runs"] += 1
     wb, ws = load_excel()
     total_new, categories = 0, {}
@@ -1016,7 +1063,8 @@ def main():
         new_for_query = 0
         for item in items:
             opp = classify(item, genai_scoring=genai_available)
-            if opp and not opportunity_exists(ws, opp.url):
+            if opp and opp.url not in seen_urls_set and not opportunity_exists(ws, opp.url):
+                seen_urls_set.add(opp.url)
                 ws.append([opp.id, opp.title, opp.url, opp.category, opp.description,
                     opp.profit_per_hour, opp.profit_per_day, opp.profit_per_week,
                     opp.profit_per_month, opp.profit_per_year,
@@ -1065,19 +1113,27 @@ def main():
     
     pw.close()
     wb.save(EXCEL_FILE)
+    run_date = datetime.now(timezone.utc).strftime("%Y-%m-%d")
     mem["last_run"] = datetime.now(timezone.utc).isoformat()
     for cat, cnt in categories.items():
         mem["categories_found"][cat] = mem["categories_found"].get(cat, 0) + cnt
+    # Update seen_urls and verification tracking
+    mem["seen_urls"] = sorted(seen_urls_set)
+    for opp in analyzed_opps:
+        if opp.url not in verification:
+            verification[opp.url] = {"count": 0, "first_seen": run_date, "last_confirmed": None}
+        verification[opp.url]["count"] += 1
+        if opp.status == "confirmed":
+            verification[opp.url]["last_confirmed"] = run_date
+    mem["verification"] = verification
     json.dump(mem, open(MEMORY_FILE, "w"), indent=2)
 
-    run_date = datetime.now(timezone.utc).strftime("%Y-%m-%d")
-
     # Write to Google Sheet (daily tab)
-    if new_opps and sheets_service and sheet_id:
-        run_sheet_name = create_run_sheet(sheets_service, sheet_id, run_date, total_new, categories)
-        if run_sheet_name:
+    if sheets_service and sheet_id:
+        run_sheet_name = create_run_sheet(sheets_service, sheet_id, run_date, total_new, categories, verification)
+        if run_sheet_name and new_opps:
             for opp in new_opps:
-                append_google_sheet_row(sheets_service, sheet_id, opp, run_sheet_name)
+                append_google_sheet_row(sheets_service, sheet_id, opp, run_sheet_name, verification)
             print(f"[Sheet] {len(new_opps)} opps written to tab '{run_sheet_name}'")
     elif sheet_id:
         print(f"[Sheet] No new opportunities found - no daily sheet created")
@@ -1096,12 +1152,12 @@ def main():
         for opp in confirmed:
             print(f"   - {opp.title}: {opp.profit_per_day}/day (LTC-score: {opp.deep_analysis_score}/10)")
     
-    if total_new > 0 and analyzed_opps:
-        write_google_doc(report_path, sheet_url, analyzed_opps)
-    elif total_new > 0:
-        write_google_doc(report_path, sheet_url)
+    if analyzed_opps:
+        write_google_doc(mem, sheet_url, analyzed_opps)
     else:
-        print("[Google Docs] No new findings - skipping doc")
+        print("[Google Docs] No analyzed sites - skipping doc")
+    # Re-save memory in case google_doc_id was set
+    json.dump(mem, open(MEMORY_FILE, "w"), indent=2)
     print(f"[{datetime.now(timezone.utc).isoformat()}] Done!")
 
 if __name__ == "__main__":

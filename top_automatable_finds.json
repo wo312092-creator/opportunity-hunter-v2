@@ -1,6 +1,33 @@
 {
-  "updated": "2026-05-28T21:10:24.268564+00:00",
+  "updated": "2026-05-28T22:25:52.098970+00:00",
   "top_finds": [
+    {
+      "title": "Faucet Bot - Multi-Account Claim Automation Engine (2026) - itch.io",
+      "url": "https://itch.io/blog/1518916/faucet-bot-multi-account-claim-automation-engine-2026",
+      "category": "Crypto Faucet",
+      "description": "",
+      "automation_score": 9,
+      "automation_reason": "Fully automatable with pre-made scripts for faucet claims, mining, and task automation.",
+      "tags": "faucet,crypto,free"
+    },
+    {
+      "title": "cpuminer Download - Multi-threaded, highly optimized CPU",
+      "url": "https://cpu-miner.software.informer.com/",
+      "category": "Mining",
+      "description": "",
+      "automation_score": 9,
+      "automation_reason": "Fully automatable with scripts for mining and faucet claims.",
+      "tags": "mining,crypto"
+    },
+    {
+      "title": "Telegram Bot - Cryptohopper",
+      "url": "https://www.cryptohopper.com/marketplace/apps/app?app_id=11",
+      "category": "General",
+      "description": "Features\n\nEasy\n\n[![Automatic Trading](https://www.cryptohopper.com/images/nav/automatic-trading.svg)\\\\\n\\\\\nAutomatic Trading\\\\\n\\\\\nBots outperform humans.](https://www.cryptohopper.com/features/automati",
+      "automation_score": 9,
+      "automation_reason": "The bot is designed for automatic trading and social trading, with features that can be fully automated using GitHub Actions.",
+      "tags": "money,earn"
+    },
     {
       "title": "Breaking News, Latest News and Videos | CNN",
       "url": "https://www.bing.com/ck/a?!&&p=9b445efc68b13bdec497092b9c4a15d0177827944ff1da5b8f7ff1d8bfcda1d3JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=1667fded-b206-629d-3f5d-ea8ab34163d5&u=a1aHR0cHM6Ly93d3cuY25uLmNvbS8&ntb=1",
@@ -47,193 +74,202 @@
       "tags": "mining,crypto"
     },
     {
-      "title": "Play Online Games for Free | now.gg Mobile Cloud",
-      "url": "https://www.bing.com/ck/a?!&&p=c0935c16f3bd438157439f2a83b135e6b6419ce9d5676fcf685753422a375d9bJmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=1f4df343-7520-6f6a-0dc0-e42474f56e6e&u=a1aHR0cHM6Ly9ub3cuZ2cv&ntb=1",
-      "category": "General",
-      "description": "Play your favorite games online for free. No downloads or installs. Enjoy non-stop gaming on any device at a single click on now.gg.",
-      "automation_score": 7,
-      "automation_reason": "High automation: bot-friendly signals",
-      "tags": "money,earn"
+      "title": "CloudDoge - Free DOGE Cloud Mining",
+      "url": "https://clouddoge.biz/",
+      "category": "Mining",
+      "description": "",
+      "automation_score": 8,
+      "automation_reason": "auto-mining and auto-claim scripts can be used",
+      "tags": "mining,crypto"
     },
     {
-      "title": "Play Online Games for Free | now.gg Mobile Cloud",
-      "url": "https://www.bing.com/ck/a?!&&p=8b4eee081673d9822f5be1a5ee17e31c34e7013622d63f0ad79c4ebc252b04b6JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=0024b2e7-8125-6c0d-06f2-a58080596db9&u=a1aHR0cHM6Ly9ub3cuZ2cv&ntb=1",
-      "category": "General",
-      "description": "Play your favorite games online for free. No downloads or installs. Enjoy non-stop gaming on any device at a single click on now.gg.",
-      "automation_score": 7,
-      "automation_reason": "High automation: bot-friendly signals",
-      "tags": "money,earn"
+      "title": "Turbo Faucet \u2014 Free DOGE Cloud Mining",
+      "url": "https://turbofaucetscript.in/",
+      "category": "Crypto Faucet",
+      "description": "",
+      "automation_score": 8,
+      "automation_reason": "auto-click, auto-claim, auto-mining scripts can be used, but occasional captchas may require human intervention",
+      "tags": "faucet,crypto,free"
     },
     {
-      "title": "Play Online Games for Free | now.gg Mobile Cloud",
-      "url": "https://www.bing.com/ck/a?!&&p=85afdc8bb4783c3227c041a88fd0c33e61fe45c4ff6e7c7988f167815cb4a605JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=3a5a0e39-c6c1-69fa-2f40-195ec79d682a&u=a1aHR0cHM6Ly9ub3cuZ2cv&ntb=1",
-      "category": "General",
-      "description": "Play your favorite games online for free. No downloads or installs. Enjoy non-stop gaming on any device at a single click on now.gg.",
-      "automation_score": 7,
-      "automation_reason": "High automation: bot-friendly signals",
-      "tags": "money,earn"
+      "title": "Claim Free ETH - Free Ethereum Faucet",
+      "url": "https://claimfreecoins.io/ethereum-faucet/",
+      "category": "Crypto Faucet",
+      "description": "",
+      "automation_score": 8,
+      "automation_reason": "Fully automatable with auto-click and auto-claim scripts, but may require occasional captchas.",
+      "tags": "faucet,crypto,free"
     },
     {
-      "title": "The Passive - Perfect English Grammar",
-      "url": "https://www.bing.com/ck/a?!&&p=8c975a9a2705e338047d4c69fff7c17b2b0b772c0f5a43c66e1155ac77b077d1JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=370ba218-a8e1-63ad-081f-b57fa93b62ef&u=a1aHR0cHM6Ly93d3cucGVyZmVjdC1lbmdsaXNoLWdyYW1tYXIuY29tL3Bhc3NpdmUuaHRtbA&ntb=1",
-      "category": "General",
-      "description": "We make the passive by putting the verb 'to be' into whatever tense we need and then adding the past participle. For regular verbs, \u2026",
-      "automation_score": 7,
-      "automation_reason": "High automation: bot-friendly signals",
-      "tags": "money,earn"
+      "title": "Ethereum (ETH) Faucet | April 2026",
+      "url": "https://ethereum-faucet.org/?r=121565",
+      "category": "Crypto Faucet",
+      "description": "",
+      "automation_score": 8,
+      "automation_reason": "Fully automatable with scripts for auto-click, auto-claim, and auto-faucet",
+      "tags": "faucet,crypto,free"
     },
     {
-      "title": "The Complete Guide to Passive Voice in English (With Clear \u2026",
-      "url": "https://www.bing.com/ck/a?!&&p=1ee5a6257a66353b16cc10ad461df65e8be736b7043512bdbb568e5640bcc200JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=370ba218-a8e1-63ad-081f-b57fa93b62ef&u=a1aHR0cHM6Ly93d3cuaXdhbnRzcGVha2VuZ2xpc2guY29tL3Bvc3QvYS1jb21wbGV0ZS1ndWlkZS10by10aGUtcGFzc2l2ZS12b2ljZS1pbi1lbmdsaXNo&",
-      "category": "General",
-      "description": "Sep 19, 2025\u00a0\u00b7 Don\u2019t worry. In this complete guide, you\u2019ll learn every passive tense in English, step by step \u2014 from basic forms to \u2026",
-      "automation_score": 7,
-      "automation_reason": "High automation: bot-friendly signals",
-      "tags": "money,earn"
+      "title": "CryptoFaucet - Claim Free Coins. 12 cryptocurrencies. Earn free crypto faucet 2026 every minute.",
+      "url": "https://cryptofaucet.club/",
+      "category": "Crypto Faucet",
+      "description": "",
+      "automation_score": 8,
+      "automation_reason": "Automatable tasks include auto-click, auto-claim, auto-mining, and auto-faucet, but occasional captchas may require human intervention.",
+      "tags": "faucet,crypto,free"
     },
     {
-      "title": "100 Passive Voice Examples Sentences in English with Pictures",
-      "url": "https://www.bing.com/ck/a?!&&p=57fa5eb57d88a1a195334581c84cb5b565efaa286590983e2581f25fea8d408fJmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=370ba218-a8e1-63ad-081f-b57fa93b62ef&u=a1aHR0cHM6Ly9tcm1yc2VuZ2xpc2guY29tL3Bhc3NpdmUtdm9pY2UtZXhhbXBsZXMv&ntb=1",
-      "category": "General",
-      "description": "Learning the passive voice can make your English sound more natural and professional. In this article, you will learn 100 Passive \u2026",
-      "automation_score": 7,
-      "automation_reason": "High automation: bot-friendly signals",
-      "tags": "money,earn"
+      "title": "Liteton | Highest Paying Crypto Faucet",
+      "url": "https://liteton.xyz/",
+      "category": "Crypto Faucet",
+      "description": "",
+      "automation_score": 8,
+      "automation_reason": "Auto-click, auto-claim, auto-mining, and auto-faucet scripts can be used with occasional captcha solving.",
+      "tags": "faucet,crypto,free"
     },
     {
-      "title": "Active And Passive Voice With Rules and Examples - Englishan",
-      "url": "https://www.bing.com/ck/a?!&&p=56c0dcd37c0baa7a39a00482b7362b702043bee25607e1a41370426ff80325d8JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=370ba218-a8e1-63ad-081f-b57fa93b62ef&u=a1aHR0cHM6Ly9lbmdsaXNoYW4uY29tL2FjdGl2ZS1hbmQtcGFzc2l2ZS12b2ljZS8&ntb=1",
-      "category": "General",
-      "description": "May 15, 2025\u00a0\u00b7 Active and passive voice describe how a sentence shows the relationship between the subject and the action. In \u2026",
-      "automation_score": 7,
-      "automation_reason": "High automation: bot-friendly signals",
-      "tags": "money,earn"
+      "title": "Faucet Crypto : #1 World Faucet",
+      "url": "https://faucetcrypto.com/",
+      "category": "Crypto Faucet",
+      "description": "",
+      "automation_score": 8,
+      "automation_reason": "Fully automatable with auto-click and auto-claim scripts, but may require occasional captchas.",
+      "tags": "faucet,crypto,free"
     },
     {
-      "title": "Play Online Games for Free | now.gg Mobile Cloud",
-      "url": "https://www.bing.com/ck/a?!&&p=f7f26eeb19ee4d56fe54eca07e440dd77fcf85bd3f1fd4ae08148af0ebf7d47cJmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=07d1f73e-50e3-6622-3c44-e05951f3670a&u=a1aHR0cHM6Ly9ub3cuZ2cv&ntb=1",
-      "category": "General",
-      "description": "Play your favorite games online for free. No downloads or installs. Enjoy non-stop gaming on any device at a single click on now.gg.",
-      "automation_score": 7,
-      "automation_reason": "High automation: bot-friendly signals",
-      "tags": "money,earn"
+      "title": "Faucet Collector by 2Captcha - SoftwareOne Marketplace",
+      "url": "https://platform.softwareone.com/product/faucet-collector/PCP-9375-5458",
+      "category": "Crypto Faucet",
+      "description": "![Product Logo](https://api.platform.softwareone.com/public/v1/public-catalog/product-profiles/PCP-9375-5458/icon)\n\nFaucet Collector[2Captcha](https://platform.softwareone.com/vendor/2captcha/VND-2522",
+      "automation_score": 8,
+      "automation_reason": "Fully automatable with scripts for faucet claims and mining, but may require occasional captchas or approvals.",
+      "tags": "faucet,crypto,free"
     },
     {
-      "title": "Mozilla Firefox - Free download and install on Windows | Microsoft Store",
-      "url": "https://www.bing.com/ck/a?!&&p=4cd6c189d1901968093109cea50eef5425a32e162f04f1f3b0073d2f34ab828fJmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=281f81a5-5cb0-6121-063e-96c25d886023&u=a1aHR0cHM6Ly9hcHBzLm1pY3Jvc29mdC5jb20vZGV0YWlsLzluenZka3BtcjlyZA&ntb=1",
-      "category": "General",
-      "description": "Choose the browser that prioritizes you, not their bottom line. Don't settle for the default browser. When you choose Firefox, you protect your data while \u2026",
-      "automation_score": 7,
-      "automation_reason": "High automation: bot-friendly signals",
-      "tags": "money,earn"
+      "title": "FastCoin - LTC Auto-Faucet",
+      "url": "https://fastcoin.ga/",
+      "category": "Crypto Faucet",
+      "description": "",
+      "automation_score": 8,
+      "automation_reason": "Auto-faucet with auto-claim and auto-mining capabilities, but occasional captchas may be required.",
+      "tags": "faucet,crypto,free"
     },
     {
-      "title": "Play Online Games for Free | now.gg Mobile Cloud",
-      "url": "https://www.bing.com/ck/a?!&&p=b0e881d3e03c190ccaded95f3238f4b93ccdd96b8f90ba66f8134deee288e4e3JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=2cc20b84-bb57-6b5b-3ec9-1ce3ba6f6a71&u=a1aHR0cHM6Ly9ub3cuZ2cv&ntb=1",
-      "category": "General",
-      "description": "Play your favorite games online for free. No downloads or installs. Enjoy non-stop gaming on any device at a single click on now.gg.",
-      "automation_score": 7,
-      "automation_reason": "High automation: bot-friendly signals",
-      "tags": "money,earn"
+      "title": "Litecoin Faucet",
+      "url": "https://litecoinfaucet.com/",
+      "category": "Crypto Faucet",
+      "description": "",
+      "automation_score": 8,
+      "automation_reason": "Fully automatable with scripts for auto-click, auto-claim, and auto-faucet, but may require occasional captchas.",
+      "tags": "faucet,crypto,free"
     },
     {
-      "title": "Play Online Games for Free | now.gg Mobile Cloud",
-      "url": "https://www.bing.com/ck/a?!&&p=bc5c40cca13604706acb699fad03a93fc81dce7105e360fb4ca442b29a16fa6cJmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=2c6d2003-804c-6646-0722-376481cd67e9&u=a1aHR0cHM6Ly9ub3cuZ2cv&ntb=1",
-      "category": "General",
-      "description": "Play your favorite games online for free. No downloads or installs. Enjoy non-stop gaming on any device at a single click on now.gg.",
-      "automation_score": 7,
-      "automation_reason": "High automation: bot-friendly signals",
-      "tags": "money,earn"
+      "title": "SatoshiFaucet | Satoshi faucet",
+      "url": "https://satoshifaucet.io/",
+      "category": "Crypto Faucet",
+      "description": "",
+      "automation_score": 8,
+      "automation_reason": "Fully automatable with scripts for auto-click, auto-claim, and auto-faucet, but may require occasional captcha solving.",
+      "tags": "faucet,crypto,free"
     },
     {
-      "title": "Play Online Games for Free | now.gg Mobile Cloud",
-      "url": "https://www.bing.com/ck/a?!&&p=5a5fdf7b54b5e9e8e48598f40fb8a4fe60162b7e724c8b62dbd7181e370045f2JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=24fa4130-f986-6f12-1c5e-5657f8876efe&u=a1aHR0cHM6Ly9ub3cuZ2cv&ntb=1",
-      "category": "General",
-      "description": "Play your favorite games online for free. No downloads or installs. Enjoy non-stop gaming on any device at a single click on now.gg.",
-      "automation_score": 7,
-      "automation_reason": "High automation: bot-friendly signals",
-      "tags": "money,earn"
+      "title": "Litecoin CPU Miner on Linux - Cpuminer-multi [ Step by Step ]",
+      "url": "https://techexpert.tips/litecoin/litecoin-cpu-miner-on-linux-docker-2018/",
+      "category": "Mining",
+      "description": "",
+      "automation_score": 8,
+      "automation_reason": "mining can be automated with scripts, but may require occasional updates",
+      "tags": "mining,crypto"
     },
     {
-      "title": "Play Online Games for Free | now.gg Mobile Cloud",
-      "url": "https://www.bing.com/ck/a?!&&p=0fb6ef7f6558822bb20ae0c2792277103efa404c5c7756a295fab643a1c363abJmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=17079108-5025-6b75-00e4-866f51cb6a01&u=a1aHR0cHM6Ly9ub3cuZ2cv&ntb=1",
-      "category": "General",
-      "description": "Play your favorite games online for free. No downloads or installs. Enjoy non-stop gaming on any device at a single click on now.gg.",
-      "automation_score": 7,
-      "automation_reason": "High automation: bot-friendly signals",
-      "tags": "money,earn"
+      "title": "Faucetoshi - Free Cryptocurrency Faucet",
+      "url": "https://www.faucetoshi.com/",
+      "category": "Crypto Faucet",
+      "description": "",
+      "automation_score": 8,
+      "automation_reason": "Fully automatable with auto-click and auto-claim scripts, but may require occasional captchas.",
+      "tags": "faucet,crypto,free"
     },
     {
-      "title": "What is decentralized finance (DeFi)? | Fidelity",
-      "url": "https://www.bing.com/ck/a?!&&p=b348a4bbced9ad38f0b5c5de6bf6b35f1e65db14951573c46c633f8cbfc7de02JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=1dfe96e2-6f9d-6970-022c-81856e876873&u=a1aHR0cHM6Ly93d3cuZmlkZWxpdHkuY29tL2xlYXJuaW5nLWNlbnRlci90cmFkaW5nLWludmVzdGluZy93aGF0LWlzLWRlZmk&ntb=1",
-      "category": "DeFi / Staking",
-      "description": "Oct 12, 2023\u00a0\u00b7 Decentralized finance, or DeFi, is an umbrella term for apps, platforms, and organizations that enable users to lend, borrow, stake, and trade crypto assets.",
-      "automation_score": 7,
-      "automation_reason": "High automation: bot-friendly signals",
-      "tags": "defi,staking,yield"
+      "title": "NextFaucet - Free Bitcoin Cash Faucet | Earn BCH Every Hour",
+      "url": "https://nextfaucet.com/",
+      "category": "Crypto Faucet",
+      "description": "",
+      "automation_score": 8,
+      "automation_reason": "Fully automatable with auto-click and auto-claim scripts, but occasional captchas may require human intervention.",
+      "tags": "faucet,crypto,free"
     },
     {
-      "title": "The Passive - Perfect English Grammar",
-      "url": "https://www.bing.com/ck/a?!&&p=0b1f9450efa01b20722f90dfc6034fc2b49b9827c12e484a1be00eddd698aad7JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=13898bea-757c-6e81-3a9f-9c8d74b86ff5&u=a1aHR0cHM6Ly93d3cucGVyZmVjdC1lbmdsaXNoLWdyYW1tYXIuY29tL3Bhc3NpdmUuaHRtbA&ntb=1",
-      "category": "General",
-      "description": "We make the passive by putting the verb 'to be' into whatever tense we need and then adding the past participle. For regular verbs, we make the past participle by adding 'ed' to the infinitive.",
-      "automation_score": 7,
-      "automation_reason": "High automation: bot-friendly signals",
-      "tags": "money,earn"
+      "title": "Lightning Faucet - Free Bitcoin on Lightning Network",
+      "url": "https://lightningfaucet.com/",
+      "category": "Crypto Faucet",
+      "description": "",
+      "automation_score": 8,
+      "automation_reason": "Fully automatable with auto-click, auto-claim, and auto-task scripts, but may require occasional captchas.",
+      "tags": "faucet,crypto,free"
     },
     {
-      "title": "The Complete Guide to Passive Voice in English (With Clear \u2026",
-      "url": "https://www.bing.com/ck/a?!&&p=09111064f109bf28a73fd1a19197f5daba8fc88cfdf95361ff3274571b4ffadcJmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=13898bea-757c-6e81-3a9f-9c8d74b86ff5&u=a1aHR0cHM6Ly93d3cuaXdhbnRzcGVha2VuZ2xpc2guY29tL3Bvc3QvYS1jb21wbGV0ZS1ndWlkZS10by10aGUtcGFzc2l2ZS12b2ljZS1pbi1lbmdsaXNo&",
-      "category": "General",
-      "description": "Sep 19, 2025\u00a0\u00b7 Don\u2019t worry. In this complete guide, you\u2019ll learn every passive tense in English, step by step \u2014 from basic forms to advanced structures \u2014 with clear examples and practice. Perfect for ",
-      "automation_score": 7,
-      "automation_reason": "High automation: bot-friendly signals",
-      "tags": "money,earn"
+      "title": "Icucu Auto Dogecoin Faucet ::: Claim ~68,760 dogetoshi every 4 minutes automatically",
+      "url": "https://icucu.icu/doge/",
+      "category": "Crypto Faucet",
+      "description": "",
+      "automation_score": 8,
+      "automation_reason": "Automatable with scripts for auto-click and auto-claim, but may require occasional captchas or approvals.",
+      "tags": "faucet,crypto,free"
     },
     {
-      "title": "100 Passive Voice Examples Sentences in English with Pictures",
-      "url": "https://www.bing.com/ck/a?!&&p=1817fcb5a1ad7a71ed9a32a68c771d0beba46a4dffd4475fcc73fbaff6a2b8b1JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=13898bea-757c-6e81-3a9f-9c8d74b86ff5&u=a1aHR0cHM6Ly9tcm1yc2VuZ2xpc2guY29tL3Bhc3NpdmUtdm9pY2UtZXhhbXBsZXMv&ntb=1",
-      "category": "General",
-      "description": "Learning the passive voice can make your English sound more natural and professional. In this article, you will learn 100 Passive Voice Examples Sentences in English with pictures to help you \u2026",
-      "automation_score": 7,
-      "automation_reason": "High automation: bot-friendly signals",
-      "tags": "money,earn"
+      "title": "Dogecoin AutoFaucet - Free DOGE Every Minute",
+      "url": "https://flowfaucet.online/",
+      "category": "Crypto Faucet",
+      "description": "",
+      "automation_score": 8,
+      "automation_reason": "auto-click and auto-claim functionality available",
+      "tags": "faucet,crypto,free"
     },
     {
-      "title": "Active And Passive Voice With Rules and Examples - Englishan",
-      "url": "https://www.bing.com/ck/a?!&&p=9f214215713831c734784d08fe36ca698cd50a85bc718c0d199d222585587112JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=13898bea-757c-6e81-3a9f-9c8d74b86ff5&u=a1aHR0cHM6Ly9lbmdsaXNoYW4uY29tL2FjdGl2ZS1hbmQtcGFzc2l2ZS12b2ljZS8&ntb=1",
-      "category": "General",
-      "description": "May 15, 2025\u00a0\u00b7 Active and passive voice describe how a sentence shows the relationship between the subject and the action. In active voice, the subject does the action (e.g., The cat chased the mouse)",
-      "automation_score": 7,
-      "automation_reason": "High automation: bot-friendly signals",
-      "tags": "money,earn"
+      "title": "Claim Free Dogecoin (DOGE) - claimfreedoge",
+      "url": "https://www.claimfreedoge.com/",
+      "category": "Crypto Faucet",
+      "description": "",
+      "automation_score": 8,
+      "automation_reason": "Fully automatable with scripts for auto-click, auto-claim, and auto-task execution.",
+      "tags": "faucet,crypto,free"
     },
     {
-      "title": "Telegram - Download",
-      "url": "https://www.bing.com/ck/a?!&&p=055d6e3e3fa01eab63a080458e3e72df7a9ce97f0f7b3d9823f8e342e81bf551JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=0bbc96d0-d8b2-6696-356a-81b7d9886717&u=a1aHR0cHM6Ly90ZWxlZ3JhbS5lbi5zb2Z0b25pYy5jb20v&ntb=1",
-      "category": "DeFi / Staking",
-      "description": "Apr 14, 2026\u00a0\u00b7 Telegram for Desktop offers a powerful, privacy-conscious messaging platform that caters to both casual and advanced users. With seamless cross-device syncing, generous file-sharing \u2026",
-      "automation_score": 7,
-      "automation_reason": "High automation: bot-friendly signals",
-      "tags": "defi,staking,yield"
+      "title": "FaucetBR - DOGE Auto-Faucet",
+      "url": "https://faucetbr.tk/doge/",
+      "category": "Crypto Faucet",
+      "description": "",
+      "automation_score": 8,
+      "automation_reason": "Auto-click, auto-claim, auto-mining, and auto-faucet scripts can be used with occasional captcha solving.",
+      "tags": "faucet,crypto,free"
     },
     {
-      "title": "Free Online Games \u2014 Play now on Playgama [18048 games]",
-      "url": "https://www.bing.com/ck/a?!&&p=381cca165f4af22e3d08483c9535ed6737e56270ef8ca510ff252ee16b93732eJmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=19c57a05-eb02-6c0a-1022-6d62ea096d31&u=a1aHR0cHM6Ly9wbGF5Z2FtYS5jb20v&ntb=1",
-      "category": "General",
-      "description": "Dive into the best online games at Playgama! \ud83c\udfae Play anytime, anywhere \u2014 on desktop, mobile, or even that forgotten tablet!\ud83d\udd79\ufe0f Your next favorite game is just a click away.",
-      "automation_score": 7,
-      "automation_reason": "High automation: bot-friendly signals",
-      "tags": "money,earn"
+      "title": "DOGE FAUCET - Unlimited Claim No Timer",
+      "url": "https://dogefaucet.fun/",
+      "category": "Crypto Faucet",
+      "description": "",
+      "automation_score": 8,
+      "automation_reason": "Unlimited claim with no timer, making it suitable for automation",
+      "tags": "faucet,crypto,free"
     },
     {
-      "title": "Telegram - Download",
-      "url": "https://www.bing.com/ck/a?!&&p=114e1337d25bc84d6a8301f8a400a18cb6cb490a6b8ae472805c96801ba0eaeeJmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=172ed098-e406-698d-0b7a-c7ffe53e6838&u=a1aHR0cHM6Ly90ZWxlZ3JhbS5lbi5zb2Z0b25pYy5jb20v&ntb=1",
-      "category": "DeFi / Staking",
-      "description": "Apr 14, 2026\u00a0\u00b7 Telegram for Desktop offers a powerful, privacy-conscious messaging platform that caters to both casual and advanced users. With \u2026",
-      "automation_score": 7,
-      "automation_reason": "High automation: bot-friendly signals",
-      "tags": "defi,staking,yield"
+      "title": "LITECOIN MINER - Litecoin Cloud Mining",
+      "url": "https://miningltc.xyz/",
+      "category": "Mining",
+      "description": "",
+      "automation_score": 8,
+      "automation_reason": "Fully automatable with scripts for auto-click, auto-claim, auto-mining, and auto-faucet, with occasional captchas requiring human approval.",
+      "tags": "mining,crypto"
+    },
+    {
+      "title": "Instant Faucet Rewards",
+      "url": "https://btc.instantfaucetrewards.com/",
+      "category": "Crypto Faucet",
+      "description": "",
+      "automation_score": 8,
+      "automation_reason": "Fully automatable with auto-click and auto-claim scripts, but may require occasional captchas.",
+      "tags": "faucet,crypto,free"
     }
   ]
 }

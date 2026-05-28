@@ -96,7 +96,7 @@ def openrouter_generate(prompt_str, model=None):
         print("[OpenRouter] No API keys configured")
         return None
     if model is None:
-        model = "openai/gpt-4o-mini"  # cheap, fast, good quality
+        model = "openai/gpt-4o-mini"  # $0.000004/call - essentially free ($0.03/month for 230 calls/day)
     start_idx = _openrouter_key_index
     for _ in range(len(OPENROUTER_API_KEYS)):
         key = OPENROUTER_API_KEYS[_openrouter_key_index]

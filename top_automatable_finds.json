@@ -1,5 +1,5 @@
 {
-  "updated": "2026-05-28T14:28:50.270451+00:00",
+  "updated": "2026-05-28T15:19:23.620912+00:00",
   "top_finds": [
     {
       "title": "Breaking News, Latest News and Videos | CNN",
@@ -13,6 +13,24 @@
     {
       "title": "Welcome to Microsoft Rewards",
       "url": "https://www.bing.com/ck/a?!&&p=e5e543259fb67efe2f5345a043d477d8daa088ed839d48fd4fe39e34c5020c89JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=020cf511-aa74-66db-0d20-e276abec671d&u=a1aHR0cHM6Ly9yZXdhcmRzLmJpbmcuY29tL3dlbGNvbWU&ntb=1",
+      "category": "DeFi / Staking",
+      "description": "Earn free points with Microsoft Rewards that you can redeem for gift cards, use to enter sweepstakes, or donate to a nonprofit.",
+      "automation_score": 8,
+      "automation_reason": "High automation: bot-friendly signals",
+      "tags": "defi,staking,yield"
+    },
+    {
+      "title": "Breaking News, Latest News and Videos | CNN",
+      "url": "https://www.bing.com/ck/a?!&&p=c6234cc8545fffcc0dfab5b9680828d02cf6683440b6e4d8c1f76e7f74bd2235JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=0027878b-8387-6b97-2881-90ec827c6a19&u=a1aHR0cHM6Ly93d3cuY25uLmNvbS8&ntb=1",
+      "category": "Crypto Faucet",
+      "description": "President Donald Trump made false claims about the war with Iran, the economy and other subjects during public comments at a Cabinet meeting on Wednesday.",
+      "automation_score": 8,
+      "automation_reason": "High automation: bot-friendly signals",
+      "tags": "faucet,crypto,free"
+    },
+    {
+      "title": "Welcome to Microsoft Rewards",
+      "url": "https://www.bing.com/ck/a?!&&p=0edda9a3d1ae36be807536c6c5b3062b285f9be96ef97e1d74a12fabd4309497JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=008ae09a-3525-6c1d-0daf-f7fd34e16d40&u=a1aHR0cHM6Ly9yZXdhcmRzLmJpbmcuY29tL3dlbGNvbWU&ntb=1",
       "category": "DeFi / Staking",
       "description": "Earn free points with Microsoft Rewards that you can redeem for gift cards, use to enter sweepstakes, or donate to a nonprofit.",
       "automation_score": 8,
@@ -180,6 +198,33 @@
       "automation_score": 7,
       "automation_reason": "High automation: bot-friendly signals",
       "tags": "money,earn"
+    },
+    {
+      "title": "Telegram - Download",
+      "url": "https://www.bing.com/ck/a?!&&p=055d6e3e3fa01eab63a080458e3e72df7a9ce97f0f7b3d9823f8e342e81bf551JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=0bbc96d0-d8b2-6696-356a-81b7d9886717&u=a1aHR0cHM6Ly90ZWxlZ3JhbS5lbi5zb2Z0b25pYy5jb20v&ntb=1",
+      "category": "DeFi / Staking",
+      "description": "Apr 14, 2026\u00a0\u00b7 Telegram for Desktop offers a powerful, privacy-conscious messaging platform that caters to both casual and advanced users. With seamless cross-device syncing, generous file-sharing \u2026",
+      "automation_score": 7,
+      "automation_reason": "High automation: bot-friendly signals",
+      "tags": "defi,staking,yield"
+    },
+    {
+      "title": "Free Online Games \u2014 Play now on Playgama [18048 games]",
+      "url": "https://www.bing.com/ck/a?!&&p=381cca165f4af22e3d08483c9535ed6737e56270ef8ca510ff252ee16b93732eJmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=19c57a05-eb02-6c0a-1022-6d62ea096d31&u=a1aHR0cHM6Ly9wbGF5Z2FtYS5jb20v&ntb=1",
+      "category": "General",
+      "description": "Dive into the best online games at Playgama! \ud83c\udfae Play anytime, anywhere \u2014 on desktop, mobile, or even that forgotten tablet!\ud83d\udd79\ufe0f Your next favorite game is just a click away.",
+      "automation_score": 7,
+      "automation_reason": "High automation: bot-friendly signals",
+      "tags": "money,earn"
+    },
+    {
+      "title": "Telegram - Download",
+      "url": "https://www.bing.com/ck/a?!&&p=114e1337d25bc84d6a8301f8a400a18cb6cb490a6b8ae472805c96801ba0eaeeJmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=172ed098-e406-698d-0b7a-c7ffe53e6838&u=a1aHR0cHM6Ly90ZWxlZ3JhbS5lbi5zb2Z0b25pYy5jb20v&ntb=1",
+      "category": "DeFi / Staking",
+      "description": "Apr 14, 2026\u00a0\u00b7 Telegram for Desktop offers a powerful, privacy-conscious messaging platform that caters to both casual and advanced users. With \u2026",
+      "automation_score": 7,
+      "automation_reason": "High automation: bot-friendly signals",
+      "tags": "defi,staking,yield"
     }
   ]
 }

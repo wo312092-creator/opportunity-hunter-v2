@@ -1280,6 +1280,7 @@ def deep_analyze_rule_based(opp: Opportunity, page_data: dict) -> Opportunity:
 
 
 QUERIES = [
+    # ── CORE LTC/MINING TARGETS (easy automation targets) ──
     "free ltc mining sites 2026 no deposit instant withdrawal",
     "free dogecoin mining sites 2026 no deposit",
     "free bitcoin mining cloud mining 2026 no deposit withdraw",
@@ -1287,21 +1288,49 @@ QUERIES = [
     "crypto mining faucet earn free btc eth ltc doge 2026",
     "best crypto faucets 2026 free bitcoin ethereum litecoin",
     "auto claim crypto faucet bot 2026",
+    
+    # ── HYPER-TARGETED: EASY AUTOMATION FOCUS ──
+    "ltc auto withdraw faucet 2026 no survey",
+    "one click crypto faucet instant pay 2026",
+    "browser based litecoin mining free 2026",
+    "cpu mine litecoin free 2026 no deposit",
+    "crypto faucet instant pay to wallet 2026",
+    "free dogecoin faucet auto pay wallet 2026",
+    "litecoin mining website no kyc no id 2026",
+    "btc faucet instant withdrawal free 2026",
+    "crypto claim bot no survey no tasks 2026",
+    "auto mining site free withdrawal ltc 2026",
+    "free litecoin every hour claim 2026",
+    "micro ltc faucet instant payout 2026",
+    
+    # ── SURFACE: GPT / OFFER WALLS (lower priority, anti-pattern filtered) ──
     "paid to click sites that pay instantly 2026 free registration",
     "best GPT sites earn money free 2026 auto earn",
+    
+    # ── AIRDROPS & CLAIMS ──
     "new crypto airdrops 2026 free tokens claim",
     "solana airdrop 2026 claim free",
     "telegram bot airdrop claim 2026",
+    
+    # ── PASSIVE / STAKING ──
     "passive income crypto staking defi 2026 no minimum",
     "free crypto staking rewards 2026",
+    
+    # ── AUTOMATION TOOLS ──
     "browser automation earn crypto free 2026",
     "telegram bot earn crypto 2026 free automated",
     "auto trading crypto bot free 2026",
     "free crypto arbitrage bot 2026",
+    
+    # ── GAMES / MICRO (surface only, anti-pattern filtered) ──
     "play to earn crypto games 2026 free no investment",
     "micro task sites pay crypto 2026",
+    
+    # ── CASHBACK / AFFILIATE ──
     "best cashback apps 2026 free money crypto",
     "affiliate programs crypto 2026 high paying free",
+    
+    # ── GENERAL EARNING ──
     "earn free crypto no deposit 2026 withdraw instantly",
     "free litecoin mining pool 2026 no deposit required",
     "doge coin faucet free claim every hour 2026",
@@ -1403,9 +1432,18 @@ def write_google_doc(mem, sheet_url="", analyzed_opps=None):
                 print("[Google Docs] Stored doc ID stale, creating new...")
                 doc_id = None
         
-        confirmed = [o for o in (analyzed_opps or []) if o.status == "confirmed"]
+        # STRICT: Only include sites that are BOTH confirmed AND have high LTC score (>=7)
+        # AND have detailed automation steps (site_analyzed=True)
+        confirmed = [
+            o for o in (analyzed_opps or [])
+            if o.status == "confirmed"
+            and o.deep_analysis_score >= 7
+            and o.site_analyzed
+            and o.workflow_steps
+            and len(o.workflow_steps) > 50
+        ]
         if not confirmed:
-            print("[Google Docs] No confirmed automatable sites to document")
+            print("[Google Docs] No verified LTC-automatable sites found (need score >=7 + confirmed + analyzed)")
             return False
         
         # Build content for this run
@@ -1465,7 +1503,15 @@ def write_google_doc(mem, sheet_url="", analyzed_opps=None):
         return False
 
 def write_sheet_rows_batch(service, sheet_id, sheet_name, opps, verification):
-    """Write all opp rows in ONE API call + batched formatting to avoid 60/min quota."""
+    """Write all opp rows in ONE API call + batched formatting to avoid 60/min quota.
+    
+    COLOR RULES (user requirement):
+    - NO COLOR = first seen, pending deep analysis (neutral)
+    - YELLOW = seen 2+ times across runs, being checked
+    - GREEN = verified automatable (count >= 3 AND last_confirmed, OR status=confirmed)
+    - RED = ONLY after deep analysis confirmed this site is NOT automatable (verified_bad=True)
+    - ORANGE = needs human review (deep score 2-4, partial automation only)
+    """
     try:
         rows = []
         row_colors = []
@@ -1473,16 +1519,29 @@ def write_sheet_rows_batch(service, sheet_id, sheet_name, opps, verification):
             ver = verification.get(opp.url, {})
             count = ver.get("count", 0)
             last_confirmed = ver.get("last_confirmed")
+            verified_bad = ver.get("verified_bad", False)
+            deep_score = ver.get("deep_score", -1)
             
-            if opp.status == "confirmed" or (count >= 3 and last_confirmed):
+            if verified_bad or (deep_score >= 0 and deep_score <= 1):
+                # 🔴 Deep analysis confirmed: NOT automatable
+                verification_status = "Rejected - not automatable"
+                color = {"red": 1.0, "green": 0.4, "blue": 0.4}  # Red
+            elif opp.status == "confirmed" or (count >= 3 and last_confirmed):
+                # 🟢 Verified automatable
                 verification_status = "Verified"
                 color = {"red": 0.8, "green": 1.0, "blue": 0.8}  # Green
             elif count >= 2:
+                # 🟡 Being checked (2+ sightings)
                 verification_status = f"Checking ({count}x)"
-                color = {"red": 1.0, "green": 0.9, "blue": 0.6}  # Orange
+                color = {"red": 1.0, "green": 1.0, "blue": 0.6}  # Yellow
+            elif deep_score >= 2 and deep_score <= 4:
+                # 🟠 Partial automation only - needs human review
+                verification_status = "Needs review"
+                color = {"red": 1.0, "green": 0.7, "blue": 0.3}  # Orange
             else:
-                verification_status = "First seen"
-                color = {"red": 1.0, "green": 0.7, "blue": 0.5}  # Light red
+                # ⬜ First seen, no verdict yet - NEUTRAL (not red)
+                verification_status = "Pending"
+                color = {"red": 1.0, "green": 1.0, "blue": 1.0}  # White (no color)
             
             rows.append([opp.id, opp.title, opp.url, opp.category, opp.description,
                 opp.how_to_earn or opp.automation_reason,
@@ -1630,14 +1689,21 @@ def main():
     mem["last_run"] = datetime.now(timezone.utc).isoformat()
     for cat, cnt in categories.items():
         mem["categories_found"][cat] = mem["categories_found"].get(cat, 0) + cnt
-    # Update seen_urls and verification tracking
+    # Update seen_urls and verification tracking (includes deep analysis verdicts)
     mem["seen_urls"] = sorted(seen_urls_set)
     for opp in analyzed_opps:
         if opp.url not in verification:
             verification[opp.url] = {"count": 0, "first_seen": run_date, "last_confirmed": None}
         verification[opp.url]["count"] += 1
-        if opp.status == "confirmed":
+        if opp.status == "confirmed" and opp.deep_analysis_score >= 7:
             verification[opp.url]["last_confirmed"] = run_date
+        # Track deep analysis score and bad verdict for sheet coloring
+        if opp.site_analyzed:
+            verification[opp.url]["deep_score"] = opp.deep_analysis_score
+            if opp.deep_analysis_score <= 1:
+                verification[opp.url]["verified_bad"] = True
+            else:
+                verification[opp.url]["verified_bad"] = False
     mem["verification"] = verification
     json.dump(mem, open(MEMORY_FILE, "w"), indent=2)
 
@@ -1657,16 +1723,24 @@ def main():
     if sheet_url:
         print(f"Master Sheet: {sheet_url}")
     
-    confirmed = [o for o in analyzed_opps if o.status == "confirmed"] if analyzed_opps else []
-    if confirmed:
-        print(f"\n✅ CONFIRMED AUTOMATABLE SITES:")
-        for opp in confirmed:
+    # Only show and doc sites that pass the STRICT verified check
+    strict_confirmed = [
+        o for o in (analyzed_opps or [])
+        if o.status == "confirmed"
+        and o.deep_analysis_score >= 7
+        and o.site_analyzed
+        and o.workflow_steps
+        and len(o.workflow_steps) > 50
+    ]
+    if strict_confirmed:
+        print(f"\n✅ VERIFIED LTC-AUTOMATABLE SITES (ready for Google Doc):")
+        for opp in strict_confirmed:
             print(f"   - {opp.title}: {opp.profit_per_day}/day (LTC-score: {opp.deep_analysis_score}/10)")
-    
-    if analyzed_opps:
         write_google_doc(mem, sheet_url, analyzed_opps)
     else:
-        print("[Google Docs] No analyzed sites - skipping doc")
+        print("[Google Docs] No verified LTC-automatable sites this run - skipping doc")
+        if analyzed_opps:
+            print(f"[Google Docs] Analyzed {len(analyzed_opps)} sites, but none passed strict check")
     # Re-save memory in case google_doc_id was set
     json.dump(mem, open(MEMORY_FILE, "w"), indent=2)
     print(f"[{datetime.now(timezone.utc).isoformat()}] Done!")

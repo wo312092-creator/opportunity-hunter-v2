@@ -565,7 +565,7 @@ def classify(item: dict, genai_scoring: bool = True) -> Optional[Opportunity]:
                 tags=tags, status="new")
     if any(k in c for k in ["earn","money","income","profit","passive","free","reward","bonus","cash","crypto","bitcoin"]):
         if genai_scoring:
-            auto_score, auto_reason, how_to_earn, how_to_automate = score_automation_gemini(t, d, u)
+            auto_score, auto_reason, how_to_earn, how_to_automate = score_automation_llm(t, d, u)
         else:
             auto_score, auto_reason, how_to_earn, how_to_automate = rule_score_automation(t, d, u)
         fea = "Easy" if auto_score >= 7 else "Medium" if auto_score >= 4 else "Hard"

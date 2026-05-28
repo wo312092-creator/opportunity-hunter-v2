@@ -931,10 +931,12 @@ def rule_score_automation(title: str, desc: str, url: str) -> tuple:
                 continue
             bonus += pts
             signals += 1
-    if "survey" in c or "data entry" in c or "freelance" in c:
-        bonus -= 2
+    if any(w in c for w in ["survey", "data entry", "freelance", "offer wall", "offerwall", "gpt site", "micro task", "app download", "complete offers"]):
+        bonus = -10  # Anti-pattern: human-work sites should score near zero
     score = min(10, max(0, 5 + bonus // max(1, signals // 2 if signals else 1)))
-    if signals == 0:
+    if signals == 0 or bonus < -5:
+        if bonus < -5:
+            return 0, "Anti-pattern: survey/GPT site requires human work, not automatable", "", ""
         return 0, "Low: no automation signals", "", ""
     how_to_earn = "Visit website, complete tasks/claims, withdraw earnings to wallet"
     how_to_automate = "Use Playwright browser automation on GitHub Actions to login, claim, and withdraw on schedule"
@@ -1041,20 +1043,29 @@ VISIBLE BUTTONS: {buttons_text}
 INPUT FIELDS: {inputs_text}
 VISIBLE LINKS: {links_text}
 
-The LTC miner automation pattern is: Login → Click Withdraw → Enter Wallet → Confirm → Done. It's SIMPLE and fully automatable.
+CRITICAL — The LTC miner automation pattern is: Login → Click Withdraw → Enter Wallet → Confirm → Done. It's SIMPLE and fully automatable.
+
+CRITICAL — SURVEY/GPT/TASK SITES are NOT automatable like LTC. If the site requires:
+- Completing surveys (answering questions)
+- Downloading apps
+- Completing partner offers/offers walls
+- Playing games for rewards
+- Micro tasks or data entry
+Then ltc_similarity_score MUST be 0-1. These sites require HUMAN WORK and cannot be automated.
 
 TASK: Based on the page content:
 1. How does this site ACTUALLY work? (describe the workflow)
 2. Is it easy to automate like LTC? (login → action → withdraw?)
-3. Estimate REALISTIC earnings (be conservative - this is crypto earning, not a job):
+3. Does it require SURVEYS, TASKS, or OFFERS? If so, score 0-1.
+4. Estimate REALISTIC earnings (be conservative - this is crypto earning, not a job):
    - Per hour (in USD)
    - Per day (in USD)  
    - Per week (in USD)
    - Per month (in USD)
    - Per year (in USD)
-4. What EXACT steps for a GitHub Actions Playwright bot?
-5. What tools/credentials needed?
-6. Rate automation similarity to LTC (0-10): 10 = exactly like LTC (login→click→withdraw)
+5. What EXACT steps for a GitHub Actions Playwright bot?
+6. What tools/credentials needed?
+7. Rate automation similarity to LTC (0-10): 10 = exactly like LTC (login→click→withdraw)
 
 Respond ONLY with JSON:
 {{{{
@@ -1157,24 +1168,68 @@ Respond ONLY with JSON:
 
 
 def deep_analyze_rule_based(opp: Opportunity, page_data: dict) -> Opportunity:
-    """Rule-based deep analysis when Gemini unavailable."""
+    """Rule-based deep analysis when all AI providers exhausted.
+    Detects BOTH LTC-like patterns AND anti-patterns (survey/GPT/task sites)."""
     body = page_data.get("body_text", "").lower()
     buttons = page_data.get("buttons", [])
     
-    # Check for LTC-like patterns
+    # ── ANTI-PATTERNS: sites that need HUMAN WORK (not LTC-automatable) ──
+    is_survey_gpt = any(w in body for w in [
+        "survey", "surveys", "offer wall", "offerwall", "complete offers",
+        "gpt", "get paid to", "paid to click", "ptc",
+        "app download", "download app", "install app",
+        "micro task", "microtask", "data entry", "freelance", "gig",
+    ])
+    is_task_based = any(w in body for w in [
+        "complete tasks", "complete task", "do tasks", "task list",
+        "earn points", "points for", "coin reward", "earn coins",
+    ])
+    is_human_work = is_survey_gpt or is_task_based
+    
+    # ── LTC-POSITIVE PATTERNS: truly automatable signals ──
+    is_mining = any(w in body for w in [
+        "mining", "miner", "hash", "hashrate", "cloud mining",
+        "mine crypto", "mining pool", "hash power",
+    ])
+    is_faucet = any(w in body for w in [
+        "faucet", "claim every", "claim hourly", "claim daily",
+        "free btc", "free ltc", "free doge", "free eth",
+        "satoshi", "micro wallet", "dust limit",
+    ])
+    is_auto = any(w in body for w in [
+        "auto claim", "automatic", "auto earn", "auto bot",
+        "telegram bot", "auto mining", "auto withdraw",
+    ])
+    is_ltc_like = is_mining or is_faucet or is_auto
+    
+    # Positive signals (login/withdraw flow)
     has_login = any(w in body for w in ["login", "sign in", "log in", "email", "password"])
-    has_withdraw = any(w in body for w in ["withdraw", "withdrawal", "claim", "send", "payout"])
+    has_withdraw = any(w in body for w in ["withdraw", "withdrawal", "claim", "send", "payout", "wallet"])
     has_register = any(w in body for w in ["register", "sign up", "create account", "get started"])
-    has_click = any(w in body for w in ["click", "claim", "start", "earn"])
+    has_earn_btn = any(w in body for w in ["click", "claim", "start", "earn"])
+    pos_signals = sum([has_login, has_withdraw, has_register, has_earn_btn])
     
-    # Count how many LTC-similar signals
-    signals = sum([has_login, has_withdraw, has_register, has_click])
-    
-    if signals >= 3 and has_withdraw:
+    # ── DECISION LOGIC ──
+    if is_human_work and not is_ltc_like:
+        # Survey/GPT site without mining/faucet features → NOT automatable
+        opp.deep_analysis_score = 0
+        opp.effort_level = "Hard - requires human work"
+        opp.status = "complex"
+        opp.workflow_steps = f"Requires manual human work: {'surveys/tasks' if is_survey_gpt else 'task completion'}. NOT automatable like LTC."
+        opp.automation_plan = "Cannot automate - requires human decisions (surveys, tasks, offers, app downloads)"
+        opp.tools_needed = "None - human work required, not bot-automatable"
+        opp.profit_per_hour = "$0.50 - $2.00 (manual work required)"
+        opp.profit_per_day = "$2.00 - $10.00 (manual, not passive)"
+        opp.profit_per_week = "$14.00 - $70.00 (manual work)"
+        opp.profit_per_month = "$60.00 - $300.00 (not recommended for automation)"
+        opp.profit_per_year = "$720 - $3,600 (requires daily human effort)"
+        print(f"[Deep-Rule] HUMAN WORK SITE: survey={is_survey_gpt} task={is_task_based} mining/faucet={is_ltc_like} → score 0", flush=True)
+    elif is_ltc_like and has_withdraw and pos_signals >= 2:
+        # TRUE LTC-like: mining/faucet + withdraw flow
         opp.deep_analysis_score = 8
         opp.effort_level = "Easy"
         opp.status = "confirmed"
-        opp.workflow_steps = "Register → Login → Click to earn/claim → Withdraw to wallet"
+        opp.workflow_steps = "Register → Login → Auto-earn/Claim → Withdraw to wallet"
         opp.automation_plan = "1. Open site 2. Login (fill email+password) 3. Click claim/earn button 4. Click withdraw 5. Enter wallet address 6. Confirm"
         opp.tools_needed = "Playwright, GitHub Actions, email+password credentials, wallet address"
         opp.profit_per_hour = "$0.01 - $0.10"
@@ -1182,9 +1237,22 @@ def deep_analyze_rule_based(opp: Opportunity, page_data: dict) -> Opportunity:
         opp.profit_per_week = "$0.35 - $7.00"
         opp.profit_per_month = "$1.50 - $30.00"
         opp.profit_per_year = "$18 - $365"
-        print(f"[Deep-Rule] HIGH: {signals}/4 signals, LTC-like pattern detected", flush=True)
-    elif signals >= 2:
-        opp.deep_analysis_score = 5
+        print(f"[Deep-Rule] LTC-MATCH: {pos_signals}/4 signals, mining={is_mining} faucet={is_faucet} → score 8", flush=True)
+    elif pos_signals >= 3 and has_withdraw:
+        # Has good signals but no mining/faucet → partial automation only
+        opp.deep_analysis_score = 4
+        opp.effort_level = "Medium"
+        opp.status = "complex"
+        opp.workflow_steps = "Register → Complete actions → Earn → Request withdrawal"
+        opp.automation_plan = "Partial automation possible - needs investigation"
+        opp.profit_per_hour = "Unknown - needs human check"
+        opp.profit_per_day = "Unknown - needs human check"
+        opp.profit_per_week = "Unknown - needs human check"
+        opp.profit_per_month = "Unknown - needs human check"
+        opp.profit_per_year = "Unknown - needs human check"
+        print(f"[Deep-Rule] PARTIAL: {pos_signals}/4 signals, no mining/faucet → score 4", flush=True)
+    elif pos_signals >= 2:
+        opp.deep_analysis_score = 2
         opp.effort_level = "Medium"
         opp.status = "complex"
         opp.workflow_steps = "Register → Complete tasks → Earn → Request withdrawal"
@@ -1194,7 +1262,7 @@ def deep_analyze_rule_based(opp: Opportunity, page_data: dict) -> Opportunity:
         opp.profit_per_week = "Unknown - needs human check"
         opp.profit_per_month = "Unknown - needs human check"
         opp.profit_per_year = "Unknown - needs human check"
-        print(f"[Deep-Rule] MEDIUM: {signals}/4 signals, partial automation", flush=True)
+        print(f"[Deep-Rule] MEDIUM: {pos_signals}/4 signals, not LTC-like → score 2", flush=True)
     else:
         opp.deep_analysis_score = 1
         opp.effort_level = "Hard"
@@ -1205,7 +1273,7 @@ def deep_analyze_rule_based(opp: Opportunity, page_data: dict) -> Opportunity:
         opp.profit_per_week = "Unlikely"
         opp.profit_per_month = "Unlikely"
         opp.profit_per_year = "Unlikely"
-        print(f"[Deep-Rule] LOW: {signals}/4 signals, not suitable for automation", flush=True)
+        print(f"[Deep-Rule] LOW: {pos_signals}/4 signals, not suitable for automation", flush=True)
     
     opp.site_analyzed = True
     return opp

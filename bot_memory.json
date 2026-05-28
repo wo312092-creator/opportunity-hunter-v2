@@ -1,232 +1,22 @@
 {
-  "runs": 12,
-  "total_found": 2134,
+  "runs": 13,
+  "total_found": 2328,
   "categories_found": {
-    "DeFi / Staking": 639,
-    "Affiliate": 151,
-    "Paid Surveys": 34,
-    "Mining": 8,
-    "General": 1120,
-    "Cashback": 88,
+    "DeFi / Staking": 696,
+    "Affiliate": 165,
+    "Paid Surveys": 35,
+    "Mining": 9,
+    "General": 1234,
+    "Cashback": 89,
     "Arbitrage": 17,
-    "PTC / GPT": 17,
-    "Altcoin Mining": 23,
+    "PTC / GPT": 18,
+    "Altcoin Mining": 27,
     "Trading": 3,
-    "Crypto Faucet": 33,
+    "Crypto Faucet": 34,
     "Micro Tasks": 1
   },
-  "last_run": "2026-05-28T15:19:22.904502+00:00",
+  "last_run": "2026-05-28T16:09:24.419778+00:00",
   "learning": [
-    {
-      "date": "2026-05-28T01:32:21.289552+00:00",
-      "query": "best crypto faucets 2026 free bitcoin ethereum litecoin",
-      "results": 9,
-      "new_opps": 6
-    },
-    {
-      "date": "2026-05-28T01:32:27.586244+00:00",
-      "query": "auto claim crypto faucet bot 2026",
-      "results": 10,
-      "new_opps": 4
-    },
-    {
-      "date": "2026-05-28T01:32:33.441172+00:00",
-      "query": "paid to click sites that pay instantly 2026 free registration",
-      "results": 10,
-      "new_opps": 6
-    },
-    {
-      "date": "2026-05-28T01:32:39.632072+00:00",
-      "query": "best GPT sites earn money free 2026 auto earn",
-      "results": 9,
-      "new_opps": 6
-    },
-    {
-      "date": "2026-05-28T01:32:44.997945+00:00",
-      "query": "new crypto airdrops 2026 free tokens claim",
-      "results": 10,
-      "new_opps": 0
-    },
-    {
-      "date": "2026-05-28T01:32:51.159696+00:00",
-      "query": "solana airdrop 2026 claim free",
-      "results": 0,
-      "new_opps": 0
-    },
-    {
-      "date": "2026-05-28T01:32:58.997097+00:00",
-      "query": "telegram bot airdrop claim 2026",
-      "results": 0,
-      "new_opps": 0
-    },
-    {
-      "date": "2026-05-28T01:33:06.134450+00:00",
-      "query": "passive income crypto staking defi 2026 no minimum",
-      "results": 0,
-      "new_opps": 0
-    },
-    {
-      "date": "2026-05-28T01:33:12.428213+00:00",
-      "query": "free crypto staking rewards 2026",
-      "results": 7,
-      "new_opps": 7
-    },
-    {
-      "date": "2026-05-28T01:33:18.833112+00:00",
-      "query": "browser automation earn crypto free 2026",
-      "results": 0,
-      "new_opps": 0
-    },
-    {
-      "date": "2026-05-28T01:33:24.318132+00:00",
-      "query": "telegram bot earn crypto 2026 free automated",
-      "results": 9,
-      "new_opps": 3
-    },
-    {
-      "date": "2026-05-28T01:33:30.068535+00:00",
-      "query": "auto trading crypto bot free 2026",
-      "results": 0,
-      "new_opps": 0
-    },
-    {
-      "date": "2026-05-28T01:33:35.791127+00:00",
-      "query": "free crypto arbitrage bot 2026",
-      "results": 7,
-      "new_opps": 7
-    },
-    {
-      "date": "2026-05-28T01:33:41.737626+00:00",
-      "query": "play to earn crypto games 2026 free no investment",
-      "results": 0,
-      "new_opps": 0
-    },
-    {
-      "date": "2026-05-28T01:33:48.703932+00:00",
-      "query": "micro task sites pay crypto 2026",
-      "results": 0,
-      "new_opps": 0
-    },
-    {
-      "date": "2026-05-28T01:33:55.468321+00:00",
-      "query": "best cashback apps 2026 free money crypto",
-      "results": 9,
-      "new_opps": 6
-    },
-    {
-      "date": "2026-05-28T01:34:00.970066+00:00",
-      "query": "affiliate programs crypto 2026 high paying free",
-      "results": 10,
-      "new_opps": 3
-    },
-    {
-      "date": "2026-05-28T01:34:08.662498+00:00",
-      "query": "earn free crypto no deposit 2026 withdraw instantly",
-      "results": 10,
-      "new_opps": 10
-    },
-    {
-      "date": "2026-05-28T01:34:15.595750+00:00",
-      "query": "free litecoin mining pool 2026 no deposit required",
-      "results": 7,
-      "new_opps": 7
-    },
-    {
-      "date": "2026-05-28T01:34:21.596057+00:00",
-      "query": "doge coin faucet free claim every hour 2026",
-      "results": 0,
-      "new_opps": 0
-    },
-    {
-      "date": "2026-05-28T01:34:27.862563+00:00",
-      "query": "btc mining telegram bot free 2026",
-      "results": 0,
-      "new_opps": 0
-    },
-    {
-      "date": "2026-05-28T01:34:33.416407+00:00",
-      "query": "automatic crypto earning platform 2026 no investment",
-      "results": 0,
-      "new_opps": 0
-    },
-    {
-      "date": "2026-05-28T01:34:39.075352+00:00",
-      "query": "free bitcoin earning sites 2026 withdraw to wallet",
-      "results": 7,
-      "new_opps": 7
-    },
-    {
-      "date": "2026-05-28T01:34:45.548764+00:00",
-      "query": "cloud mining free trial 2026 no deposit btc",
-      "results": 10,
-      "new_opps": 3
-    },
-    {
-      "date": "2026-05-28T01:34:51.810974+00:00",
-      "query": "web3 earn crypto free 2026 browser mining",
-      "results": 10,
-      "new_opps": 2
-    },
-    {
-      "date": "2026-05-28T01:34:58.525438+00:00",
-      "query": "free crypto signals telegram 2026 copy trade",
-      "results": 7,
-      "new_opps": 7
-    },
-    {
-      "date": "2026-05-28T01:35:04.342211+00:00",
-      "query": "defi yield farming 2026 no minimum deposit",
-      "results": 0,
-      "new_opps": 0
-    },
-    {
-      "date": "2026-05-28T01:35:11.067292+00:00",
-      "query": "passive crypto income 2026 set and forget",
-      "results": 10,
-      "new_opps": 10
-    },
-    {
-      "date": "2026-05-28T01:35:17.280958+00:00",
-      "query": "telegram mining bot free withdrawal 2026",
-      "results": 9,
-      "new_opps": 3
-    },
-    {
-      "date": "2026-05-28T01:35:22.624848+00:00",
-      "query": "faucet pay crypto instant 2026 free claim",
-      "results": 10,
-      "new_opps": 1
-    },
-    {
-      "date": "2026-05-28T14:24:24.005545+00:00",
-      "query": "free ltc mining sites 2026 no deposit instant withdrawal",
-      "results": 10,
-      "new_opps": 10
-    },
-    {
-      "date": "2026-05-28T14:24:29.888074+00:00",
-      "query": "free dogecoin mining sites 2026 no deposit",
-      "results": 10,
-      "new_opps": 10
-    },
-    {
-      "date": "2026-05-28T14:24:36.677599+00:00",
-      "query": "free bitcoin mining cloud mining 2026 no deposit withdraw",
-      "results": 0,
-      "new_opps": 0
-    },
-    {
-      "date": "2026-05-28T14:24:42.209542+00:00",
-      "query": "free ethereum mining sites 2026 no investment",
-      "results": 10,
-      "new_opps": 10
-    },
-    {
-      "date": "2026-05-28T14:24:48.299258+00:00",
-      "query": "crypto mining faucet earn free btc eth ltc doge 2026",
-      "results": 10,
-      "new_opps": 10
-    },
     {
       "date": "2026-05-28T14:24:55.382876+00:00",
       "query": "best crypto faucets 2026 free bitcoin ethereum litecoin",
@@ -613,6 +403,216 @@
     },
     {
       "date": "2026-05-28T15:10:43.692683+00:00",
+      "query": "faucet pay crypto instant 2026 free claim",
+      "results": 10,
+      "new_opps": 2
+    },
+    {
+      "date": "2026-05-28T16:03:34.159705+00:00",
+      "query": "free ltc mining sites 2026 no deposit instant withdrawal",
+      "results": 0,
+      "new_opps": 0
+    },
+    {
+      "date": "2026-05-28T16:03:45.531719+00:00",
+      "query": "free dogecoin mining sites 2026 no deposit",
+      "results": 10,
+      "new_opps": 10
+    },
+    {
+      "date": "2026-05-28T16:03:55.725395+00:00",
+      "query": "free bitcoin mining cloud mining 2026 no deposit withdraw",
+      "results": 10,
+      "new_opps": 10
+    },
+    {
+      "date": "2026-05-28T16:04:07.733053+00:00",
+      "query": "free ethereum mining sites 2026 no investment",
+      "results": 10,
+      "new_opps": 10
+    },
+    {
+      "date": "2026-05-28T16:04:19.029365+00:00",
+      "query": "crypto mining faucet earn free btc eth ltc doge 2026",
+      "results": 10,
+      "new_opps": 10
+    },
+    {
+      "date": "2026-05-28T16:04:28.907494+00:00",
+      "query": "best crypto faucets 2026 free bitcoin ethereum litecoin",
+      "results": 10,
+      "new_opps": 6
+    },
+    {
+      "date": "2026-05-28T16:04:35.553476+00:00",
+      "query": "auto claim crypto faucet bot 2026",
+      "results": 10,
+      "new_opps": 1
+    },
+    {
+      "date": "2026-05-28T16:04:43.078890+00:00",
+      "query": "paid to click sites that pay instantly 2026 free registration",
+      "results": 10,
+      "new_opps": 6
+    },
+    {
+      "date": "2026-05-28T16:04:52.047135+00:00",
+      "query": "best GPT sites earn money free 2026 auto earn",
+      "results": 10,
+      "new_opps": 6
+    },
+    {
+      "date": "2026-05-28T16:04:58.065521+00:00",
+      "query": "new crypto airdrops 2026 free tokens claim",
+      "results": 0,
+      "new_opps": 0
+    },
+    {
+      "date": "2026-05-28T16:05:07.747237+00:00",
+      "query": "solana airdrop 2026 claim free",
+      "results": 7,
+      "new_opps": 6
+    },
+    {
+      "date": "2026-05-28T16:05:13.704370+00:00",
+      "query": "telegram bot airdrop claim 2026",
+      "results": 9,
+      "new_opps": 3
+    },
+    {
+      "date": "2026-05-28T16:05:25.464265+00:00",
+      "query": "passive income crypto staking defi 2026 no minimum",
+      "results": 10,
+      "new_opps": 10
+    },
+    {
+      "date": "2026-05-28T16:05:32.775614+00:00",
+      "query": "free crypto staking rewards 2026",
+      "results": 0,
+      "new_opps": 0
+    },
+    {
+      "date": "2026-05-28T16:05:40.663158+00:00",
+      "query": "browser automation earn crypto free 2026",
+      "results": 10,
+      "new_opps": 5
+    },
+    {
+      "date": "2026-05-28T16:05:47.735946+00:00",
+      "query": "telegram bot earn crypto 2026 free automated",
+      "results": 0,
+      "new_opps": 0
+    },
+    {
+      "date": "2026-05-28T16:05:54.113393+00:00",
+      "query": "auto trading crypto bot free 2026",
+      "results": 20,
+      "new_opps": 3
+    },
+    {
+      "date": "2026-05-28T16:06:05.952772+00:00",
+      "query": "free crypto arbitrage bot 2026",
+      "results": 10,
+      "new_opps": 10
+    },
+    {
+      "date": "2026-05-28T16:06:15.796684+00:00",
+      "query": "play to earn crypto games 2026 free no investment",
+      "results": 11,
+      "new_opps": 7
+    },
+    {
+      "date": "2026-05-28T16:06:21.556296+00:00",
+      "query": "micro task sites pay crypto 2026",
+      "results": 9,
+      "new_opps": 1
+    },
+    {
+      "date": "2026-05-28T16:06:31.253764+00:00",
+      "query": "best cashback apps 2026 free money crypto",
+      "results": 10,
+      "new_opps": 6
+    },
+    {
+      "date": "2026-05-28T16:06:40.614042+00:00",
+      "query": "affiliate programs crypto 2026 high paying free",
+      "results": 10,
+      "new_opps": 10
+    },
+    {
+      "date": "2026-05-28T16:06:52.052037+00:00",
+      "query": "earn free crypto no deposit 2026 withdraw instantly",
+      "results": 10,
+      "new_opps": 10
+    },
+    {
+      "date": "2026-05-28T16:07:02.892119+00:00",
+      "query": "free litecoin mining pool 2026 no deposit required",
+      "results": 10,
+      "new_opps": 10
+    },
+    {
+      "date": "2026-05-28T16:07:08.653003+00:00",
+      "query": "doge coin faucet free claim every hour 2026",
+      "results": 10,
+      "new_opps": 3
+    },
+    {
+      "date": "2026-05-28T16:07:20.339871+00:00",
+      "query": "btc mining telegram bot free 2026",
+      "results": 10,
+      "new_opps": 10
+    },
+    {
+      "date": "2026-05-28T16:07:26.644560+00:00",
+      "query": "automatic crypto earning platform 2026 no investment",
+      "results": 0,
+      "new_opps": 0
+    },
+    {
+      "date": "2026-05-28T16:07:37.341635+00:00",
+      "query": "free bitcoin earning sites 2026 withdraw to wallet",
+      "results": 10,
+      "new_opps": 10
+    },
+    {
+      "date": "2026-05-28T16:07:43.207455+00:00",
+      "query": "cloud mining free trial 2026 no deposit btc",
+      "results": 10,
+      "new_opps": 2
+    },
+    {
+      "date": "2026-05-28T16:07:50.194438+00:00",
+      "query": "web3 earn crypto free 2026 browser mining",
+      "results": 10,
+      "new_opps": 4
+    },
+    {
+      "date": "2026-05-28T16:07:56.374504+00:00",
+      "query": "free crypto signals telegram 2026 copy trade",
+      "results": 0,
+      "new_opps": 0
+    },
+    {
+      "date": "2026-05-28T16:08:07.991979+00:00",
+      "query": "defi yield farming 2026 no minimum deposit",
+      "results": 10,
+      "new_opps": 10
+    },
+    {
+      "date": "2026-05-28T16:08:17.709145+00:00",
+      "query": "passive crypto income 2026 set and forget",
+      "results": 10,
+      "new_opps": 10
+    },
+    {
+      "date": "2026-05-28T16:08:24.170361+00:00",
+      "query": "telegram mining bot free withdrawal 2026",
+      "results": 9,
+      "new_opps": 3
+    },
+    {
+      "date": "2026-05-28T16:08:31.611562+00:00",
       "query": "faucet pay crypto instant 2026 free claim",
       "results": 10,
       "new_opps": 2

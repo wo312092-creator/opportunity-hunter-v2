@@ -17,6 +17,10 @@ if _key: GEMINI_API_KEYS.append(_key)
 for _i in range(2, 10):
     _key = os.environ.get(f"GEMINI_API_KEY_{_i}", "")
     if _key: GEMINI_API_KEYS.append(_key)
+GROQ_API_KEYS = []
+for _i in range(1, 10):
+    _key = os.environ.get(f"GROQ_API_KEY_{_i}" if _i > 1 else "GROQ_API_KEY", "")
+    if _key: GROQ_API_KEYS.append(_key)
 GOOGLE_OAUTH_CLIENT_ID = os.environ.get("GOOGLE_OAUTH_CLIENT_ID", "")
 GOOGLE_OAUTH_CLIENT_SECRET = os.environ.get("GOOGLE_OAUTH_CLIENT_SECRET", "")
 GOOGLE_REFRESH_TOKEN = os.environ.get("GOOGLE_REFRESH_TOKEN", "")
@@ -28,6 +32,55 @@ TOP_FINDS_FILE = "top_automatable_finds.json"
 DEEP_ANALYSIS_DIR = "deep_analysis"
 
 _gemini_key_index = 0
+_groq_key_index = 0
+
+DEFAULT_GROQ_MODEL = "llama-3.3-70b-versatile"
+FAST_GROQ_MODEL = "llama-3.1-8b-instant"
+
+def groq_generate(prompt_str, model=None):
+    """Generate content via Groq with automatic API key rotation."""
+    global _groq_key_index
+    if not GROQ_API_KEYS:
+        print("[Groq] No API keys configured")
+        return None
+    if model is None:
+        model = DEFAULT_GROQ_MODEL
+    start_idx = _groq_key_index
+    for _ in range(len(GROQ_API_KEYS)):
+        key = GROQ_API_KEYS[_groq_key_index]
+        try:
+            headers = {"Authorization": f"Bearer {key}", "Content-Type": "application/json"}
+            body = {
+                "model": model,
+                "messages": [{"role": "user", "content": prompt_str}],
+                "temperature": 0.2,
+                "max_tokens": 600
+            }
+            r = requests.post("https://api.groq.com/openai/v1/chat/completions",
+                              headers=headers, json=body, timeout=30)
+            data = r.json()
+            if r.status_code == 200:
+                return data["choices"][0]["message"]["content"]
+            err_msg = data.get("error", {}).get("message", "")
+            # 429 = rate limited, rotate key
+            if "429" in str(r.status_code) or "rate_limit" in err_msg.lower():
+                print(f"[Groq] Key {_groq_key_index+1}/{len(GROQ_API_KEYS)} rate limited, trying next...")
+                _groq_key_index = (_groq_key_index + 1) % len(GROQ_API_KEYS)
+                time.sleep(1)
+                continue
+            # Other errors (400, 401, etc.) - log and try next key
+            print(f"[Groq] Key {_groq_key_index+1}/{len(GROQ_API_KEYS)} error {r.status_code}: {err_msg[:80]}")
+            _groq_key_index = (_groq_key_index + 1) % len(GROQ_API_KEYS)
+        except requests.exceptions.Timeout:
+            print(f"[Groq] Key {_groq_key_index+1}/{len(GROQ_API_KEYS)} timeout, trying next...")
+            _groq_key_index = (_groq_key_index + 1) % len(GROQ_API_KEYS)
+            time.sleep(1)
+        except Exception as e:
+            print(f"[Groq] Key {_groq_key_index+1}/{len(GROQ_API_KEYS)} exception: {str(e)[:60]}")
+            _groq_key_index = (_groq_key_index + 1) % len(GROQ_API_KEYS)
+            time.sleep(1)
+    print("[Groq] All API keys exhausted")
+    return None
 
 def gemini_generate(model, prompt_str):
     """Generate content with automatic API key rotation on 429 errors."""
@@ -397,12 +450,9 @@ def search_all(query: str, pw: PlaywrightPool, q_idx: int) -> list:
 
 # ── SCORING ──────────────────────────────────────────────
 
-def score_automation_gemini(title: str, desc: str, url: str) -> tuple:
-    if not GEMINI_API_KEYS:
-        return rule_score_automation(title, desc, url)
-    try:
-        model = genai.GenerativeModel('gemini-2.0-flash')
-        prompt = f"""Rate this opportunity's AUTOMATION POTENTIAL (0-10).
+def score_automation_llm(title: str, desc: str, url: str) -> tuple:
+    """Score automation potential using Groq first, then Gemini, then rules."""
+    prompt = f"""Rate this opportunity's AUTOMATION POTENTIAL (0-10).
 High (7-10): fully automatable with a GitHub bot - auto-click, auto-claim, auto-mining, auto-faucet, auto-task scripts. No human needed.
 Medium (4-6): partially automatable - needs occasional captchas or approvals.
 Low (0-3): requires continuous human work - typing, reading, manual trading.
@@ -412,20 +462,38 @@ Description: {desc[:300]}
 URL: {url[:200]}
 
 Respond ONLY with JSON: {{"score": N, "reason": "short reason", "how_to_earn": "how to earn from this", "how_to_automate": "how to automate with GitHub Actions"}}"""
-        resp = gemini_generate(model, prompt)
-        text = resp.text.strip()
-        match = re.search(r'\{[^}]+\}', text)
-        if match:
-            data = json.loads(match.group())
-            score = max(0, min(10, int(data.get("score", 5))))
-            return score, str(data.get("reason", ""))[:200], str(data.get("how_to_earn", ""))[:300], str(data.get("how_to_automate", ""))[:300]
-        return 5, "Parse error", "", ""
-    except Exception as e:
-        if "quota" in str(e).lower() or "429" in str(e):
-            print(f"[Gemini] All API keys exhausted, falling back to rules")
-        else:
-            print(f"[Gemini] Error: {e}")
-        return rule_score_automation(title, desc, url)
+
+    # Try Groq first
+    text = groq_generate(prompt, model=FAST_GROQ_MODEL)
+    if text:
+        try:
+            match = re.search(r'\{[^}]+\}', text)
+            if match:
+                data = json.loads(match.group())
+                score = max(0, min(10, int(data.get("score", 5))))
+                return score, str(data.get("reason", ""))[:200], str(data.get("how_to_earn", ""))[:300], str(data.get("how_to_automate", ""))[:300]
+        except Exception:
+            pass
+
+    # Fallback to Gemini
+    if GEMINI_API_KEYS:
+        try:
+            model = genai.GenerativeModel('gemini-2.0-flash')
+            resp = gemini_generate(model, prompt)
+            text = resp.text.strip()
+            match = re.search(r'\{[^}]+\}', text)
+            if match:
+                data = json.loads(match.group())
+                score = max(0, min(10, int(data.get("score", 5))))
+                return score, str(data.get("reason", ""))[:200], str(data.get("how_to_earn", ""))[:300], str(data.get("how_to_automate", ""))[:300]
+        except Exception as e:
+            if "quota" in str(e).lower() or "429" in str(e):
+                print(f"[Gemini] All API keys exhausted")
+            else:
+                print(f"[Gemini] Error: {e}")
+
+    # Final fallback to rules
+    return rule_score_automation(title, desc, url)
 
 def rule_score_automation(title: str, desc: str, url: str) -> tuple:
     c = f"{title} {desc} {url}".lower()
@@ -483,7 +551,7 @@ def classify(item: dict, genai_scoring: bool = True) -> Optional[Opportunity]:
             if cat == "Crypto Faucet" and any(pk in c for pk in PLUMBING_FAUCET_KEYWORDS):
                 continue
             if genai_scoring:
-                auto_score, auto_reason, how_to_earn, how_to_automate = score_automation_gemini(t, d, u)
+                auto_score, auto_reason, how_to_earn, how_to_automate = score_automation_llm(t, d, u)
             else:
                 auto_score, auto_reason, how_to_earn, how_to_automate = rule_score_automation(t, d, u)
             fea = "Easy" if auto_score >= 7 else "Medium" if auto_score >= 4 else "Hard"
@@ -535,20 +603,12 @@ def deep_analyze_site(pw: PlaywrightPool, opp: Opportunity) -> Opportunity:
     print(f"[Deep] Status {page_data['status']}, {len(page_data.get('body_text',''))} chars, "
           f"{len(page_data.get('buttons',[]))} buttons, {len(page_data.get('inputs',[]))} inputs", flush=True)
 
-    # If no Gemini key, use rule-based estimate
-    if not GEMINI_API_KEYS:
-        return deep_analyze_rule_based(opp, page_data)
+    page_text = page_data.get("body_text", "")[:6000]
+    buttons_text = ", ".join(page_data.get("buttons", [])[:15])
+    inputs_text = ", ".join([f"{i.get('name','')}({i.get('type','')})" for i in page_data.get("inputs", [])[:10]])
+    links_text = ", ".join([f"{l['text']}" for l in page_data.get("links", [])[:15] if l['text']])
 
-    # Use Gemini to analyze the site content and estimate earnings
-    try:
-        model = genai.GenerativeModel('gemini-2.0-flash')
-
-        page_text = page_data.get("body_text", "")[:6000]
-        buttons_text = ", ".join(page_data.get("buttons", [])[:15])
-        inputs_text = ", ".join([f"{i.get('name','')}({i.get('type','')})" for i in page_data.get("inputs", [])[:10]])
-        links_text = ", ".join([f"{l['text']}" for l in page_data.get("links", [])[:15] if l['text']])
-
-        prompt = f"""You are a professional earnings analyst. Analyze this money-making website and provide REALISTIC estimates.
+    prompt = f"""You are a professional earnings analyst. Analyze this money-making website and provide REALISTIC estimates.
 
 WEBSITE: {opp.title}
 URL: {opp.url}
@@ -591,35 +651,65 @@ Respond ONLY with JSON:
   "complexity": "Easy/Medium/Hard",
   "verdict": "GOOD TO AUTOMATE / NOT RECOMMENDED"
 }}}}"""
-        
-        resp = gemini_generate(model, prompt)
-        text = resp.text.strip()
-        match = re.search(r'\{[^}]+\}', text, re.DOTALL)
-        if match:
-            data = json.loads(match.group())
-            opp.workflow_steps = str(data.get("workflow", ""))[:500]
-            opp.automation_plan = str(data.get("automation_steps", ""))[:500]
-            opp.tools_needed = str(data.get("tools_needed", ""))[:300]
-            opp.profit_per_hour = str(data.get("earn_per_hour", "Unknown"))
-            opp.profit_per_day = str(data.get("earn_per_day", "Unknown"))
-            opp.profit_per_week = str(data.get("earn_per_week", "Unknown"))
-            opp.profit_per_month = str(data.get("earn_per_month", "Unknown"))
-            opp.profit_per_year = str(data.get("earn_per_year", "Unknown"))
-            opp.deep_analysis_score = int(data.get("ltc_similarity_score", 0))
-            opp.effort_level = str(data.get("complexity", "Unknown"))
-            opp.description = str(data.get("summary", opp.description))[:500]
-            verdict = str(data.get("verdict", ""))
-            opp.status = "confirmed" if "GOOD" in verdict.upper() else "complex"
-            opp.site_analyzed = True
-            print(f"[Deep] Score: {opp.deep_analysis_score}/10 | {verdict} | "
-                  f"${opp.profit_per_day}/day", flush=True)
-        else:
-            print(f"[Deep] Gemini parse error, using rule fallback")
-            return deep_analyze_rule_based(opp, page_data)
-    except Exception as e:
-        print(f"[Deep] Gemini error: {e}, using rule fallback")
+
+    # Try Groq first
+    text = groq_generate(prompt, model=DEFAULT_GROQ_MODEL)
+    parsed = False
+    if text:
+        try:
+            match = re.search(r'\{[^}]+\}', text, re.DOTALL)
+            if match:
+                data = json.loads(match.group())
+                opp.workflow_steps = str(data.get("workflow", ""))[:500]
+                opp.automation_plan = str(data.get("automation_steps", ""))[:500]
+                opp.tools_needed = str(data.get("tools_needed", ""))[:300]
+                opp.profit_per_hour = str(data.get("earn_per_hour", "Unknown"))
+                opp.profit_per_day = str(data.get("earn_per_day", "Unknown"))
+                opp.profit_per_week = str(data.get("earn_per_week", "Unknown"))
+                opp.profit_per_month = str(data.get("earn_per_month", "Unknown"))
+                opp.profit_per_year = str(data.get("earn_per_year", "Unknown"))
+                opp.deep_analysis_score = int(data.get("ltc_similarity_score", 0))
+                opp.effort_level = str(data.get("complexity", "Unknown"))
+                parsed = True
+        except Exception:
+            pass
+
+    # Fallback to Gemini
+    if not parsed and GEMINI_API_KEYS:
+        try:
+            model = genai.GenerativeModel('gemini-2.0-flash')
+            resp = gemini_generate(model, prompt)
+            text = resp.text.strip()
+            match = re.search(r'\{[^}]+\}', text, re.DOTALL)
+            if match:
+                data = json.loads(match.group())
+                opp.workflow_steps = str(data.get("workflow", ""))[:500]
+                opp.automation_plan = str(data.get("automation_steps", ""))[:500]
+                opp.tools_needed = str(data.get("tools_needed", ""))[:300]
+                opp.profit_per_hour = str(data.get("earn_per_hour", "Unknown"))
+                opp.profit_per_day = str(data.get("earn_per_day", "Unknown"))
+                opp.profit_per_week = str(data.get("earn_per_week", "Unknown"))
+                opp.profit_per_month = str(data.get("earn_per_month", "Unknown"))
+                opp.profit_per_year = str(data.get("earn_per_year", "Unknown"))
+                opp.deep_analysis_score = int(data.get("ltc_similarity_score", 0))
+                opp.effort_level = str(data.get("complexity", "Unknown"))
+                parsed = True
+        except Exception as e:
+            if "quota" in str(e).lower() or "429" in str(e):
+                print(f"[Deep] Gemini quota exceeded")
+            else:
+                print(f"[Deep] Gemini error: {e}")
+
+    # Final fallback to rules
+    if not parsed:
         return deep_analyze_rule_based(opp, page_data)
-    
+
+    opp.description = str(data.get("summary", opp.description))[:500]
+    verdict = str(data.get("verdict", ""))
+    opp.status = "confirmed" if "GOOD" in verdict.upper() else "complex"
+    opp.site_analyzed = True
+    print(f"[Deep] Score: {opp.deep_analysis_score}/10 | {verdict} | "
+          f"${opp.profit_per_day}/day", flush=True)
     return opp
 
 
@@ -911,7 +1001,7 @@ def main():
     os.makedirs(DEEP_ANALYSIS_DIR, exist_ok=True)
     start_time = time.time()
 
-    genai_available = bool(GEMINI_API_KEYS)
+    genai_available = bool(GROQ_API_KEYS) or bool(GEMINI_API_KEYS)
     new_opps = []
 
     # PHASE 1: Search & Classify

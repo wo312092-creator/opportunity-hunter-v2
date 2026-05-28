@@ -95,6 +95,15 @@ def get_or_create_spreadsheet(service, mem):
 
 def create_run_sheet(service, sheet_id, date_str, total_new, categories):
     try:
+        # Check if sheet already exists
+        try:
+            existing = service.spreadsheets().get(spreadsheetId=sheet_id).execute()
+            for s in existing.get("sheets", []):
+                if s["properties"]["title"] == date_str:
+                    print(f"[Sheet] Tab '{date_str}' already exists, using it")
+                    return date_str
+        except:
+            pass
         result = service.spreadsheets().batchUpdate(
             spreadsheetId=sheet_id,
             body={"requests": [{"addSheet": {"properties": {"title": date_str}}}]}
@@ -931,10 +940,7 @@ def main():
                     row[9].value = opp.profit_per_year    # Per Year (col J)
                     row[10].value = opp.effort_level      # Effort (col K)
                     break
-            # Update Google Sheet row if possible
-            if sheets_service and sheet_id:
-                run_date = datetime.now(timezone.utc).strftime("%Y-%m-%d")
-                append_google_sheet_row(sheets_service, sheet_id, opp, run_date)
+            # Sheet will be updated in the main write loop below
             time.sleep(random.uniform(1.0, 2.0))
         
         print(f"\n[Deep] Analysis complete. Confirmed: {len([o for o in analyzed_opps if o.status == 'confirmed'])}/{len(analyzed_opps)}")

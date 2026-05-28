@@ -694,7 +694,164 @@ def search_all(query: str, pw: PlaywrightPool, q_idx: int) -> list:
                 seen.add(r["url"])
                 results.append(r)
     
+    # 7. Reddit (deep search - finds opportunities before they're SEO-indexed)
+    time.sleep(random.uniform(0.3, 0.8))
+    reddit_results = search_reddit(query, q_idx)
+    print(f"[Reddit] {len(reddit_results)}", end=" ", flush=True)
+    for r in reddit_results:
+        if r["url"] and r["url"] not in seen:
+            r["url"] = resolve_url(r["url"])
+            if r["url"] and r["url"] not in seen:
+                seen.add(r["url"])
+                results.append(r)
+    
+    # 8. GitHub (deep search - finds actual automation tools & scripts)
+    time.sleep(random.uniform(0.3, 0.8))
+    github_results = search_github(query, q_idx)
+    print(f"[GitHub] {len(github_results)}", end=" ", flush=True)
+    for r in github_results:
+        if r["url"] and r["url"] not in seen:
+            r["url"] = resolve_url(r["url"])
+            if r["url"] and r["url"] not in seen:
+                seen.add(r["url"])
+                results.append(r)
+    
     print(f"=> {len(results)} unique", flush=True)
+    return results
+
+# ── DEEP SEARCH SOURCES ─────────────────────────────────
+
+def search_reddit(query: str, ua_idx: int = 0) -> list:
+    """Search Reddit via JSON API (free, no key needed) for hidden earning opportunities."""
+    subreddits = ["beermoney", "cryptocurrency", "airdrops", "sidehustle", "cryptomining", "earncrypto", "btc"]
+    # Pick the most relevant reddit query based on the main query
+    keywords = ["ltc", "litecoin", "mining", "doge", "dogecoin", "btc", "bitcoin", "eth", "ethereum",
+                "faucet", "airdrop", "claim", "earning", "earn", "free", "crypto", "solana", "auto"]
+    chosen_q = query
+    for kw in keywords:
+        if kw in query.lower():
+            chosen_q = query
+            break
+    else:
+        chosen_q = "free crypto earn " + query.split()[-1] if len(query.split()) > 1 else query
+    
+    results = []
+    seen_urls = set()
+    try:
+        for sub in subreddits[:4]:  # limit to 4 subreddits for speed
+            try:
+                url = f"https://www.reddit.com/r/{sub}/search.json?q={urllib.parse.quote(chosen_q)}&restrict_sr=1&sort=new&limit=5&t=year"
+                resp = requests.get(url, headers={
+                    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) opportunity-hunter-v2/1.0"
+                }, timeout=10)
+                if resp.status_code != 200:
+                    continue
+                data = resp.json()
+                children = data.get("data", {}).get("children", [])
+                for child in children[:5]:
+                    try:
+                        d = child.get("data", {})
+                        url = d.get("url", "")
+                        title = d.get("title", "")
+                        permalink = d.get("permalink", "")
+                        selftext = d.get("selftext", "")[:300]
+                        if not url or not title:
+                            continue
+                        # Resolve reddit short URLs
+                        if url.startswith("/r/"):
+                            url = "https://www.reddit.com" + url
+                        # Dedup within this function
+                        url_key = url.split("?")[0].rstrip("/")
+                        if url_key in seen_urls:
+                            continue
+                        seen_urls.add(url_key)
+                        # Use selftext as description, or permalink
+                        desc = selftext if selftext else f"Reddit r/{sub} - {permalink[:100]}"
+                        results.append({"title": title.strip()[:200], "url": url, "description": desc[:300]})
+                    except:
+                        continue
+            except:
+                continue
+    except:
+        pass
+    return results
+
+def search_github(query: str, ua_idx: int = 0) -> list:
+    """Search GitHub via API for automation tools, scripts, and earning repos (free, 60 req/hr unauthenticated)."""
+    github_queries = [
+        query,
+        "crypto earning automation",
+        "mining bot script",
+        "auto faucet claim",
+        "LTC mining tool",
+        "crypto auto withdraw",
+    ]
+    # Pick query based on original query keywords
+    chosen_q = query
+    kw = query.lower().split()
+    if any(w in kw for w in ["mining", "miner"]):
+        chosen_q = "crypto mining automation script"
+    elif any(w in kw for w in ["faucet", "claim"]):
+        chosen_q = "auto faucet claim bot"
+    elif any(w in kw for w in ["airdrop", "air drop"]):
+        chosen_q = "crypto airdrop bot"
+    elif any(w in kw for w in ["bot", "telegram"]):
+        chosen_q = "telegram crypto earn bot"
+    elif any(w in kw for w in ["earning", "earn", "free"]):
+        chosen_q = "crypto earning script automated"
+    
+    results = []
+    seen_urls = set()
+    try:
+        # Search repositories
+        repo_url = f"https://api.github.com/search/repositories?q={urllib.parse.quote(chosen_q)}+crypto+script&sort=updated&per_page=5"
+        resp = requests.get(repo_url, headers={
+            "Accept": "application/vnd.github.v3+json",
+            "User-Agent": "opportunity-hunter-v2"
+        }, timeout=10)
+        if resp.status_code == 200:
+            data = resp.json()
+            for item in data.get("items", [])[:5]:
+                try:
+                    url = item.get("html_url", "")
+                    title = item.get("full_name", item.get("name", ""))
+                    desc = item.get("description", "") or ""
+                    stars = item.get("stargazers_count", 0)
+                    if not url or not title:
+                        continue
+                    url_key = url.split("?")[0].rstrip("/")
+                    if url_key in seen_urls:
+                        continue
+                    seen_urls.add(url_key)
+                    enriched_desc = f"{desc[:200]} ⭐{stars} stars" if desc else f"GitHub repo - {title} ⭐{stars} stars"
+                    results.append({"title": title.strip()[:200], "url": url, "description": enriched_desc[:300]})
+                except:
+                    continue
+        
+        # Also search for topics/README mentions
+        topic_url = f"https://api.github.com/search/repositories?q={urllib.parse.quote(chosen_q)}+topic:crypto&sort=updated&per_page=3"
+        resp2 = requests.get(topic_url, headers={
+            "Accept": "application/vnd.github.v3+json",
+            "User-Agent": "opportunity-hunter-v2"
+        }, timeout=10)
+        if resp2.status_code == 200:
+            data2 = resp2.json()
+            for item in data2.get("items", [])[:3]:
+                try:
+                    url = item.get("html_url", "")
+                    title = item.get("full_name", item.get("name", ""))
+                    desc = item.get("description", "") or ""
+                    if not url:
+                        continue
+                    url_key = url.split("?")[0].rstrip("/")
+                    if url_key in seen_urls:
+                        continue
+                    seen_urls.add(url_key)
+                    results.append({"title": title.strip()[:200], "url": url, "description": (desc[:200] if desc else "Crypto-related GitHub repo")[:300]})
+                except:
+                    continue
+    except:
+        pass
     return results
 
 # ── SCORING ──────────────────────────────────────────────

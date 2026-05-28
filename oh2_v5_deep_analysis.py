@@ -1019,6 +1019,74 @@ def write_google_doc(mem, sheet_url="", analyzed_opps=None):
         print(f"[Google Docs] Error: {e}")
         return False
 
+def write_sheet_rows_batch(service, sheet_id, sheet_name, opps, verification):
+    """Write all opp rows in ONE API call + batched formatting to avoid 60/min quota."""
+    try:
+        rows = []
+        row_colors = []
+        for opp in opps:
+            ver = verification.get(opp.url, {})
+            count = ver.get("count", 0)
+            last_confirmed = ver.get("last_confirmed")
+            
+            if opp.status == "confirmed" or (count >= 3 and last_confirmed):
+                verification_status = "Verified"
+                color = {"red": 0.8, "green": 1.0, "blue": 0.8}  # Green
+            elif count >= 2:
+                verification_status = f"Checking ({count}x)"
+                color = {"red": 1.0, "green": 0.9, "blue": 0.6}  # Orange
+            else:
+                verification_status = "First seen"
+                color = {"red": 1.0, "green": 0.7, "blue": 0.5}  # Light red
+            
+            rows.append([opp.id, opp.title, opp.url, opp.category, opp.description,
+                opp.how_to_earn or opp.automation_reason,
+                opp.profit_per_hour, opp.profit_per_day, opp.profit_per_week,
+                opp.profit_per_month, opp.profit_per_year,
+                opp.automation_potential,
+                opp.how_to_automate, opp.feasibility,
+                opp.source, opp.found_date, opp.status, verification_status])
+            row_colors.append(color)
+        
+        # Write ALL rows in ONE call
+        body = {"values": rows}
+        result = service.spreadsheets().values().update(
+            spreadsheetId=sheet_id,
+            range=f"'{sheet_name}'!A3",
+            valueInputOption="USER_ENTERED",
+            body=body
+        ).execute()
+        written = result.get("updatedRows", len(rows))
+        
+        # Apply color formatting in batches of 50
+        sheet_obj = service.spreadsheets().get(spreadsheetId=sheet_id).execute()
+        sid = None
+        for s in sheet_obj.get("sheets", []):
+            if s["properties"]["title"] == sheet_name:
+                sid = s["properties"]["sheetId"]
+                break
+        if sid is not None:
+            reqs = []
+            for i, color in enumerate(row_colors):
+                reqs.append({
+                    "repeatCell": {
+                        "range": {"sheetId": sid, "startRowIndex": 2 + i, "endRowIndex": 3 + i},
+                        "cell": {"userEnteredFormat": {"backgroundColor": color}},
+                        "fields": "userEnteredFormat.backgroundColor"
+                    }
+                })
+            for chunk_start in range(0, len(reqs), 50):
+                service.spreadsheets().batchUpdate(
+                    spreadsheetId=sheet_id,
+                    body={"requests": reqs[chunk_start:chunk_start + 50]}
+                ).execute()
+        
+        print(f"[Sheet] {written} opps to tab '{sheet_name}'")
+        return written
+    except Exception as e:
+        print(f"[Sheet] Batch write error: {e}")
+        return 0
+
 def main():
     mem = json.load(open(MEMORY_FILE)) if os.path.exists(MEMORY_FILE) else {
         "runs": 0, "total_found": 0, "categories_found": {}, "last_run": None,
@@ -1128,13 +1196,11 @@ def main():
     mem["verification"] = verification
     json.dump(mem, open(MEMORY_FILE, "w"), indent=2)
 
-    # Write to Google Sheet (daily tab)
+    # Write to Google Sheet (daily tab) — batched to avoid 60 writes/min quota
     if sheets_service and sheet_id:
         run_sheet_name = create_run_sheet(sheets_service, sheet_id, run_date, total_new, categories, verification)
         if run_sheet_name and new_opps:
-            for opp in new_opps:
-                append_google_sheet_row(sheets_service, sheet_id, opp, run_sheet_name, verification)
-            print(f"[Sheet] {len(new_opps)} opps written to tab '{run_sheet_name}'")
+            write_sheet_rows_batch(sheets_service, sheet_id, run_sheet_name, new_opps, verification)
     elif sheet_id:
         print(f"[Sheet] No new opportunities found - no daily sheet created")
 

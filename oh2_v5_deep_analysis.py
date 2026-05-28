@@ -400,9 +400,16 @@ def load_excel():
     return wb, wb.active
 
 def opportunity_exists(ws, url: str) -> bool:
+    """Check if URL or its domain already exists in the Excel worksheet."""
+    domain = extract_domain(url)
     for row in ws.iter_rows(min_row=2, values_only=True):
-        if len(row) > 2 and row[2] == url:
-            return True
+        if len(row) > 2:
+            existing_url = row[2] or ""
+            if existing_url == url:
+                return True
+            # Also check domain match (different subpages of same site)
+            if domain and extract_domain(existing_url) == domain:
+                return True
     return False
 
 def extract_ddg_url(u: str) -> str:
@@ -1001,14 +1008,59 @@ def classify(item: dict, genai_scoring: bool = True) -> Optional[Opportunity]:
             tags=["money","earn"], status="new")
     return None
 
+# ── URL SAFETY ──────────────────────────────────────────
+
+SUSPICIOUS_URL_PATTERNS = [
+    "bit.ly", "tinyurl", "shorturl", "short.link", "shorte.st",
+    "adf.ly", "ouo.io", "shortener", "tiny.cc", "t.co",
+    "goo.gl", "is.gd", "buff.ly", "ow.ly", "rebrand.ly",
+    "click", "track", "redirect?", "url?q=", "out?",
+]
+
+def is_safe_url(url: str) -> bool:
+    """Check if a URL is safe to visit with Playwright for deep analysis."""
+    if not url:
+        return False
+    url_lower = url.lower()
+    # Skip suspicious URL shorteners
+    for pattern in SUSPICIOUS_URL_PATTERNS:
+        if pattern in url_lower:
+            print(f"[Safety] Skipping shortener/redirect URL: {url[:60]}")
+            return False
+    # Skip non-http protocols
+    if not url_lower.startswith("http"):
+        print(f"[Safety] Skipping non-http URL: {url[:60]}")
+        return False
+    # Skip known dangerous TLDs
+    dangerous_tlds = [".exe", ".dll", ".bat", ".scr", ".msi", ".vbs"]
+    for tld in dangerous_tlds:
+        if url_lower.endswith(tld):
+            print(f"[Safety] Skipping potentially dangerous file: {url[:60]}")
+            return False
+    return True
+
 # ── DEEP ANALYSIS ────────────────────────────────────────
 
 def deep_analyze_site(pw: PlaywrightPool, opp: Opportunity) -> Opportunity:
     """
-    Visit the site with Playwright, extract page content, use Gemini to analyze
+    Visit the site with Playwright, extract page content, use AI to analyze
     the workflow and estimate earnings. Returns the updated Opportunity.
     """
-    print(f"\n[Deep] Visiting: {opp.title[:50]}...", flush=True)
+    print(f"\n[Deep] Analyzing: {opp.title[:50]}...", flush=True)
+    
+    # SAFETY CHECK: skip suspicious/unsafe URLs
+    if not is_safe_url(opp.url):
+        print(f"[Deep] ⚠️ Skipped (unsafe/redirect URL)")
+        opp.deep_analysis_score = 0
+        opp.site_analyzed = True
+        opp.effort_level = "Not analyzed - URL skipped for safety"
+        opp.profit_per_hour = "N/A"
+        opp.profit_per_day = "N/A"
+        opp.profit_per_week = "N/A"
+        opp.profit_per_month = "N/A"
+        opp.profit_per_year = "N/A"
+        return opp
+    
     page_data = pw.visit_page(opp.url)
     
     if not page_data.get("success"):
@@ -1280,7 +1332,9 @@ def deep_analyze_rule_based(opp: Opportunity, page_data: dict) -> Opportunity:
 
 
 QUERIES = [
-    # ── CORE LTC/MINING TARGETS (easy automation targets) ──
+    # ═══════════════════════════════════════════════════════════════
+    #  CORE LTC/MINING (easy automation: login → claim → withdraw)
+    # ═══════════════════════════════════════════════════════════════
     "free ltc mining sites 2026 no deposit instant withdrawal",
     "free dogecoin mining sites 2026 no deposit",
     "free bitcoin mining cloud mining 2026 no deposit withdraw",
@@ -1289,7 +1343,9 @@ QUERIES = [
     "best crypto faucets 2026 free bitcoin ethereum litecoin",
     "auto claim crypto faucet bot 2026",
     
-    # ── HYPER-TARGETED: EASY AUTOMATION FOCUS ──
+    # ═══════════════════════════════════════════════════════════════
+    #  HYPER-TARGETED EASY AUTOMATION (faucet/mining focused)
+    # ═══════════════════════════════════════════════════════════════
     "ltc auto withdraw faucet 2026 no survey",
     "one click crypto faucet instant pay 2026",
     "browser based litecoin mining free 2026",
@@ -1303,34 +1359,89 @@ QUERIES = [
     "free litecoin every hour claim 2026",
     "micro ltc faucet instant payout 2026",
     
-    # ── SURFACE: GPT / OFFER WALLS (lower priority, anti-pattern filtered) ──
-    "paid to click sites that pay instantly 2026 free registration",
-    "best GPT sites earn money free 2026 auto earn",
+    # ═══════════════════════════════════════════════════════════════
+    #  CLICK TO EARN / PTC  (click button → earn → withdraw)
+    # ═══════════════════════════════════════════════════════════════
+    "paid to click sites pay instantly crypto 2026 no survey",
+    "click one button earn bitcoin free 2026",
+    "ptc sites instant withdrawal ltc doge 2026",
+    "best paid to click sites 2026 crypto payout",
+    "earn by clicking ads litecoin 2026 free",
+    "click and earn crypto no tasks free 2026",
     
-    # ── AIRDROPS & CLAIMS ──
+    # ═══════════════════════════════════════════════════════════════
+    #  WATCH VIDEOS TO EARN  (play video → earn → withdraw)
+    # ═══════════════════════════════════════════════════════════════
+    "watch videos earn bitcoin free 2026 instant payout",
+    "video streaming earn crypto 2026 no deposit",
+    "watch ads earn litecoin free 2026",
+    "earn crypto watching videos 2026 withdraw to wallet",
+    "video rewards platform crypto payout 2026",
+    "watch and earn btc doge free 2026",
+    
+    # ═══════════════════════════════════════════════════════════════
+    #  TELEGRAM EARNING BOTS  (bot → claim → wallet)
+    # ═══════════════════════════════════════════════════════════════
+    "telegram earning bot crypto free 2026 withdrawal",
+    "telegram faucet bot ltc doge btc 2026",
+    "telegram mining bot free payout 2026",
+    "telegram bot earn satoshi free 2026",
+    "telegram crypto claim bot instant 2026",
+    "best telegram earning bots 2026 no investment",
+    "telegram auto earn bot free withdrawal 2026",
+    
+    # ═══════════════════════════════════════════════════════════════
+    #  USD EARNING → CRYPTO PAYOUT  (earn dollars → withdraw as crypto)
+    # ═══════════════════════════════════════════════════════════════
+    "earn usd crypto payout 2026 free registration",
+    "get paid in bitcoin for tasks 2026",
+    "earn dollars withdraw crypto 2026 no minimum",
+    "usd earning site crypto withdrawal 2026",
+    "earn money online pay in litecoin 2026",
+    "freelance micro tasks paid in crypto 2026",
+    
+    # ═══════════════════════════════════════════════════════════════
+    #  SURFACE: GPT / OFFER WALLS  (lower priority, anti-pattern filtered)
+    # ═══════════════════════════════════════════════════════════════
+    "best GPT sites earn money free 2026 auto earn",
+    "offer walls pay crypto instant 2026",
+    
+    # ═══════════════════════════════════════════════════════════════
+    #  AIRDROPS & CLAIMS
+    # ═══════════════════════════════════════════════════════════════
     "new crypto airdrops 2026 free tokens claim",
     "solana airdrop 2026 claim free",
     "telegram bot airdrop claim 2026",
     
-    # ── PASSIVE / STAKING ──
+    # ═══════════════════════════════════════════════════════════════
+    #  PASSIVE / STAKING / DEFI
+    # ═══════════════════════════════════════════════════════════════
     "passive income crypto staking defi 2026 no minimum",
     "free crypto staking rewards 2026",
     
-    # ── AUTOMATION TOOLS ──
+    # ═══════════════════════════════════════════════════════════════
+    #  AUTOMATION TOOLS
+    # ═══════════════════════════════════════════════════════════════
     "browser automation earn crypto free 2026",
     "telegram bot earn crypto 2026 free automated",
     "auto trading crypto bot free 2026",
     "free crypto arbitrage bot 2026",
     
-    # ── GAMES / MICRO (surface only, anti-pattern filtered) ──
+    # ═══════════════════════════════════════════════════════════════
+    #  GAMES / MICRO (surface only, anti-pattern filtered)
+    # ═══════════════════════════════════════════════════════════════
     "play to earn crypto games 2026 free no investment",
     "micro task sites pay crypto 2026",
     
-    # ── CASHBACK / AFFILIATE ──
+    # ═══════════════════════════════════════════════════════════════
+    #  CASHBACK / AFFILIATE
+    # ═══════════════════════════════════════════════════════════════
     "best cashback apps 2026 free money crypto",
     "affiliate programs crypto 2026 high paying free",
     
-    # ── GENERAL EARNING ──
+    # ═══════════════════════════════════════════════════════════════
+    #  GENERAL EARNING (fallback coverage)
+    # ═══════════════════════════════════════════════════════════════
     "earn free crypto no deposit 2026 withdraw instantly",
     "free litecoin mining pool 2026 no deposit required",
     "doge coin faucet free claim every hour 2026",
@@ -1339,7 +1450,6 @@ QUERIES = [
     "free bitcoin earning sites 2026 withdraw to wallet",
     "cloud mining free trial 2026 no deposit btc",
     "web3 earn crypto free 2026 browser mining",
-    "free crypto signals telegram 2026 copy trade",
     "defi yield farming 2026 no minimum deposit",
     "passive crypto income 2026 set and forget",
     "telegram mining bot free withdrawal 2026",
@@ -1591,6 +1701,19 @@ def write_sheet_rows_batch(service, sheet_id, sheet_name, opps, verification):
         print(f"[Sheet] Batch write error: {e}")
         return 0
 
+def extract_domain(url: str) -> str:
+    """Extract clean domain from URL for domain-level dedup."""
+    try:
+        parsed = urllib.parse.urlparse(url)
+        domain = parsed.netloc or parsed.hostname or ""
+        domain = domain.lower()
+        # Strip www. prefix
+        if domain.startswith("www."):
+            domain = domain[4:]
+        return domain
+    except:
+        return url.lower() if url else ""
+
 def main():
     mem = json.load(open(MEMORY_FILE)) if os.path.exists(MEMORY_FILE) else {
         "runs": 0, "total_found": 0, "categories_found": {}, "last_run": None,
@@ -1598,6 +1721,7 @@ def main():
         "seen_urls": [], "verification": {}
     }
     seen_urls_set = set(mem.get("seen_urls", []))
+    seen_domains_set = set(mem.get("seen_domains", []))  # domain-level dedup
     verification = mem.get("verification", {})
     mem["runs"] += 1
     wb, ws = load_excel()
@@ -1636,7 +1760,14 @@ def main():
         for item in items:
             opp = classify(item, genai_scoring=genai_available)
             if opp and opp.url not in seen_urls_set and not opportunity_exists(ws, opp.url):
+                # Check domain-level dedup too
+                domain = extract_domain(opp.url)
+                if domain and domain in seen_domains_set:
+                    print(f"⏭ domain dup: {domain}", end=" ", flush=True)
+                    continue
                 seen_urls_set.add(opp.url)
+                if domain:
+                    seen_domains_set.add(domain)
                 ws.append([opp.id, opp.title, opp.url, opp.category, opp.description,
                     opp.profit_per_hour, opp.profit_per_day, opp.profit_per_week,
                     opp.profit_per_month, opp.profit_per_year,
@@ -1689,8 +1820,9 @@ def main():
     mem["last_run"] = datetime.now(timezone.utc).isoformat()
     for cat, cnt in categories.items():
         mem["categories_found"][cat] = mem["categories_found"].get(cat, 0) + cnt
-    # Update seen_urls and verification tracking (includes deep analysis verdicts)
+    # Update seen_urls and seen_domains for dedup across runs
     mem["seen_urls"] = sorted(seen_urls_set)
+    mem["seen_domains"] = sorted(seen_domains_set)
     for opp in analyzed_opps:
         if opp.url not in verification:
             verification[opp.url] = {"count": 0, "first_seen": run_date, "last_confirmed": None}

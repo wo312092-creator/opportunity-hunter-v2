@@ -6,11 +6,17 @@ from dataclasses import dataclass, field
 os.system("pip install requests openpyxl google-auth google-auth-oauthlib google-auth-httplib2 google-api-python-client playwright google-generativeai 2>/dev/null")
 os.system("playwright install chromium 2>/dev/null")
 
+import google.generativeai as genai
 import requests
 from openpyxl import Workbook, load_workbook
 
 FIRECRAWL_API_KEY = os.environ.get("FIRECRAWL_API_KEY", "")
-GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY", "")
+GEMINI_API_KEYS = []
+_key = os.environ.get("GEMINI_API_KEY", "")
+if _key: GEMINI_API_KEYS.append(_key)
+for _i in range(2, 10):
+    _key = os.environ.get(f"GEMINI_API_KEY_{_i}", "")
+    if _key: GEMINI_API_KEYS.append(_key)
 GOOGLE_OAUTH_CLIENT_ID = os.environ.get("GOOGLE_OAUTH_CLIENT_ID", "")
 GOOGLE_OAUTH_CLIENT_SECRET = os.environ.get("GOOGLE_OAUTH_CLIENT_SECRET", "")
 GOOGLE_REFRESH_TOKEN = os.environ.get("GOOGLE_REFRESH_TOKEN", "")
@@ -20,6 +26,29 @@ MEMORY_FILE = "bot_memory.json"
 REPORT_DIR = "reports"
 TOP_FINDS_FILE = "top_automatable_finds.json"
 DEEP_ANALYSIS_DIR = "deep_analysis"
+
+_gemini_key_index = 0
+
+def gemini_generate(model, prompt_str):
+    """Generate content with automatic API key rotation on 429 errors."""
+    global _gemini_key_index
+    if not GEMINI_API_KEYS:
+        raise Exception("No Gemini API keys configured")
+    import google.generativeai as genai
+    start_idx = _gemini_key_index
+    for _ in range(len(GEMINI_API_KEYS)):
+        key = GEMINI_API_KEYS[_gemini_key_index]
+        try:
+            genai.configure(api_key=key)
+            resp = model.generate_content(prompt_str)
+            return resp
+        except Exception as e:
+            if "429" not in str(e):
+                raise
+            print(f"[Gemini] Key {_gemini_key_index+1}/{len(GEMINI_API_KEYS)} quota exceeded, trying next...")
+            _gemini_key_index = (_gemini_key_index + 1) % len(GEMINI_API_KEYS)
+            time.sleep(1)
+    raise Exception("All Gemini API keys exhausted")
 
 SHEET_COLUMNS = [
     "ID", "Website Name", "URL", "Category", "What It Does",
@@ -369,11 +398,9 @@ def search_all(query: str, pw: PlaywrightPool, q_idx: int) -> list:
 # ── SCORING ──────────────────────────────────────────────
 
 def score_automation_gemini(title: str, desc: str, url: str) -> tuple:
-    if not GEMINI_API_KEY:
+    if not GEMINI_API_KEYS:
         return rule_score_automation(title, desc, url)
     try:
-        import google.generativeai as genai
-        genai.configure(api_key=GEMINI_API_KEY)
         model = genai.GenerativeModel('gemini-2.0-flash')
         prompt = f"""Rate this opportunity's AUTOMATION POTENTIAL (0-10).
 High (7-10): fully automatable with a GitHub bot - auto-click, auto-claim, auto-mining, auto-faucet, auto-task scripts. No human needed.
@@ -385,7 +412,7 @@ Description: {desc[:300]}
 URL: {url[:200]}
 
 Respond ONLY with JSON: {{"score": N, "reason": "short reason", "how_to_earn": "how to earn from this", "how_to_automate": "how to automate with GitHub Actions"}}"""
-        resp = model.generate_content(prompt)
+        resp = gemini_generate(model, prompt)
         text = resp.text.strip()
         match = re.search(r'\{[^}]+\}', text)
         if match:
@@ -394,7 +421,10 @@ Respond ONLY with JSON: {{"score": N, "reason": "short reason", "how_to_earn": "
             return score, str(data.get("reason", ""))[:200], str(data.get("how_to_earn", ""))[:300], str(data.get("how_to_automate", ""))[:300]
         return 5, "Parse error", "", ""
     except Exception as e:
-        print(f"[Gemini] Error: {e}")
+        if "quota" in str(e).lower() or "429" in str(e):
+            print(f"[Gemini] All API keys exhausted, falling back to rules")
+        else:
+            print(f"[Gemini] Error: {e}")
         return rule_score_automation(title, desc, url)
 
 def rule_score_automation(title: str, desc: str, url: str) -> tuple:
@@ -506,13 +536,11 @@ def deep_analyze_site(pw: PlaywrightPool, opp: Opportunity) -> Opportunity:
           f"{len(page_data.get('buttons',[]))} buttons, {len(page_data.get('inputs',[]))} inputs", flush=True)
 
     # If no Gemini key, use rule-based estimate
-    if not GEMINI_API_KEY:
+    if not GEMINI_API_KEYS:
         return deep_analyze_rule_based(opp, page_data)
 
     # Use Gemini to analyze the site content and estimate earnings
     try:
-        import google.generativeai as genai
-        genai.configure(api_key=GEMINI_API_KEY)
         model = genai.GenerativeModel('gemini-2.0-flash')
 
         page_text = page_data.get("body_text", "")[:6000]
@@ -564,7 +592,7 @@ Respond ONLY with JSON:
   "verdict": "GOOD TO AUTOMATE / NOT RECOMMENDED"
 }}}}"""
         
-        resp = model.generate_content(prompt)
+        resp = gemini_generate(model, prompt)
         text = resp.text.strip()
         match = re.search(r'\{[^}]+\}', text, re.DOTALL)
         if match:
@@ -883,7 +911,7 @@ def main():
     os.makedirs(DEEP_ANALYSIS_DIR, exist_ok=True)
     start_time = time.time()
 
-    genai_available = bool(GEMINI_API_KEY)
+    genai_available = bool(GEMINI_API_KEYS)
     new_opps = []
 
     # PHASE 1: Search & Classify

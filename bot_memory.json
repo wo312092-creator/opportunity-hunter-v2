@@ -1,232 +1,22 @@
 {
-  "runs": 13,
-  "total_found": 2328,
+  "runs": 14,
+  "total_found": 2507,
   "categories_found": {
-    "DeFi / Staking": 696,
-    "Affiliate": 165,
-    "Paid Surveys": 35,
-    "Mining": 9,
-    "General": 1234,
+    "DeFi / Staking": 750,
+    "Affiliate": 168,
+    "Paid Surveys": 36,
+    "Mining": 10,
+    "General": 1344,
     "Cashback": 89,
     "Arbitrage": 17,
-    "PTC / GPT": 18,
-    "Altcoin Mining": 27,
+    "PTC / GPT": 19,
+    "Altcoin Mining": 33,
     "Trading": 3,
-    "Crypto Faucet": 34,
+    "Crypto Faucet": 37,
     "Micro Tasks": 1
   },
-  "last_run": "2026-05-28T16:09:24.419778+00:00",
+  "last_run": "2026-05-28T16:45:03.115216+00:00",
   "learning": [
-    {
-      "date": "2026-05-28T14:24:55.382876+00:00",
-      "query": "best crypto faucets 2026 free bitcoin ethereum litecoin",
-      "results": 10,
-      "new_opps": 9
-    },
-    {
-      "date": "2026-05-28T14:25:01.554347+00:00",
-      "query": "auto claim crypto faucet bot 2026",
-      "results": 10,
-      "new_opps": 1
-    },
-    {
-      "date": "2026-05-28T14:25:07.259577+00:00",
-      "query": "paid to click sites that pay instantly 2026 free registration",
-      "results": 10,
-      "new_opps": 6
-    },
-    {
-      "date": "2026-05-28T14:25:13.295447+00:00",
-      "query": "best GPT sites earn money free 2026 auto earn",
-      "results": 0,
-      "new_opps": 0
-    },
-    {
-      "date": "2026-05-28T14:25:19.446082+00:00",
-      "query": "new crypto airdrops 2026 free tokens claim",
-      "results": 10,
-      "new_opps": 1
-    },
-    {
-      "date": "2026-05-28T14:25:25.646439+00:00",
-      "query": "solana airdrop 2026 claim free",
-      "results": 10,
-      "new_opps": 7
-    },
-    {
-      "date": "2026-05-28T14:25:31.121822+00:00",
-      "query": "telegram bot airdrop claim 2026",
-      "results": 9,
-      "new_opps": 3
-    },
-    {
-      "date": "2026-05-28T14:25:36.851838+00:00",
-      "query": "passive income crypto staking defi 2026 no minimum",
-      "results": 10,
-      "new_opps": 10
-    },
-    {
-      "date": "2026-05-28T14:25:43.656408+00:00",
-      "query": "free crypto staking rewards 2026",
-      "results": 10,
-      "new_opps": 10
-    },
-    {
-      "date": "2026-05-28T14:25:49.079443+00:00",
-      "query": "browser automation earn crypto free 2026",
-      "results": 10,
-      "new_opps": 6
-    },
-    {
-      "date": "2026-05-28T14:25:54.851353+00:00",
-      "query": "telegram bot earn crypto 2026 free automated",
-      "results": 9,
-      "new_opps": 3
-    },
-    {
-      "date": "2026-05-28T14:26:00.130616+00:00",
-      "query": "auto trading crypto bot free 2026",
-      "results": 10,
-      "new_opps": 1
-    },
-    {
-      "date": "2026-05-28T14:26:06.224181+00:00",
-      "query": "free crypto arbitrage bot 2026",
-      "results": 10,
-      "new_opps": 10
-    },
-    {
-      "date": "2026-05-28T14:26:12.981897+00:00",
-      "query": "play to earn crypto games 2026 free no investment",
-      "results": 0,
-      "new_opps": 0
-    },
-    {
-      "date": "2026-05-28T14:26:18.932946+00:00",
-      "query": "micro task sites pay crypto 2026",
-      "results": 9,
-      "new_opps": 1
-    },
-    {
-      "date": "2026-05-28T14:26:25.406294+00:00",
-      "query": "best cashback apps 2026 free money crypto",
-      "results": 10,
-      "new_opps": 9
-    },
-    {
-      "date": "2026-05-28T14:26:31.277768+00:00",
-      "query": "affiliate programs crypto 2026 high paying free",
-      "results": 0,
-      "new_opps": 0
-    },
-    {
-      "date": "2026-05-28T14:26:36.957297+00:00",
-      "query": "earn free crypto no deposit 2026 withdraw instantly",
-      "results": 10,
-      "new_opps": 10
-    },
-    {
-      "date": "2026-05-28T14:26:42.873204+00:00",
-      "query": "free litecoin mining pool 2026 no deposit required",
-      "results": 10,
-      "new_opps": 10
-    },
-    {
-      "date": "2026-05-28T14:26:47.773097+00:00",
-      "query": "doge coin faucet free claim every hour 2026",
-      "results": 10,
-      "new_opps": 3
-    },
-    {
-      "date": "2026-05-28T14:26:54.511650+00:00",
-      "query": "btc mining telegram bot free 2026",
-      "results": 10,
-      "new_opps": 10
-    },
-    {
-      "date": "2026-05-28T14:27:00.670482+00:00",
-      "query": "automatic crypto earning platform 2026 no investment",
-      "results": 0,
-      "new_opps": 0
-    },
-    {
-      "date": "2026-05-28T14:27:07.040342+00:00",
-      "query": "free bitcoin earning sites 2026 withdraw to wallet",
-      "results": 10,
-      "new_opps": 10
-    },
-    {
-      "date": "2026-05-28T14:27:12.019523+00:00",
-      "query": "cloud mining free trial 2026 no deposit btc",
-      "results": 10,
-      "new_opps": 3
-    },
-    {
-      "date": "2026-05-28T14:27:17.422826+00:00",
-      "query": "web3 earn crypto free 2026 browser mining",
-      "results": 10,
-      "new_opps": 4
-    },
-    {
-      "date": "2026-05-28T14:27:23.178319+00:00",
-      "query": "free crypto signals telegram 2026 copy trade",
-      "results": 10,
-      "new_opps": 10
-    },
-    {
-      "date": "2026-05-28T14:27:29.780898+00:00",
-      "query": "defi yield farming 2026 no minimum deposit",
-      "results": 10,
-      "new_opps": 10
-    },
-    {
-      "date": "2026-05-28T14:27:36.185606+00:00",
-      "query": "passive crypto income 2026 set and forget",
-      "results": 10,
-      "new_opps": 10
-    },
-    {
-      "date": "2026-05-28T14:27:41.575687+00:00",
-      "query": "telegram mining bot free withdrawal 2026",
-      "results": 9,
-      "new_opps": 3
-    },
-    {
-      "date": "2026-05-28T14:27:47.156442+00:00",
-      "query": "faucet pay crypto instant 2026 free claim",
-      "results": 10,
-      "new_opps": 2
-    },
-    {
-      "date": "2026-05-28T14:54:45.385813+00:00",
-      "query": "free ltc mining sites 2026 no deposit instant withdrawal",
-      "results": 0,
-      "new_opps": 0
-    },
-    {
-      "date": "2026-05-28T14:55:33.956647+00:00",
-      "query": "free dogecoin mining sites 2026 no deposit",
-      "results": 10,
-      "new_opps": 10
-    },
-    {
-      "date": "2026-05-28T14:56:23.041950+00:00",
-      "query": "free bitcoin mining cloud mining 2026 no deposit withdraw",
-      "results": 10,
-      "new_opps": 10
-    },
-    {
-      "date": "2026-05-28T14:56:29.465458+00:00",
-      "query": "free ethereum mining sites 2026 no investment",
-      "results": 0,
-      "new_opps": 0
-    },
-    {
-      "date": "2026-05-28T14:57:18.270998+00:00",
-      "query": "crypto mining faucet earn free btc eth ltc doge 2026",
-      "results": 10,
-      "new_opps": 10
-    },
     {
       "date": "2026-05-28T14:57:53.817249+00:00",
       "query": "best crypto faucets 2026 free bitcoin ethereum litecoin",
@@ -616,7 +406,440 @@
       "query": "faucet pay crypto instant 2026 free claim",
       "results": 10,
       "new_opps": 2
+    },
+    {
+      "date": "2026-05-28T16:39:36.751396+00:00",
+      "query": "free ltc mining sites 2026 no deposit instant withdrawal",
+      "results": 10,
+      "new_opps": 10
+    },
+    {
+      "date": "2026-05-28T16:39:48.385915+00:00",
+      "query": "free dogecoin mining sites 2026 no deposit",
+      "results": 10,
+      "new_opps": 10
+    },
+    {
+      "date": "2026-05-28T16:40:00.114277+00:00",
+      "query": "free bitcoin mining cloud mining 2026 no deposit withdraw",
+      "results": 10,
+      "new_opps": 10
+    },
+    {
+      "date": "2026-05-28T16:40:06.419593+00:00",
+      "query": "free ethereum mining sites 2026 no investment",
+      "results": 0,
+      "new_opps": 0
+    },
+    {
+      "date": "2026-05-28T16:40:18.495304+00:00",
+      "query": "crypto mining faucet earn free btc eth ltc doge 2026",
+      "results": 10,
+      "new_opps": 10
+    },
+    {
+      "date": "2026-05-28T16:40:28.102095+00:00",
+      "query": "best crypto faucets 2026 free bitcoin ethereum litecoin",
+      "results": 10,
+      "new_opps": 6
+    },
+    {
+      "date": "2026-05-28T16:40:33.726247+00:00",
+      "query": "auto claim crypto faucet bot 2026",
+      "results": 10,
+      "new_opps": 1
+    },
+    {
+      "date": "2026-05-28T16:40:41.588664+00:00",
+      "query": "paid to click sites that pay instantly 2026 free registration",
+      "results": 10,
+      "new_opps": 6
+    },
+    {
+      "date": "2026-05-28T16:40:49.681786+00:00",
+      "query": "best GPT sites earn money free 2026 auto earn",
+      "results": 10,
+      "new_opps": 6
+    },
+    {
+      "date": "2026-05-28T16:40:55.390857+00:00",
+      "query": "new crypto airdrops 2026 free tokens claim",
+      "results": 10,
+      "new_opps": 1
+    },
+    {
+      "date": "2026-05-28T16:41:06.138699+00:00",
+      "query": "solana airdrop 2026 claim free",
+      "results": 7,
+      "new_opps": 6
+    },
+    {
+      "date": "2026-05-28T16:41:11.714764+00:00",
+      "query": "telegram bot airdrop claim 2026",
+      "results": 9,
+      "new_opps": 3
+    },
+    {
+      "date": "2026-05-28T16:41:20.839312+00:00",
+      "query": "passive income crypto staking defi 2026 no minimum",
+      "results": 10,
+      "new_opps": 10
+    },
+    {
+      "date": "2026-05-28T16:41:30.649045+00:00",
+      "query": "free crypto staking rewards 2026",
+      "results": 10,
+      "new_opps": 10
+    },
+    {
+      "date": "2026-05-28T16:41:37.720743+00:00",
+      "query": "browser automation earn crypto free 2026",
+      "results": 10,
+      "new_opps": 5
+    },
+    {
+      "date": "2026-05-28T16:41:44.892834+00:00",
+      "query": "telegram bot earn crypto 2026 free automated",
+      "results": 9,
+      "new_opps": 3
+    },
+    {
+      "date": "2026-05-28T16:41:51.358144+00:00",
+      "query": "auto trading crypto bot free 2026",
+      "results": 10,
+      "new_opps": 1
+    },
+    {
+      "date": "2026-05-28T16:41:57.407448+00:00",
+      "query": "free crypto arbitrage bot 2026",
+      "results": 0,
+      "new_opps": 0
+    },
+    {
+      "date": "2026-05-28T16:42:06.617761+00:00",
+      "query": "play to earn crypto games 2026 free no investment",
+      "results": 11,
+      "new_opps": 7
+    },
+    {
+      "date": "2026-05-28T16:42:12.752994+00:00",
+      "query": "micro task sites pay crypto 2026",
+      "results": 0,
+      "new_opps": 0
+    },
+    {
+      "date": "2026-05-28T16:42:20.764914+00:00",
+      "query": "best cashback apps 2026 free money crypto",
+      "results": 10,
+      "new_opps": 6
+    },
+    {
+      "date": "2026-05-28T16:42:27.321890+00:00",
+      "query": "affiliate programs crypto 2026 high paying free",
+      "results": 0,
+      "new_opps": 0
+    },
+    {
+      "date": "2026-05-28T16:42:37.345865+00:00",
+      "query": "earn free crypto no deposit 2026 withdraw instantly",
+      "results": 10,
+      "new_opps": 10
+    },
+    {
+      "date": "2026-05-28T16:42:48.842357+00:00",
+      "query": "free litecoin mining pool 2026 no deposit required",
+      "results": 10,
+      "new_opps": 10
+    },
+    {
+      "date": "2026-05-28T16:42:56.842778+00:00",
+      "query": "doge coin faucet free claim every hour 2026",
+      "results": 20,
+      "new_opps": 6
+    },
+    {
+      "date": "2026-05-28T16:43:03.066240+00:00",
+      "query": "btc mining telegram bot free 2026",
+      "results": 0,
+      "new_opps": 0
+    },
+    {
+      "date": "2026-05-28T16:43:08.845464+00:00",
+      "query": "automatic crypto earning platform 2026 no investment",
+      "results": 0,
+      "new_opps": 0
+    },
+    {
+      "date": "2026-05-28T16:43:17.585535+00:00",
+      "query": "free bitcoin earning sites 2026 withdraw to wallet",
+      "results": 10,
+      "new_opps": 10
+    },
+    {
+      "date": "2026-05-28T16:43:23.664234+00:00",
+      "query": "cloud mining free trial 2026 no deposit btc",
+      "results": 10,
+      "new_opps": 2
+    },
+    {
+      "date": "2026-05-28T16:43:29.657208+00:00",
+      "query": "web3 earn crypto free 2026 browser mining",
+      "results": 10,
+      "new_opps": 4
+    },
+    {
+      "date": "2026-05-28T16:43:40.163450+00:00",
+      "query": "free crypto signals telegram 2026 copy trade",
+      "results": 10,
+      "new_opps": 10
+    },
+    {
+      "date": "2026-05-28T16:43:53.215192+00:00",
+      "query": "defi yield farming 2026 no minimum deposit",
+      "results": 10,
+      "new_opps": 10
+    },
+    {
+      "date": "2026-05-28T16:43:59.382395+00:00",
+      "query": "passive crypto income 2026 set and forget",
+      "results": 0,
+      "new_opps": 0
+    },
+    {
+      "date": "2026-05-28T16:44:05.061016+00:00",
+      "query": "telegram mining bot free withdrawal 2026",
+      "results": 9,
+      "new_opps": 3
+    },
+    {
+      "date": "2026-05-28T16:44:12.265414+00:00",
+      "query": "faucet pay crypto instant 2026 free claim",
+      "results": 10,
+      "new_opps": 3
     }
   ],
-  "google_sheet_id": "1MQqt2i7XCLm_5rPAIY8HrzdWh1Ha4MnJ0dKfjms9dyc"
+  "google_sheet_id": "1MQqt2i7XCLm_5rPAIY8HrzdWh1Ha4MnJ0dKfjms9dyc",
+  "seen_urls": [
+    "https://www.bing.com/ck/a?!&&p=00b3ca34866108e3ab9c56a85e02d3c1a02950c466ba1ae821706c3e82b78d9dJmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=11ee5858-033c-697b-3795-4f3f02166866&u=a1aHR0cHM6Ly93d3cuYXJrYWRpdW0uY29tL2ZyZWUtb25saW5lLWdhbWVzLw&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=00dae54089b37a517d7245ac853042c7cab9b290bfdd015e3a59ea50108e177bJmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=33cb5c4a-2ad6-6598-3e00-4b2d2bfa64bd&u=a1aHR0cHM6Ly93d3cuY25uLmNvbS8&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=03a77f03c26d7fc4fef19da7db6c69234df79b5829537ab59b276ded8541fa42JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=11ee5858-033c-697b-3795-4f3f02166866&u=a1aHR0cHM6Ly93d3cucGxleC50di93YXRjaC1mcmVlLw&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=04dfa8c1f8eaad6e9d1869e95890997e325627ac968c2e3621955804ba0cd6f6JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=279595b7-6f81-661d-22c2-82d06e9b676c&u=a1aHR0cHM6Ly93d3cucGxleC50di93YXRjaC1mcmVlLw&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=04ef742a433d70f61f3732caea41f369dfff4e294210980305e9ec07ce026713JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=09980873-47c7-6afa-2eab-1f1446806b55&u=a1aHR0cHM6Ly9yZXdhcmRzLmJpbmcuY29tL3dlbGNvbWU&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=07ef8665fcb73cb2990594f322bde613affb3ae44d5e19b40bda81a0a0440ce4JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=29a60b37-fc8b-6e28-324c-1c50fd416f55&u=a1aHR0cHM6Ly9kaWN0aW9uYXJ5LmNhbWJyaWRnZS5vcmcvZGljdGlvbmFyeS9lbmdsaXNoL2Jlc3Q&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=07f159abe436b0e6ad98b49a0b180e80c405b4e35511bb947f87a6c68eead65bJmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=279595b7-6f81-661d-22c2-82d06e9b676c&u=a1aHR0cHM6Ly93d3cuYmdhbWVzLmNvbS8&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=0b0ec2e6c408489fe9a66d5bd289b2c07fabe2368aada6f5e5ab62fec5eb8cc9JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=154cb249-d86d-663a-387a-a52ed9926719&u=a1aHR0cHM6Ly93d3cucGxleC50di93YXRjaC1mcmVlLw&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=0dadb29557dccafb153747e18b890785a26734648a708c8009d6213f0ac8282dJmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=07b6cab2-74c6-65b4-0680-ddd5750e64bf&u=a1aHR0cHM6Ly93d3cuZGljdGlvbmFyeS5jb20vYnJvd3NlL2Jlc3Q&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=0f18bcc74660cdb9082a94aaff0b404d6a07f10997f9f7cafe140608388959c4JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=11ee5858-033c-697b-3795-4f3f02166866&u=a1aHR0cHM6Ly9wb2tpLmNvbS8_bXNvY2tpZD0xMWVlNTg1ODAzM2M2OTdiMzc5NTRmM2YwMjE2Njg2Ng&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=11bc9b2a90b087aede1731c0892baca6d4f992426cf0e51eb437f43bdb019c91JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=279595b7-6f81-661d-22c2-82d06e9b676c&u=a1aHR0cHM6Ly9wb2tpLmNvbS8_bXNvY2tpZD0yNzk1OTViNzZmODE2NjFkMjJjMjgyZDA2ZTliNjc2Yw&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=11f75321f4d7f922a94eee47779e4a8661ed1d7b30ba9bc983a456d620e7afaaJmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=337ed2d3-06a1-64c9-07d7-c5b4074f65bc&u=a1aHR0cHM6Ly93d3cua2l0Y28uY29tL3ByaWNlL2NyeXB0bw&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=127bb85fafe5a4bbd7fa1bcbb0e57edd1978ec279e235529c94ff01bbb3f28dbJmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=310bfb61-e026-6571-0cb3-ec06e1396479&u=a1aHR0cHM6Ly9kaWN0aW9uYXJ5LmNhbWJyaWRnZS5vcmcvZGljdGlvbmFyeS9lbmdsaXNoL2Jlc3Q&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=14100b167fbdfaa7586de8b38f7da47497d418d6402f6b54ac730d2014d62e44JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=29a60b37-fc8b-6e28-324c-1c50fd416f55&u=a1aHR0cHM6Ly93d3cuYmVzdGJ1eS5jb20v&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=16365eb17a91402f85a4beee2738af22893dd351581cb6bd2369f1ae611837f3JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=337ed2d3-06a1-64c9-07d7-c5b4074f65bc&u=a1aHR0cHM6Ly93d3cuY29pbmJhc2UuY29tL2V4cGxvcmU&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=16b47e80302afb4a37e620e2cac22fb4ea61546700945401eaf52231f70d23cdJmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=0bfad0c8-efdf-637b-3801-c7afeed46279&u=a1aHR0cHM6Ly9maW5hbmNlLnlhaG9vLmNvbS9xdW90ZS9ET0dFLVVTRC8&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=18c68f7d64199fcf4787a08c0efa695fa2a6cb0ffa7f4509a7832fedc64bada2JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=223f17d3-bfaf-6c7c-0642-00b4beca6d5b&u=a1aHR0cHM6Ly93d3cubWVycmlhbS13ZWJzdGVyLmNvbS9kaWN0aW9uYXJ5L3BhaWQ&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=18e67aeaef015a825f6851bfc202d1166fc146022941bb3b48a0e7cc1c75699aJmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=39358923-db15-6c2c-193e-9e44da8b6dc7&u=a1aHR0cHM6Ly90ZWxlZ3JhbS5lbi5zb2Z0b25pYy5jb20v&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=1a7b17b523cc34b9fe6dd1375be36d3b554e166f8bda00a9b30a2ec3ff733561JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=279595b7-6f81-661d-22c2-82d06e9b676c&u=a1aHR0cHM6Ly90dWJpdHYuY29tLw&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=1bf905a554255f676f5c6675419c74285f153a89e65e021cf8f1fa241cc44aa3JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=11ee5858-033c-697b-3795-4f3f02166866&u=a1aHR0cHM6Ly9mcmVlZ2FtZXMub3JnLw&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=1d368f83ed59d03080dd142e13217c3e87cfd68e6ddaab901a234cfba3868e5eJmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=117901f8-a409-6a74-0003-169fa5e86b8e&u=a1aHR0cHM6Ly93d3cuZnJlZXN0dWZmZmluZGVyLmNvbS9mcmVlLXN0dWZmLw&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=20659f386f95b0e5d601cf5b0c6cd60fb17b4b96e0c99b5b015d9b3745c43d5dJmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=3df07dab-6e50-6187-00ee-6acc6f2a60d7&u=a1aHR0cHM6Ly93d3cuYXJrYWRpdW0uY29tL2ZyZWUtb25saW5lLWdhbWVzLw&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=228f03663e177ba5e23de462d88fb6351aa92b1db2668bedcdff56ab03d32182JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=2bf355cd-e73d-64d5-23d8-42aae6e665fe&u=a1aHR0cHM6Ly9hcHBzLm1pY3Jvc29mdC5jb20vZGV0YWlsLzluenR3c3FudGQwcw&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=28a1d2cc12bd80ace1eb47bc5b3bcdd587fb4c3d0862951c288c3da3b80f2e43JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=117901f8-a409-6a74-0003-169fa5e86b8e&u=a1aHR0cHM6Ly93d3cucGxleC50di93YXRjaC1mcmVlLw&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=28b271cc33e43c7d6db11925323b348248117b656a453c63c86d7bd013c217a2JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=312052a8-6092-6330-3b69-45cf617562ba&u=a1aHR0cHM6Ly93d3cuYW1hem9uLmNvbS9GYXVjZXQvcz9rPUZhdWNldA&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=2e61bc1e55553ae51ca9c3b49ec5f46cdb3a970a9082054cbd3e1831eb991048JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=117901f8-a409-6a74-0003-169fa5e86b8e&u=a1aHR0cHM6Ly93d3cuY3JhenlnYW1lcy5jb20v&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=2ebb48d328c0a39d9f7df3ae8aa1ea6acccf51f67c05a46a8a22e212e5bd7c65JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=312052a8-6092-6330-3b69-45cf617562ba&u=a1aHR0cHM6Ly93d3cuZmF1Y2V0ZGVwb3QuY29tLw&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=2f665419501dee6d53a2feef74dd88e52a58ea0df5bfd443ed2538695efb3e33JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=11ee5858-033c-697b-3795-4f3f02166866&u=a1aHR0cHM6Ly90dWJpdHYuY29tLw&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=2ff172172d09a2d9d570eeb9cec099fc050200cadad1c003914a45fbe6e5373eJmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=17ea56bd-e1a9-6b49-0bbd-41dae0836a26&u=a1aHR0cHM6Ly90dWJpdHYuY29tLw&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=35c3a5e075ec604f5c936d5ed945c1d4a2925e3107e89ba0fb522aa657297446JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=337ed2d3-06a1-64c9-07d7-c5b4074f65bc&u=a1aHR0cHM6Ly93d3cuZm9yYmVzLmNvbS9kaWdpdGFsLWFzc2V0cy9jcnlwdG8tcHJpY2VzLw&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=3843e86a3ee30bed79271f27db0116ef964163257c163a1c096e6432afd2885fJmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=11704447-a16a-61e1-1c77-5320a00f60b3&u=a1aHR0cHM6Ly93d3cueTguY29tLw&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=388fd31d16313f0cf61d11416cef43ee7fdcf2aa819d2700fb687b0e7d94a0d7JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=27e9c6ae-78e2-6431-2f66-d1c979ac65e9&u=a1aHR0cHM6Ly93d3cuY3JhenlnYW1lcy5jb20v&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=3a1f9b846734b0920f8e26bb18c40a93e099bb869aae9354c80827cc45596a01JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=09980873-47c7-6afa-2eab-1f1446806b55&u=a1aHR0cHM6Ly93d3cuZWFybmluLmNvbS8&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=3b4404c98fb79d7ce4ddc8fc12aa35e7b28b987fa481f2b978512fcf17dc58f4JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=39d7314c-cb51-63ab-02df-262bca36624a&u=a1aHR0cHM6Ly93d3cuYmxvY2tjaGFpbi1jb3VuY2lsLm9yZy93ZWItMy93ZWIzLWZhY3RzLw&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=3bbc07729e135f958f35f9c60e2216a7db4ef68c68b920dcd8d1434b06007590JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=197a0457-d7a1-69e5-3c9e-1330d64668c1&u=a1aHR0cHM6Ly93d3cuaW52ZXN0b3BlZGlhLmNvbS9kZWNlbnRyYWxpemVkLWZpbmFuY2UtZGVmaS01MTEzODM1&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=3cd25e08bdbd759128ae979ed6051f42bd4bf4a923070421c13888bad246b2adJmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=27e9c6ae-78e2-6431-2f66-d1c979ac65e9&u=a1aHR0cHM6Ly93d3cuZnJlZXN0dWZmZmluZGVyLmNvbS9mcmVlLXN0dWZmLw&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=3ebae7608d118267e8a99405d1b10a6504ed343bf66152c95465cfc24a7e798aJmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=312052a8-6092-6330-3b69-45cf617562ba&u=a1aHR0cHM6Ly93d3cuYm9idmlsYS5jb20vYXJ0aWNsZXMvYmVzdC1raXRjaGVuLWZhdWNldC8&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=41a95e9f56ab3c960c1c58f89de4d491832bfa350379f7dde62e8b4111e2ff27JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=223f17d3-bfaf-6c7c-0642-00b4beca6d5b&u=a1aHR0cHM6Ly93d3cuY29sbGluc2RpY3Rpb25hcnkuY29tL3VzL2RpY3Rpb25hcnkvZW5nbGlzaC9wYWlk&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=42c078b12ffef4d1276de1645ce554a02956af67b0c6c4b11436ebd5bd17e054JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=07b6cab2-74c6-65b4-0680-ddd5750e64bf&u=a1aHR0cHM6Ly93d3cudm9jYWJ1bGFyeS5jb20vZGljdGlvbmFyeS9iZXN0&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=43252b2e737b8539c30c33046bac2c77897271e079029679fefe290b907ad254JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=39d7314c-cb51-63ab-02df-262bca36624a&u=a1aHR0cHM6Ly93d3cuYmxvY2tyZWFkeS5jb20vYmxvZy93aGF0LWlzLXdlYjM&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=433560b01049ae8cd0ce67127be0ac158f4a7a5788009f8f5168bfff034bf06fJmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=07d20771-df23-6f83-06e6-1016dea26ef8&u=a1aHR0cHM6Ly93d3cuZmlyZWZveC5jb20vZW4tVVMv&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=4742cc2b076e825982cb595720e2461ab675ff5480d9b3948a941b6e9f4cb24bJmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=279595b7-6f81-661d-22c2-82d06e9b676c&u=a1aHR0cHM6Ly93d3cubXNuLmNvbS9lbi11cy9wbGF5&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=47d9e70887d864033f50408cdc81bc58c6f97f053f03763fc588863ec76d8437JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=39358923-db15-6c2c-193e-9e44da8b6dc7&u=a1aHR0cHM6Ly9hcHBzLm1pY3Jvc29mdC5jb20vZGV0YWlsLzluenR3c3FudGQwcw&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=48f14e97aac0139ffd3b56313d7247e764d9aaeba587f3a8b7c6404663b86a06JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=217bab19-b594-6c5b-0360-bc7eb44f6d53&u=a1aHR0cHM6Ly9kaWN0aW9uYXJ5LmNhbWJyaWRnZS5vcmcvZGljdGlvbmFyeS9lbmdsaXNoL3Bhc3NpdmU&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=49f86eb2c2b96c82ddc1f77bbdc163ff1bbb4a9546c6bff67665ea93a7541064JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=117901f8-a409-6a74-0003-169fa5e86b8e&u=a1aHR0cHM6Ly9wbHV0by50di8_bXNvY2tpZD0xMTc5MDFmOGE0MDk2YTc0MDAwMzE2OWZhNWU4NmI4ZQ&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=4b048430585b4e264a74baa9e3e1e9ac56b11ecbc49cf54ac0b79378aba7a12cJmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=27e9c6ae-78e2-6431-2f66-d1c979ac65e9&u=a1aHR0cHM6Ly93d3cucGxleC50di93YXRjaC1mcmVlLw&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=4bf63cf8a9dde54cfaa0b7003c36e27f25550d7da195392885db9da58d5736f0JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=3df07dab-6e50-6187-00ee-6acc6f2a60d7&u=a1aHR0cHM6Ly93d3cuY3JhenlnYW1lcy5jb20v&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=4d123b860361eb216044dac80457badaec579ee5511de30b5e2145c577c946d2JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=07b6cab2-74c6-65b4-0680-ddd5750e64bf&u=a1aHR0cHM6Ly93d3cubWVycmlhbS13ZWJzdGVyLmNvbS9kaWN0aW9uYXJ5L2Jlc3Q&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=50819db5e8a449dbc541fdd4024da9acd086828640104703c83a2ee3df53cc6aJmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=310bfb61-e026-6571-0cb3-ec06e1396479&u=a1aHR0cHM6Ly93d3cudm9jYWJ1bGFyeS5jb20vZGljdGlvbmFyeS9iZXN0&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=52e21feee1be7d7a38e0e3b97b40970144ee8f375e8d158e7ec3ae2b76aa4eedJmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=17ea56bd-e1a9-6b49-0bbd-41dae0836a26&u=a1aHR0cHM6Ly93d3cuY3JhenlnYW1lcy5jb20v&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=55102ca42ad33373a9da7438b6a2e148f69745352928200b5b3301d0da981a65JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=197a0457-d7a1-69e5-3c9e-1330d64668c1&u=a1aHR0cHM6Ly93d3cuYmFua3JhdGUuY29tL2ludmVzdGluZy93aGF0LWlzLWRlY2VudHJhbGl6ZWQtZmluYW5jZS1kZWZpLWNyeXB0by8&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=55b32938791ef1e123149abc09bf0aa16ba55972b82f314a59fd0a194af42fd4JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=217bab19-b594-6c5b-0360-bc7eb44f6d53&u=a1aHR0cHM6Ly93d3cuc2ltcGx5cHN5Y2hvbG9neS5vcmcvcGFzc2l2ZS1hZ2dyZXNzaXZlLWJlaGF2aW9yLmh0bWw&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=5739e41ff084ecddd5bd956bc1bbaa127c7e386a5bbdb77799ae33fdae994b89JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=17ea56bd-e1a9-6b49-0bbd-41dae0836a26&u=a1aHR0cHM6Ly9wb2tpLmNvbS8_bXNvY2tpZD0xN2VhNTZiZGUxYTk2YjQ5MGJiZDQxZGFlMDgzNmEyNg&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=5744d800b39931339c443e3a7bec67f7147f6476d6531d12e4fff7678532b3ccJmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=07b6cab2-74c6-65b4-0680-ddd5750e64bf&u=a1aHR0cHM6Ly91c2RpY3Rpb25hcnkuY29tL2RlZmluaXRpb25zL2Jlc3Qv&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=59126d1daa35f939acf816a6ec30dc43e18a09902a6c0376867fd9cd305e548bJmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=39d7314c-cb51-63ab-02df-262bca36624a&u=a1aHR0cHM6Ly93d3cuZ2Vla3Nmb3JnZWVrcy5vcmcvY29tcHV0ZXItbmV0d29ya3Mvd2ViMy1hcmNoaXRlY3R1cmUtYW5kLXRlY2gtc3RhY2sv&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=59f79f9121042a98b50f03be25e1f0d9d11a9116726a254c2ebd9170b16b9ad7JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=11704447-a16a-61e1-1c77-5320a00f60b3&u=a1aHR0cHM6Ly9wbGF5aG9wLmNvbS8&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=5ce7450379ea891ccea609636bb6a9dd9df1f2706bd0211f968cc929197ce848JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=197a0457-d7a1-69e5-3c9e-1330d64668c1&u=a1aHR0cHM6Ly93d3cuZmlkZWxpdHkuY29tL2xlYXJuaW5nLWNlbnRlci90cmFkaW5nLWludmVzdGluZy9jcnlwdG8vZGVjZW50cmFsaXplZC1maW5hbmNlL",
+    "https://www.bing.com/ck/a?!&&p=611662296f2b7980e42bae32e6b785c88606df748091f6dfda5ff885203b760eJmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=0e5180b3-e77f-6ad1-1070-97d4e60e6bb2&u=a1aHR0cHM6Ly9hd3MuYW1hem9uLmNvbS8&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=632d8c1c9211b84bb2aa25b5cd3500b9b601cd8a1e8c8c5dcf1ff822cb3dd6c6JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=310bfb61-e026-6571-0cb3-ec06e1396479&u=a1aHR0cHM6Ly91c2RpY3Rpb25hcnkuY29tL2RlZmluaXRpb25zL2Jlc3Qv&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=65e4cb3dc14d29b3bee67fb5dfc1a905f8dfd1164ee4a831a30108f7121fb83aJmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=3df07dab-6e50-6187-00ee-6acc6f2a60d7&u=a1aHR0cHM6Ly93d3cuZnJlZXN0dWZmZmluZGVyLmNvbS9mcmVlLXN0dWZmLw&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=6609befa2aac24eee98bb2ec50630542f4f6ff9386938200fd2f215ea646854dJmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=17ea56bd-e1a9-6b49-0bbd-41dae0836a26&u=a1aHR0cHM6Ly93d3cuYXJrYWRpdW0uY29tL2ZyZWUtb25saW5lLWdhbWVzLw&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=670528a9c0e977b49d02a24dddcd80f90a8888ded149ce8c0cab3a35fe6aa8a6JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=154cb249-d86d-663a-387a-a52ed9926719&u=a1aHR0cHM6Ly93d3cuYXJrYWRpdW0uY29tL2ZyZWUtb25saW5lLWdhbWVzLw&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=698f1be81ace84aee1c7cbd94f0cd47e34f4293ea712d9ab8170ebd8a0a00e2bJmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=27e9c6ae-78e2-6431-2f66-d1c979ac65e9&u=a1aHR0cHM6Ly9mcmVlZ2FtZXMub3JnLw&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=6a67f382b451faa9f51637094a0fea1364879e18a4914ad54277433d975bbfdbJmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=11ee5858-033c-697b-3795-4f3f02166866&u=a1aHR0cHM6Ly93d3cuYmdhbWVzLmNvbS8&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=6cc4bf6b8ea1f6d72aadae5cecab7a7237590802d7a05b2bc39bc3610cdb0ba7JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=17ea56bd-e1a9-6b49-0bbd-41dae0836a26&u=a1aHR0cHM6Ly93d3cubXNuLmNvbS9lbi11cy9wbGF5&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=6d2f6fb9c8a21b0f70beb7204e1ff308bb16a3ad535b5e6cd6634b925ff6bb9bJmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=154cb249-d86d-663a-387a-a52ed9926719&u=a1aHR0cHM6Ly90dWJpdHYuY29tLw&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=6d30658f2fb7313c48ec1c6f4360cf65a65fc7324ea8faa554be75c25525b5e5JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=154cb249-d86d-663a-387a-a52ed9926719&u=a1aHR0cHM6Ly93d3cuYmdhbWVzLmNvbS8&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=6f8cf26bd8720a8e6bd477e1d875dd7ce22b2aed57edfc13987dca1d3963a3a9JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=217bab19-b594-6c5b-0360-bc7eb44f6d53&u=a1aHR0cHM6Ly93d3cuY29sbGluc2RpY3Rpb25hcnkuY29tL2RpY3Rpb25hcnkvZW5nbGlzaC9wYXNzaXZl&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=7019bb62f46af5092b7ccc76b9881035cdb103686565680b2cd2c5b8b10e58a9JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=217bab19-b594-6c5b-0360-bc7eb44f6d53&u=a1aHR0cHM6Ly93d3cuZGljdGlvbmFyeS5jb20vYnJvd3NlL3Bhc3NpdmU&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=70d1e007c9ff4f6c7106ff2225828086e187eb024cb8ab78bfe6e60f7ada8196JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=197a0457-d7a1-69e5-3c9e-1330d64668c1&u=a1aHR0cHM6Ly9ldGhlcmV1bS5vcmcvZGVmaS8&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=71d1d8d4c9295dc7fe037c75daf1acfa5c39192ab6ca90bcf48dad5e2bc0eb28JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=223f17d3-bfaf-6c7c-0642-00b4beca6d5b&u=a1aHR0cHM6Ly93d3cudGhlZnJlZWRpY3Rpb25hcnkuY29tL3BhaWQ&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=72406cff74ff169d6ec94af864d5df827c81e7b179e8ecd3a8cd8a97d4de62c6JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=337ed2d3-06a1-64c9-07d7-c5b4074f65bc&u=a1aHR0cHM6Ly93d3cudHJhZGluZ3ZpZXcuY29tL21hcmtldHMvY3J5cHRvY3VycmVuY2llcy8&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=72fa5fc8910d9414adb95e47f4a64426b66bd5e55e52a663ba05f8e9e683c41cJmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=17ea56bd-e1a9-6b49-0bbd-41dae0836a26&u=a1aHR0cHM6Ly9mcmVlZ2FtZXMub3JnLw&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=732a330ed06f86993c30db764de9624453da7f471605671a65c52c036a7a993aJmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=217bab19-b594-6c5b-0360-bc7eb44f6d53&u=a1aHR0cHM6Ly93d3cudm9jYWJ1bGFyeS5jb20vZGljdGlvbmFyeS9wYXNzaXZl&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=73ea0b7118034347403669f0abafb74def29f54a2e6f97728e8070fa96c4ff6dJmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=29a60b37-fc8b-6e28-324c-1c50fd416f55&u=a1aHR0cHM6Ly93d3cuZGljdGlvbmFyeS5jb20vYnJvd3NlL2Jlc3Q&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=7423be00ad73bf107474333d0256e7e6caac1f4f08ab012cd6ea4d6b16e1366cJmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=17ea56bd-e1a9-6b49-0bbd-41dae0836a26&u=a1aHR0cHM6Ly93d3cuZnJlZXN0dWZmZmluZGVyLmNvbS9mcmVlLXN0dWZmLw&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=74910ece0d802f8ed5059fee56b3951106cd7ea38f058524b093a0644fc6086aJmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=09980873-47c7-6afa-2eab-1f1446806b55&u=a1aHR0cHM6Ly93d3cuY29sbGluc2RpY3Rpb25hcnkuY29tL2RpY3Rpb25hcnkvZW5nbGlzaC9lYXJu&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=762a7a4e8e3e92d0212c88d9cb85d1f629a3f4016f922c33d07b8c9a66ebf1fcJmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=07b6cab2-74c6-65b4-0680-ddd5750e64bf&u=a1aHR0cHM6Ly9kaWN0aW9uYXJ5LmNhbWJyaWRnZS5vcmcvZGljdGlvbmFyeS9lbmdsaXNoL2Jlc3Q&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=765ee74dfa282dd6dd9b536cc68323dfdee95805010979fd0c30fb600019659aJmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=0bfad0c8-efdf-637b-3801-c7afeed46279&u=a1aHR0cHM6Ly9hYmNuZXdzLmNvbS9Qb2xpdGljcy8yLWRvZ2Utc3RhZmZlcnMtcmVncmV0cy1wZW9wbGUtbG9zaW5nLWluY29tZS1yZWR1Y2Uvc3Rvcnk_a",
+    "https://www.bing.com/ck/a?!&&p=788d7456df609df0f5e6e343436afc5caa3489d5a891a803820bed5bde33251dJmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=117901f8-a409-6a74-0003-169fa5e86b8e&u=a1aHR0cHM6Ly90dWJpdHYuY29tLw&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=791585b176bf6629350c93ba91ad019a519b22bb9e532910d758bbd1b871e4deJmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=117901f8-a409-6a74-0003-169fa5e86b8e&u=a1aHR0cHM6Ly93d3cubXNuLmNvbS9lbi11cy9wbGF5&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=79329d9f756ce270761d27ca5215348d901e18622c12a0ad942e1c80b79c6bbdJmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=3a9ccd37-6c37-636f-1555-da506dbd623e&u=a1aHR0cHM6Ly9naXptb2RvLmNvbS9kb3dubG9hZC90ZWxlZ3JhbQ&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=79c8a12bcd01b6cc17ec942db6fc4df3efb79fab2d2be7cae70894d89349e5d6JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=17ea56bd-e1a9-6b49-0bbd-41dae0836a26&u=a1aHR0cHM6Ly93d3cucGxleC50di93YXRjaC1mcmVlLw&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=7e3b6bf4ae7d5de0904fb7dc9ebb803be816cfc40f7d7f3ccc031bc888f64a24JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=337ed2d3-06a1-64c9-07d7-c5b4074f65bc&u=a1aHR0cHM6Ly9jb2luZ2FwZS5jb20vcHJpY2Uv&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=7f55ee7da222e642e5e67f578a121be54a474dbd5e4fd8f78497c09d32fbc695JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=3a9ccd37-6c37-636f-1555-da506dbd623e&u=a1aHR0cHM6Ly9hcHBzLm1pY3Jvc29mdC5jb20vZGV0YWlsLzluenR3c3FudGQwcw&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=80f9dc349c05bbf9317f68d8c4832e0424b0c435e74fd1a6ce72e7b66a4c6a36JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=117901f8-a409-6a74-0003-169fa5e86b8e&u=a1aHR0cHM6Ly9mcmVlZ2FtZXMub3JnLw&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=829dd328af02d0b256b30e9ea5e3c0464270f255fd47abcd5423fecc9697acbaJmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=29a60b37-fc8b-6e28-324c-1c50fd416f55&u=a1aHR0cHM6Ly93d3cudm9jYWJ1bGFyeS5jb20vZGljdGlvbmFyeS9iZXN0&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=854f291fca87f2695b7c5d7843e849f0c87df29eccc8a5505aeb3d40c39a9ba5JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=29a60b37-fc8b-6e28-324c-1c50fd416f55&u=a1aHR0cHM6Ly93d3cubWVycmlhbS13ZWJzdGVyLmNvbS9kaWN0aW9uYXJ5L2Jlc3Q&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=85715d8303b24cf3fb9b6fe99efbcc246664a100f71816b1790841b301b8a6ccJmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=337ed2d3-06a1-64c9-07d7-c5b4074f65bc&u=a1aHR0cHM6Ly9jb2lubWFya2V0Y2FwLmNvbS8&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=89427da1afb6d1b0dfddf155263d8c6b5504de12258ee01f41108e1f36bdf583JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=07d20771-df23-6f83-06e6-1016dea26ef8&u=a1aHR0cHM6Ly93d3cudGVjaHNwb3QuY29tL2Rvd25sb2Fkcy80NzE4LWdvb2dsZS1jaHJvbWUuaHRtbA&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=894b32db96f9531fcc1c36730c555de94251c84c79cb13c33aa17065525b0463JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=11704447-a16a-61e1-1c77-5320a00f60b3&u=a1aHR0cHM6Ly93d3cucGxheS1nYW1lcy5jb20v&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=8b7b7b30293e59e627767c8fa3a78362bd5ae74c5383617b7d926673f1ee3b1aJmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=17ea56bd-e1a9-6b49-0bbd-41dae0836a26&u=a1aHR0cHM6Ly93d3cuYmdhbWVzLmNvbS8&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=8e2aac3d6fb7b6c0670108bea8f0a8768b25abe5fa810b8b1afa9f99ee4ba9b4JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=29a60b37-fc8b-6e28-324c-1c50fd416f55&u=a1aHR0cHM6Ly91c2RpY3Rpb25hcnkuY29tL2RlZmluaXRpb25zL2Jlc3Qv&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=90a667b635c224f525609032acc45cd9f450d5f536590ba3cb2cd17cf05d818fJmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=117901f8-a409-6a74-0003-169fa5e86b8e&u=a1aHR0cHM6Ly9wb2tpLmNvbS8_bXNvY2tpZD0xMTc5MDFmOGE0MDk2YTc0MDAwMzE2OWZhNWU4NmI4ZQ&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=92d6b3751177b546479899811b3ad4b739b80212ebf962b374deedbe652c0595JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=11704447-a16a-61e1-1c77-5320a00f60b3&u=a1aHR0cHM6Ly9wbGF5Z2FtYS5jb20v&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=95b43ea5822cb2541af080a29d8ceb1cf69285bc86501e11c3b0a6ad40f21ea8JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=3189758b-a47b-6b1a-0824-62eca57c6ad1&u=a1aHR0cHM6Ly9lbi53aWtpcGVkaWEub3JnL3dpa2kvU29sYW5hXyhibG9ja2NoYWluX3BsYXRmb3JtKQ&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=963a010c44729259509b5636fcab14326ab1f720022d9dbcc3c7174982b455a0JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=2bf355cd-e73d-64d5-23d8-42aae6e665fe&u=a1aHR0cHM6Ly90ZWxlZ3JhbS5lbi5zb2Z0b25pYy5jb20v&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=965c589d4cb94fdb524235b89585f3427f2662d17b25833df72bac9c854cc0c4JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=27e9c6ae-78e2-6431-2f66-d1c979ac65e9&u=a1aHR0cHM6Ly93d3cubXNuLmNvbS9lbi11cy9wbGF5&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=972d35bc2069deb4d93e47c85a2f0bef7020169bd5d7cd3ec81271467736f1e1JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=154cb249-d86d-663a-387a-a52ed9926719&u=a1aHR0cHM6Ly93d3cuY3JhenlnYW1lcy5jb20v&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=98e9f310b9b9af2585c8e8a309ac51dc295dd544e2b1da4a7835e33ee53f9d07JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=197a0457-d7a1-69e5-3c9e-1330d64668c1&u=a1aHR0cHM6Ly93d3cuYnJpdGFubmljYS5jb20vbW9uZXkvZGVjZW50cmFsaXplZC1maW5hbmNlLWRlZmk&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=99872cc56a882e48d6782f511a0640b416605acf6f195239159bd7572e363ba4JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=3189758b-a47b-6b1a-0824-62eca57c6ad1&u=a1aHR0cHM6Ly93d3cuY29pbmdlY2tvLmNvbS9lbi9jb2lucy9zb2xhbmE&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=9a6b610ddea4a53a63d749cc6b5495853d4128804e5eb047d354446d7fad1c01JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=27e9c6ae-78e2-6431-2f66-d1c979ac65e9&u=a1aHR0cHM6Ly9wbHV0by50di8_bXNvY2tpZD0yN2U5YzZhZTc4ZTI2NDMxMmY2NmQxYzk3OWFjNjVlOQ&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=9bcdbe77f9388a6a953ea52a08e587cbb4a2de1139cdabe751f1457d76daf5c7JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=154cb249-d86d-663a-387a-a52ed9926719&u=a1aHR0cHM6Ly93d3cubXNuLmNvbS9lbi11cy9wbGF5&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=9d36ae499f936f70b0c44892c8265e2db858cd48b81a0ee06ef61093d21f4d1aJmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=279595b7-6f81-661d-22c2-82d06e9b676c&u=a1aHR0cHM6Ly93d3cuZnJlZXN0dWZmZmluZGVyLmNvbS9mcmVlLXN0dWZmLw&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=9dad8db60b2363565abeff9acd9d3ee33d174f3ca6745212b6962bad52a29cf0JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=3df07dab-6e50-6187-00ee-6acc6f2a60d7&u=a1aHR0cHM6Ly9mcmVlZ2FtZXMub3JnLw&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=9e2a0ce3fb645eb8d187be3953b3dc6d4ce55bc3b3d30899dd6bc3b38aa6937aJmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=3df07dab-6e50-6187-00ee-6acc6f2a60d7&u=a1aHR0cHM6Ly9wb2tpLmNvbS8_bXNvY2tpZD0zZGYwN2RhYjZlNTA2MTg3MDBlZTZhY2M2ZjJhNjBkNw&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=9ea3831658bb4b45fa93d62df73b3b18dbfc797bbb877aeb07d83dffd67e095aJmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=310bfb61-e026-6571-0cb3-ec06e1396479&u=a1aHR0cHM6Ly93d3cubWVycmlhbS13ZWJzdGVyLmNvbS9kaWN0aW9uYXJ5L2Jlc3Q&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=a11de1e54760af8d8717af727917f47fff2636117e43e8b97b6c4859b18613c2JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=09980873-47c7-6afa-2eab-1f1446806b55&u=a1aHR0cHM6Ly93d3cubGFib3IubWFyeWxhbmQuZ292L2Vhcm4v&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=a1ed672b5ef97f8e8f9def0ecc8ae58a49980dc41346195e4c614b15b2d22ac1JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=197a0457-d7a1-69e5-3c9e-1330d64668c1&u=a1aHR0cHM6Ly93d3cuY291cnNlcmEub3JnL2FydGljbGVzL3doYXQtaXMtZGVmaT9tc29ja2lkPTE5N2EwNDU3ZDdhMTY5ZTUzYzllMTMzMGQ2NDY2OGMx&",
+    "https://www.bing.com/ck/a?!&&p=a32d87ba506063ecf6577e3657c8b1c7439936af35e26b5d7a2ab6a5409b1fc5JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=17ea56bd-e1a9-6b49-0bbd-41dae0836a26&u=a1aHR0cHM6Ly9wbHV0by50di8_bXNvY2tpZD0xN2VhNTZiZGUxYTk2YjQ5MGJiZDQxZGFlMDgzNmEyNg&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=a33d304b1610014c9fa9f7f02010376c60e6802c1499860e0c5ca57589884445JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=117901f8-a409-6a74-0003-169fa5e86b8e&u=a1aHR0cHM6Ly93d3cuYmdhbWVzLmNvbS8&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=a56da911e5790e20668117364e138212b1adaf12aec8b358fa06fc68005fefe0JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=27e9c6ae-78e2-6431-2f66-d1c979ac65e9&u=a1aHR0cHM6Ly90dWJpdHYuY29tLw&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=a7b31033d3399f967d63a85c6c3d5fe7d7a86ab71c5a06cbab62c4e95f1c416bJmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=217bab19-b594-6c5b-0360-bc7eb44f6d53&u=a1aHR0cHM6Ly93d3cucGVyZmVjdC1lbmdsaXNoLWdyYW1tYXIuY29tL3Bhc3NpdmUuaHRtbA&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=a9295160bc1dea38d50939dc45a30850e2f518480644c4c5d8861458d242c3a6JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=3189758b-a47b-6b1a-0824-62eca57c6ad1&u=a1aHR0cHM6Ly9maW5hbmNlLnlhaG9vLmNvbS9xdW90ZS9TT0wtVVNELw&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=a9913280c64d6747f00e1ac027a0c1b0576523af2a6e63e9ae50ae7af5361f31JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=3189758b-a47b-6b1a-0824-62eca57c6ad1&u=a1aHR0cHM6Ly9jb2lubWFya2V0Y2FwLmNvbS9jdXJyZW5jaWVzL3NvbGFuYS8&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=aa81ee93a9a7746091675f013dfe5adc09e3eaafda5ba67a21722aaa609b9792JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=09980873-47c7-6afa-2eab-1f1446806b55&u=a1aHR0cHM6Ly9lbWFya2V0aW5naGFja3MuY29tL3dlYnNpdGVzLXRvLW1ha2UtbW9uZXkv&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=ab00f62aa45653f452de4051dc8037bb3525655037ec69f95e1a1ae57da86014JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=223f17d3-bfaf-6c7c-0642-00b4beca6d5b&u=a1aHR0cHM6Ly9kaWN0aW9uYXJ5LmNhbWJyaWRnZS5vcmcvZGljdGlvbmFyeS9lbmdsaXNoL3BhaWQ&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=ac9514fb38511cc5d50a064ebe36bcca3d05e576da5075b82971fcbff7a5ecbfJmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=337ed2d3-06a1-64c9-07d7-c5b4074f65bc&u=a1aHR0cHM6Ly93d3cuY29pbmdlY2tvLmNvbS8&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=acb3d794203a80e0443933d75b00d64ed3f0bae5b5366910f371f74f79157026JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=154cb249-d86d-663a-387a-a52ed9926719&u=a1aHR0cHM6Ly93d3cuZnJlZXN0dWZmZmluZGVyLmNvbS9mcmVlLXN0dWZmLw&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=b215c50437a3d6dd244519193ae8a32cd16ece67b58cead51429e1c25c218af7JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=337ed2d3-06a1-64c9-07d7-c5b4074f65bc&u=a1aHR0cHM6Ly93d3cuY29pbmxvcmUuY29tLw&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=b39cfe0849954bdfd6c699ed376c9368808fd516c48bfcc09fb432e6a087a6b1JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=27e9c6ae-78e2-6431-2f66-d1c979ac65e9&u=a1aHR0cHM6Ly9wb2tpLmNvbS8_bXNvY2tpZD0yN2U5YzZhZTc4ZTI2NDMxMmY2NmQxYzk3OWFjNjVlOQ&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=b526c8c8f6510fc65ad7fb574904de22abbd4bc6dc830df216e2caaa8c52f263JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=197a0457-d7a1-69e5-3c9e-1330d64668c1&u=a1aHR0cHM6Ly93d3cuY29pbmJhc2UuY29tL2xlYXJuL2NyeXB0by1iYXNpY3Mvd2hhdC1pcy1kZWZp&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=b7c27352c00726611a375035eeb6081a66f42c45a444f736aa156cddc1a3b026JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=39358923-db15-6c2c-193e-9e44da8b6dc7&u=a1aHR0cHM6Ly9naXptb2RvLmNvbS9kb3dubG9hZC90ZWxlZ3JhbQ&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=b805258cec85d5c77528561b9e9f7dc1e25a95c74298d354d743c7100162ee30JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=0e5180b3-e77f-6ad1-1070-97d4e60e6bb2&u=a1aHR0cHM6Ly93d3cuY2xvdWRmbGFyZS5jb20vbGVhcm5pbmcvY2xvdWQvd2hhdC1pcy10aGUtY2xvdWQv&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=b842316c2469d0e9aac19e995da4cc54a1c11c9db74899fe5429d2cef01c42f5JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=11704447-a16a-61e1-1c77-5320a00f60b3&u=a1aHR0cHM6Ly9wb2tpLmNvbS8_bXNvY2tpZD0xMTcwNDQ0N2ExNmE2MWUxMWM3NzUzMjBhMDBmNjBiMw&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=b92c95a24818fd19cabe629602ec4007b9d65d243aa0b37b4724571d9c763f56JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=117901f8-a409-6a74-0003-169fa5e86b8e&u=a1aHR0cHM6Ly93d3cuYXJrYWRpdW0uY29tL2ZyZWUtb25saW5lLWdhbWVzLw&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=b9a9bf93ea76f315467db98c0cb6916441fd3918c9b93af781b2a6a834d3f716JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=337ed2d3-06a1-64c9-07d7-c5b4074f65bc&u=a1aHR0cHM6Ly93d3cuY29pbmRlc2suY29tLw&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=bbfeee277678e1b8a37c7256d763a74b104bf3a1a90f08535d5d7804b263c75aJmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=09980873-47c7-6afa-2eab-1f1446806b55&u=a1aHR0cHM6Ly9kaWN0aW9uYXJ5LmNhbWJyaWRnZS5vcmcvZGljdGlvbmFyeS9lbmdsaXNoL2Vhcm4&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=bc2360af7e9e136c3dfa64c9c8aaf21f21d4a39d7d6b7f3533f8ded6684c742eJmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=2e3f3013-3e68-69c1-1dcd-27743ffb6879&u=a1aHR0cHM6Ly93d3cuY2FyZmF4LmNvbS9Vc2VkLUNhcnMtaW4tSmFja3NvbnZpbGxlLUZMX2MxMzgzND9tc29ja2lkPTJlM2YzMDEzM2U2ODY5YzExZGNkM",
+    "https://www.bing.com/ck/a?!&&p=bd61184fa90bc578740b7fec921f8571ab7f8d9dd7f3f8586fcdd3e63903d59cJmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=07d20771-df23-6f83-06e6-1016dea26ef8&u=a1aHR0cHM6Ly9rb3Rha3UuY29tL2Rvd25sb2FkL2dvb2dsZS1jaHJvbWU&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=c167f7a1500de08af2994d599348622141815930881a7a59c6b7ae98f716251fJmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=13e623ee-56eb-6f27-0cd8-3489579a6e08&u=a1aHR0cHM6Ly93d3cuY2FyZmF4LmNvbS9Vc2VkLUNhcnMtaW4tSmFja3NvbnZpbGxlLUZMX2MxMzgzND9tc29ja2lkPTEzZTYyM2VlNTZlYjZmMjcwY2Q4M",
+    "https://www.bing.com/ck/a?!&&p=c49e74e4c964a0229ada0f64c2e41972a7e4502feb50509efed83667cc52049eJmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=279595b7-6f81-661d-22c2-82d06e9b676c&u=a1aHR0cHM6Ly93d3cuYXJrYWRpdW0uY29tL2ZyZWUtb25saW5lLWdhbWVzLw&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=c5faeea9e45d6d35f8ae42d989b67164d7ab02bb3f40fea8cc5dd4018e6e0779JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=3df07dab-6e50-6187-00ee-6acc6f2a60d7&u=a1aHR0cHM6Ly90dWJpdHYuY29tLw&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=c6274d487ab0423c0bf2750bd0d20d2a3b86ba9a414e1a50250178c9c23fe4b8JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=154cb249-d86d-663a-387a-a52ed9926719&u=a1aHR0cHM6Ly9wb2tpLmNvbS8_bXNvY2tpZD0xNTRjYjI0OWQ4NmQ2NjNhMzg3YWE1MmVkOTkyNjcxOQ&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=c803ea43f09ebbea22f42c3bdff189afdba35ae589314cf3241db870575e99a9JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=217bab19-b594-6c5b-0360-bc7eb44f6d53&u=a1aHR0cHM6Ly9sZWFybmVuZ2xpc2guYnJpdGlzaGNvdW5jaWwub3JnL2ZyZWUtcmVzb3VyY2VzL2dyYW1tYXIvYjEtYjIvcGFzc2l2ZXM&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=c8dc921cd1597190b09127e5649f93c4dde68ae615bebb0622e11e9146c2ef58JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=197a0457-d7a1-69e5-3c9e-1330d64668c1&u=a1aHR0cHM6Ly93d3cuYmxvY2tjaGFpbi1jb3VuY2lsLm9yZy9ibG9ja2NoYWluL2RlZmkv&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=c9275809af52930d27a5e93dab14d8942a42e96c63ee868d320f82436aa7f1c4JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=39d7314c-cb51-63ab-02df-262bca36624a&u=a1aHR0cHM6Ly9hd3MuYW1hem9uLmNvbS93aGF0LWlzL3dlYjMv&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=c9bcb5cadc95ef55b7f1395da32f7469a0969059869b77b8785cadc7bf0a5666JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=217bab19-b594-6c5b-0360-bc7eb44f6d53&u=a1aHR0cHM6Ly93d3cubWVycmlhbS13ZWJzdGVyLmNvbS9kaWN0aW9uYXJ5L3Bhc3NpdmU&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=ca4202692975222d05de8fba9e7771d7f4628c9777167cbf4fbc8e19dacf6c00JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=217bab19-b594-6c5b-0360-bc7eb44f6d53&u=a1aHR0cHM6Ly93d3cudGhlZnJlZWRpY3Rpb25hcnkuY29tL3Bhc3NpdmU&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=ca9c64a27a26214204094b1bb7fef5dafb58e18f6f0a5681159bd1a37767236dJmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=09980873-47c7-6afa-2eab-1f1446806b55&u=a1aHR0cHM6Ly9lYXJubmUuY29tLw&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=cd487a2f86e0b9b36369a3c1f2df6fda808c4fc897c2eb2919cd23f858c50176JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=154cb249-d86d-663a-387a-a52ed9926719&u=a1aHR0cHM6Ly9wbHV0by50di8_bXNvY2tpZD0xNTRjYjI0OWQ4NmQ2NjNhMzg3YWE1MmVkOTkyNjcxOQ&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=cf53d7d2f073ced67a787f546c61d0dee5d84483706c399228acc4703b3def51JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=3a9ccd37-6c37-636f-1555-da506dbd623e&u=a1aHR0cHM6Ly90ZWxlZ3JhbS5lbi5zb2Z0b25pYy5jb20v&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=cfcd177d53e5c5a5985d986cb61da71518f7f61690634bf5ad04359e517a92e1JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=223f17d3-bfaf-6c7c-0642-00b4beca6d5b&u=a1aHR0cHM6Ly9oZWxsb3BhaWQuY29tLw&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=d74d27cbf126987feb40f5558faf195b0df9fb1148f02ef67c05079c7f749c61JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=197a0457-d7a1-69e5-3c9e-1330d64668c1&u=a1aHR0cHM6Ly9jb2lubWFya2V0Y2FwLmNvbS9hY2FkZW15L2FydGljbGUvd2hhdC1pcy1kZWNlbnRyYWxpemVkLWZpbmFuY2U&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=d8d2df2f0173f0ee17c2864c118e8b712a66c22381a95b33cde6f2e19ac2fab7JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=09980873-47c7-6afa-2eab-1f1446806b55&u=a1aHR0cHM6Ly93d3cub3hmb3JkbGVhcm5lcnNkaWN0aW9uYXJpZXMuY29tL2RlZmluaXRpb24vZW5nbGlzaC9lYXJu&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=db2010bf7ff8958d661159c91a74d2d3fe9d24fb44bd85f60670951b37dcb00fJmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=279595b7-6f81-661d-22c2-82d06e9b676c&u=a1aHR0cHM6Ly93d3cuY3JhenlnYW1lcy5jb20v&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=dc57736fa64590a7d247f04c23e9237d16854a45cc6b8e48575f84a07af2d632JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=07b6cab2-74c6-65b4-0680-ddd5750e64bf&u=a1aHR0cHM6Ly93d3cuYmVzdGJ1eS5jb20v&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=def33ba3d088444dd7ece0063b5e71cbb57a41e5454c4ef262e57f544d4d8eb6JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=11ee5858-033c-697b-3795-4f3f02166866&u=a1aHR0cHM6Ly93d3cuZnJlZXN0dWZmZmluZGVyLmNvbS9mcmVlLXN0dWZmLw&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=df6af19ed4d47802646fb3c695553926b0b51584605df2f26a2f5ef8b4c07d4dJmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=279595b7-6f81-661d-22c2-82d06e9b676c&u=a1aHR0cHM6Ly9wbHV0by50di8_bXNvY2tpZD0yNzk1OTViNzZmODE2NjFkMjJjMjgyZDA2ZTliNjc2Yw&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=e1d4ddfc25c7a00f2df848a0eda23d6bac439c6767a7dd38b9ada4a8d47c9836JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=11704447-a16a-61e1-1c77-5320a00f60b3&u=a1aHR0cHM6Ly93d3cuY3JhenlnYW1lcy5jb20v&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=e5dc02aec072382d9554fa4a7699b0ee3842f6dcdb9440257f8912908e56db79JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=2bf355cd-e73d-64d5-23d8-42aae6e665fe&u=a1aHR0cHM6Ly9naXptb2RvLmNvbS9kb3dubG9hZC90ZWxlZ3JhbQ&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=e6508ed1de8e558044edcdaf426124f5a64c08caa6a56488fbd1609d5362fcefJmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=0bfad0c8-efdf-637b-3801-c7afeed46279&u=a1aHR0cHM6Ly9jb2lubWFya2V0Y2FwLmNvbS9jdXJyZW5jaWVzL2RvZ2Vjb2luLw&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=e8de994b8aee214a44aa970087ea5f22c56974186d0135642147d6107d595ae0JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=09980873-47c7-6afa-2eab-1f1446806b55&u=a1aHR0cHM6Ly93d3cubWVycmlhbS13ZWJzdGVyLmNvbS9kaWN0aW9uYXJ5L2Vhcm4&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=e999befdf6aaf4c11649a39c4b56448fe4a559d61eb66d529023ae5d43dd1d4aJmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=27e9c6ae-78e2-6431-2f66-d1c979ac65e9&u=a1aHR0cHM6Ly93d3cuYmdhbWVzLmNvbS8&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=e9bab615b1a759e203c95f396c780bac7fc7f3157805529b050772ddf5c4a37bJmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=3189758b-a47b-6b1a-0824-62eca57c6ad1&u=a1aHR0cHM6Ly9zb2xhbmEuY29tLw&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=ea0744f787360ecbd81f6ec77d24c4b80ec89f93c890f1a8e3a5ad26e746b191JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=217bab19-b594-6c5b-0360-bc7eb44f6d53&u=a1aHR0cHM6Ly93d3cuaXdhbnRzcGVha2VuZ2xpc2guY29tL3Bvc3QvYS1jb21wbGV0ZS1ndWlkZS10by10aGUtcGFzc2l2ZS12b2ljZS1pbi1lbmdsaXNo&",
+    "https://www.bing.com/ck/a?!&&p=ea69b59c459fdfad7c28522b0f3cbd89516a27f046b82d3e97cc3656615136efJmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=09980873-47c7-6afa-2eab-1f1446806b55&u=a1aHR0cHM6Ly93d3cuZGljdGlvbmFyeS5jb20vYnJvd3NlL2Vhcm4&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=eb2a140715990b084e7596b7ca5ba356fefa52d7bdffb64be3f07fe160224e55JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=3df07dab-6e50-6187-00ee-6acc6f2a60d7&u=a1aHR0cHM6Ly93d3cubXNuLmNvbS9lbi11cy9wbGF5&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=ec39c4a5b3ed099d336ac69aef0ea40e512c8c1c09a4fe662b68909e0f9547daJmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=3df07dab-6e50-6187-00ee-6acc6f2a60d7&u=a1aHR0cHM6Ly9wbHV0by50di8_bXNvY2tpZD0zZGYwN2RhYjZlNTA2MTg3MDBlZTZhY2M2ZjJhNjBkNw&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=ec7ccc3e9115a15b4e4b735b592ed4ab7abec3933bd60bf6b1151271bc72b688JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=11ee5858-033c-697b-3795-4f3f02166866&u=a1aHR0cHM6Ly9wbHV0by50di8_bXNvY2tpZD0xMWVlNTg1ODAzM2M2OTdiMzc5NTRmM2YwMjE2Njg2Ng&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=ecbe71ad9096ac2a69474a6a8fa533247e1775fe13a7d927a521d5da88752f61JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=279595b7-6f81-661d-22c2-82d06e9b676c&u=a1aHR0cHM6Ly9mcmVlZ2FtZXMub3JnLw&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=ef7a4e5d2f85c98d0ed30d78155b031b95b95f2cc3f50d694db8280da4f27a2bJmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=154cb249-d86d-663a-387a-a52ed9926719&u=a1aHR0cHM6Ly9mcmVlZ2FtZXMub3JnLw&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=efd16d72edd78c7a7017e83624df28a8a277ce4d574788f83c57fc39bf3bc383JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=11ee5858-033c-697b-3795-4f3f02166866&u=a1aHR0cHM6Ly93d3cuY3JhenlnYW1lcy5jb20v&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=f369f34a130147867754de93bfda987e47bb4055d97f7964309e29c3bad70d4bJmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=337ed2d3-06a1-64c9-07d7-c5b4074f65bc&u=a1aHR0cHM6Ly9jcnlwdG8uY29tLw&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=f54aefc6118081af20d464641f209383505fbb52fa6dc2ead243746688f88e73JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=310bfb61-e026-6571-0cb3-ec06e1396479&u=a1aHR0cHM6Ly93d3cuZGljdGlvbmFyeS5jb20vYnJvd3NlL2Jlc3Q&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=f5f0eaed92bf405ba9f9f804a08908a034290441f275e45ed58df76c24cf4fc2JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=223f17d3-bfaf-6c7c-0642-00b4beca6d5b&u=a1aHR0cHM6Ly93d3cuZGljdGlvbmFyeS5jb20vYnJvd3NlL3BhaWQ&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=f604573e77a92c50794213b2f1afd6cfb4b9cb0fb38b447369c88bf426226adcJmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=3189758b-a47b-6b1a-0824-62eca57c6ad1&u=a1aHR0cHM6Ly9zb2xhbmEub3JnL2Fib3V0&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=f6b1e7241e5c262449452622f6eeea58e12f18198abcd96112c1e5ed2a6acdabJmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=197a0457-d7a1-69e5-3c9e-1330d64668c1&u=a1aHR0cHM6Ly9lbi53aWtpcGVkaWEub3JnL3dpa2kvRGVjZW50cmFsaXplZF9maW5hbmNl&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=f7589b1ce35322ffd9b802a33a4f4a6c66d39d69b5e5a2ef67eaa97d15f87106JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=3df07dab-6e50-6187-00ee-6acc6f2a60d7&u=a1aHR0cHM6Ly93d3cucGxleC50di93YXRjaC1mcmVlLw&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=f8c898415c0bc615c970df052d221c26236edfe15e32d210ce0d0c26250c7fd2JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=3df07dab-6e50-6187-00ee-6acc6f2a60d7&u=a1aHR0cHM6Ly93d3cuYmdhbWVzLmNvbS8&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=f8f56332dc6d7a764e76f260edb6842073ced36b9c3e79ef5f2033743e93b515JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=07d20771-df23-6f83-06e6-1016dea26ef8&u=a1aHR0cHM6Ly9hcHBzLm1pY3Jvc29mdC5jb20vZGV0YWlsLzluNzRuaHhjaDFuNg&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=fac9bc65d67b3d281ac108efa77a63d9de6f5752a9caa1ac7e5ab5155e69b75dJmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=27e9c6ae-78e2-6431-2f66-d1c979ac65e9&u=a1aHR0cHM6Ly93d3cuYXJrYWRpdW0uY29tL2ZyZWUtb25saW5lLWdhbWVzLw&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=fd9cba08bea2ffb98003cc49330a273fd1048436bd2fe454231e64e0d985a8ddJmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=07d20771-df23-6f83-06e6-1016dea26ef8&u=a1aHR0cHM6Ly9icmF2ZS5jb20vZG93bmxvYWQv&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=fdea862f02a6fff5a6cdb5249be26f9f7571cf17f8cda081db378d32b65914a5JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=11ee5858-033c-697b-3795-4f3f02166866&u=a1aHR0cHM6Ly93d3cubXNuLmNvbS9lbi11cy9wbGF5&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=ff2b5f27b79a5cc2f5c8154cc3bfaca3c22500ae4a3b3bf98c3f87d41462c1f5JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=310bfb61-e026-6571-0cb3-ec06e1396479&u=a1aHR0cHM6Ly93d3cuYmVzdGJ1eS5jb20v&ntb=1",
+    "https://www.bing.com/ck/a?!&&p=ffb3b4652c7fe69a10b2285efbd14b5de2aece6d95dafd736141d3a786986719JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=11704447-a16a-61e1-1c77-5320a00f60b3&u=a1aHR0cHM6Ly93d3cubXNuLmNvbS9lbi11cy9wbGF5&ntb=1",
+    "https://www.bing.com/ck/a?!&amp;&amp;p=29fa8042d74c5af7cf08f0ae25ac15e2e76fac65868f6ecfca402494826fd7f0JmltdHM9MTc3OTkyNjQwMA&amp;ptn=3&amp;ver=2&amp;hsh=4&amp;fclid=00cd52f0-66bc-6e73-016a-4597671b6f92&amp;u=a1aHR0cHM6Ly9hYmNuZXdzLmNvbS9Qb2xpdGljcy8yLWRvZ2Utc3RhZmZlcnMtcmVncmV0cy1wZW9wbGUtbG9zaW5nL",
+    "https://www.bing.com/ck/a?!&amp;&amp;p=3592bb05be683168ca74aa98e8faa425c345fcd013009354330c734c8eb5b4b1JmltdHM9MTc3OTkyNjQwMA&amp;ptn=3&amp;ver=2&amp;hsh=4&amp;fclid=00cd52f0-66bc-6e73-016a-4597671b6f92&amp;u=a1aHR0cHM6Ly9jb2lubWFya2V0Y2FwLmNvbS9jdXJyZW5jaWVzL2RvZ2Vjb2luLw&amp;ntb=1",
+    "https://www.bing.com/ck/a?!&amp;&amp;p=6cbe56338ea109e22533ee230476eb44f688e27c55ea4aad46a9dfdb3cc784bbJmltdHM9MTc3OTkyNjQwMA&amp;ptn=3&amp;ver=2&amp;hsh=4&amp;fclid=00cd52f0-66bc-6e73-016a-4597671b6f92&amp;u=a1aHR0cHM6Ly9maW5hbmNlLnlhaG9vLmNvbS9xdW90ZS9ET0dFLVVTRC8&amp;ntb=1"
+  ],
+  "verification": {
+    "https://www.bing.com/ck/a?!&&p=ca9c64a27a26214204094b1bb7fef5dafb58e18f6f0a5681159bd1a37767236dJmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=09980873-47c7-6afa-2eab-1f1446806b55&u=a1aHR0cHM6Ly9lYXJubmUuY29tLw&ntb=1": {
+      "count": 1,
+      "first_seen": "2026-05-28",
+      "last_confirmed": null
+    },
+    "https://www.bing.com/ck/a?!&&p=52e21feee1be7d7a38e0e3b97b40970144ee8f375e8d158e7ec3ae2b76aa4eedJmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=17ea56bd-e1a9-6b49-0bbd-41dae0836a26&u=a1aHR0cHM6Ly93d3cuY3JhenlnYW1lcy5jb20v&ntb=1": {
+      "count": 1,
+      "first_seen": "2026-05-28",
+      "last_confirmed": null
+    },
+    "https://www.bing.com/ck/a?!&&p=9e2a0ce3fb645eb8d187be3953b3dc6d4ce55bc3b3d30899dd6bc3b38aa6937aJmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=3df07dab-6e50-6187-00ee-6acc6f2a60d7&u=a1aHR0cHM6Ly9wb2tpLmNvbS8_bXNvY2tpZD0zZGYwN2RhYjZlNTA2MTg3MDBlZTZhY2M2ZjJhNjBkNw&ntb=1": {
+      "count": 1,
+      "first_seen": "2026-05-28",
+      "last_confirmed": null
+    },
+    "https://www.bing.com/ck/a?!&&p=4bf63cf8a9dde54cfaa0b7003c36e27f25550d7da195392885db9da58d5736f0JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=3df07dab-6e50-6187-00ee-6acc6f2a60d7&u=a1aHR0cHM6Ly93d3cuY3JhenlnYW1lcy5jb20v&ntb=1": {
+      "count": 1,
+      "first_seen": "2026-05-28",
+      "last_confirmed": null
+    },
+    "https://www.bing.com/ck/a?!&&p=9dad8db60b2363565abeff9acd9d3ee33d174f3ca6745212b6962bad52a29cf0JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=3df07dab-6e50-6187-00ee-6acc6f2a60d7&u=a1aHR0cHM6Ly9mcmVlZ2FtZXMub3JnLw&ntb=1": {
+      "count": 1,
+      "first_seen": "2026-05-28",
+      "last_confirmed": null
+    },
+    "https://www.bing.com/ck/a?!&&p=eb2a140715990b084e7596b7ca5ba356fefa52d7bdffb64be3f07fe160224e55JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=3df07dab-6e50-6187-00ee-6acc6f2a60d7&u=a1aHR0cHM6Ly93d3cubXNuLmNvbS9lbi11cy9wbGF5&ntb=1": {
+      "count": 1,
+      "first_seen": "2026-05-28",
+      "last_confirmed": null
+    },
+    "https://www.bing.com/ck/a?!&&p=f8c898415c0bc615c970df052d221c26236edfe15e32d210ce0d0c26250c7fd2JmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=3df07dab-6e50-6187-00ee-6acc6f2a60d7&u=a1aHR0cHM6Ly93d3cuYmdhbWVzLmNvbS8&ntb=1": {
+      "count": 1,
+      "first_seen": "2026-05-28",
+      "last_confirmed": null
+    },
+    "https://www.bing.com/ck/a?!&&p=65e4cb3dc14d29b3bee67fb5dfc1a905f8dfd1164ee4a831a30108f7121fb83aJmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=3df07dab-6e50-6187-00ee-6acc6f2a60d7&u=a1aHR0cHM6Ly93d3cuZnJlZXN0dWZmZmluZGVyLmNvbS9mcmVlLXN0dWZmLw&ntb=1": {
+      "count": 1,
+      "first_seen": "2026-05-28",
+      "last_confirmed": null
+    }
+  }
 }

@@ -35,12 +35,12 @@ jobs:
           GOOGLE_OAUTH_CLIENT_ID: ${{ secrets.GOOGLE_OAUTH_CLIENT_ID }}
           GOOGLE_OAUTH_CLIENT_SECRET: ${{ secrets.GOOGLE_OAUTH_CLIENT_SECRET }}
           GOOGLE_REFRESH_TOKEN: ${{ secrets.GOOGLE_REFRESH_TOKEN }}
-        run: python main.py
+        run: python oh2_v5_deep_analysis.py
 
       - name: Commit and push changes
         run: |
           git config user.name "opportunity-hunter-bot"
           git config user.email "bot@opportunity-hunter.gh"
-          git add opportunities.xlsx reports/ bot_memory.json top_automatable_finds.json
+          git add opportunities.xlsx reports/ bot_memory.json top_automatable_finds.json deep_analysis/
           git diff --quiet && git diff --staged --quiet || git commit -m "auto: daily opportunity hunt $(date -u '+%Y-%m-%d %H:%M UTC')"
           git push

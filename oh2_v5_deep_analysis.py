@@ -11,6 +11,7 @@ import requests
 from openpyxl import Workbook, load_workbook
 
 FIRECRAWL_API_KEY = os.environ.get("FIRECRAWL_API_KEY", "")
+EXA_API_KEY = os.environ.get("EXA_API_KEY", "")
 GEMINI_API_KEYS = []
 _key = os.environ.get("GEMINI_API_KEY", "")
 if _key: GEMINI_API_KEYS.append(_key)
@@ -632,11 +633,89 @@ class PlaywrightPool:
             try: self._pw.__exit__(None, None, None)
             except: pass
 
+def search_exa(query: str) -> list:
+    """Search Exa AI for earning opportunities. Uses their search API (free tier: 1k req/month)."""
+    if not EXA_API_KEY:
+        return []
+    try:
+        resp = requests.post(
+            "https://api.exa.ai/search",
+            headers={
+                "x-api-key": EXA_API_KEY,
+                "Content-Type": "application/json",
+            },
+            json={
+                "query": query,
+                "numResults": 10,
+                "type": "auto",
+                "useAutoprompt": True,
+            },
+            timeout=15
+        )
+        if resp.status_code == 200:
+            data = resp.json()
+            results = []
+            for r in data.get("results", []):
+                url = r.get("url", "")
+                title = r.get("title", "")
+                desc = r.get("text", "")[:400]
+                if url:
+                    results.append({"title": title, "url": url, "description": desc})
+            return results
+        elif resp.status_code == 429:
+            print("[Exa] Rate limited", end=" ", flush=True)
+            return []
+        else:
+            print(f"[Exa] HTTP {resp.status_code}", end=" ", flush=True)
+            return []
+    except Exception as e:
+        print(f"[Exa] Error: {e}", end=" ", flush=True)
+        return []
+
+def search_firecrawl(query: str) -> list:
+    """Search Firecrawl for earning opportunities. Search endpoint: 2 credits per 10 results (free: 1k credits/month)."""
+    if not FIRECRAWL_API_KEY:
+        return []
+    try:
+        resp = requests.post(
+            "https://api.firecrawl.dev/v1/search",
+            headers={
+                "Authorization": f"Bearer {FIRECRAWL_API_KEY}",
+                "Content-Type": "application/json",
+            },
+            json={
+                "query": query,
+                "limit": 10,
+                "scrapeOptions": {"formats": ["markdown"]},
+            },
+            timeout=15
+        )
+        if resp.status_code == 200:
+            data = resp.json()
+            results = []
+            for r in data.get("data", []):
+                url = r.get("url", "")
+                title = r.get("title", "") or r.get("metadata", {}).get("title", "")
+                desc_raw = r.get("markdown", "") or r.get("description", "") or ""
+                desc = desc_raw[:400]
+                if url:
+                    results.append({"title": title, "url": url, "description": desc})
+            return results
+        elif resp.status_code == 429:
+            print("[Firecrawl] Rate limited", end=" ", flush=True)
+            return []
+        else:
+            print(f"[Firecrawl] HTTP {resp.status_code}", end=" ", flush=True)
+            return []
+    except Exception as e:
+        print(f"[Firecrawl] Error: {e}", end=" ", flush=True)
+        return []
+
 def search_all(query: str, pw: PlaywrightPool, q_idx: int) -> list:
     seen = set()
     results = []
     
-    # 1. Bing Playwright (primary)
+    # 1. Bing Playwright (primary - working well)
     pw_results = pw.search(query, q_idx)
     print(f"[Bing PW] {len(pw_results)}", end=" ", flush=True)
     for r in pw_results:
@@ -646,73 +725,7 @@ def search_all(query: str, pw: PlaywrightPool, q_idx: int) -> list:
                 seen.add(r["url"])
                 results.append(r)
     
-    # 2. Bing HTML
-    time.sleep(random.uniform(0.3, 0.8))
-    html_results = search_bing_html(query, q_idx)
-    print(f"[Bing HTML] {len(html_results)}", end=" ", flush=True)
-    for r in html_results:
-        if r["url"] and r["url"] not in seen:
-            r["url"] = resolve_url(r["url"])
-            if r["url"] and r["url"] not in seen:
-                seen.add(r["url"])
-                results.append(r)
-    
-    # 3. DuckDuckGo (always, not just fallback)
-    time.sleep(random.uniform(0.3, 0.8))
-    ddg_results = search_ddg(query, q_idx)
-    print(f"[DDG] {len(ddg_results)}", end=" ", flush=True)
-    for r in ddg_results:
-        if r["url"] and r["url"] not in seen:
-            r["url"] = resolve_url(r["url"])
-            if r["url"] and r["url"] not in seen:
-                seen.add(r["url"])
-                results.append(r)
-    
-    # 4. Google Playwright (always)
-    time.sleep(random.uniform(0.3, 0.8))
-    google_results = pw.search_google(query, q_idx)
-    print(f"[Google] {len(google_results)}", end=" ", flush=True)
-    for r in google_results:
-        if r["url"] and r["url"] not in seen:
-            r["url"] = resolve_url(r["url"])
-            if r["url"] and r["url"] not in seen:
-                seen.add(r["url"])
-                results.append(r)
-    
-    # 5. Yahoo (always)
-    time.sleep(random.uniform(0.3, 0.8))
-    yahoo_results = search_yahoo(query, q_idx)
-    print(f"[Yahoo] {len(yahoo_results)}", end=" ", flush=True)
-    for r in yahoo_results:
-        if r["url"] and r["url"] not in seen:
-            r["url"] = resolve_url(r["url"])
-            if r["url"] and r["url"] not in seen:
-                seen.add(r["url"])
-                results.append(r)
-    
-    # 6. StartPage (always)
-    time.sleep(random.uniform(0.3, 0.8))
-    sp_results = search_startpage(query, q_idx)
-    print(f"[SP] {len(sp_results)}", end=" ", flush=True)
-    for r in sp_results:
-        if r["url"] and r["url"] not in seen:
-            r["url"] = resolve_url(r["url"])
-            if r["url"] and r["url"] not in seen:
-                seen.add(r["url"])
-                results.append(r)
-    
-    # 7. Reddit (deep search - finds opportunities before they're SEO-indexed)
-    time.sleep(random.uniform(0.3, 0.8))
-    reddit_results = search_reddit(query, q_idx)
-    print(f"[Reddit] {len(reddit_results)}", end=" ", flush=True)
-    for r in reddit_results:
-        if r["url"] and r["url"] not in seen:
-            r["url"] = resolve_url(r["url"])
-            if r["url"] and r["url"] not in seen:
-                seen.add(r["url"])
-                results.append(r)
-    
-    # 8. GitHub (deep search - finds actual automation tools & scripts)
+    # 2. GitHub (deep search - finds actual automation tools & scripts)
     time.sleep(random.uniform(0.3, 0.8))
     github_results = search_github(query, q_idx)
     print(f"[GitHub] {len(github_results)}", end=" ", flush=True)
@@ -720,6 +733,26 @@ def search_all(query: str, pw: PlaywrightPool, q_idx: int) -> list:
         if r["url"] and r["url"] not in seen:
             r["url"] = resolve_url(r["url"])
             if r["url"] and r["url"] not in seen:
+                seen.add(r["url"])
+                results.append(r)
+    
+    # 3. Exa AI (AI search engine - free tier: 1k req/month)
+    time.sleep(random.uniform(0.3, 0.8))
+    exa_results = search_exa(query)
+    print(f"[Exa] {len(exa_results)}", end=" ", flush=True)
+    for r in exa_results:
+        if r["url"] and r["url"] not in seen:
+            if r["url"] not in seen:
+                seen.add(r["url"])
+                results.append(r)
+    
+    # 4. Firecrawl (web search + scrape - free tier: 1k credits/month)
+    time.sleep(random.uniform(0.3, 0.8))
+    fc_results = search_firecrawl(query)
+    print(f"[Firecrawl] {len(fc_results)}", end=" ", flush=True)
+    for r in fc_results:
+        if r["url"] and r["url"] not in seen:
+            if r["url"] not in seen:
                 seen.add(r["url"])
                 results.append(r)
     

@@ -300,7 +300,7 @@ class PlaywrightPool:
                 return btns.slice(0, 30).map(b => ({text: b.innerText?.trim()?.substring(0, 40) || b.value?.substring(0, 40) || ''}));
             }""")
             inputs = page.evaluate("""() => {
-                const inp = Array.from(document.querySelectorAll('input[type!=\"hidden\"]'));
+                const inp = Array.from(document.querySelectorAll('input:not([type=\"hidden\"])'));
                 return inp.slice(0, 20).map(i => ({name: i.name || '', type: i.type || '', placeholder: i.placeholder || ''}));
             }""")
             ctx.close()
@@ -557,7 +557,7 @@ Respond ONLY with JSON:
         
         resp = model.generate_content(prompt)
         text = resp.text.strip()
-        match = re.search(r'\{[^}]+\}', text)
+        match = re.search(r'\{[^}]+\}', text, re.DOTALL)
         if match:
             data = json.loads(match.group())
             opp.workflow_steps = str(data.get("workflow", ""))[:500]
@@ -871,6 +871,7 @@ def main():
 
     pw = PlaywrightPool()
     pw.start()
+    os.makedirs(DEEP_ANALYSIS_DIR, exist_ok=True)
     start_time = time.time()
 
     genai_available = bool(GEMINI_API_KEY)

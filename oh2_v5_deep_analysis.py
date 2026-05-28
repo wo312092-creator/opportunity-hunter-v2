@@ -1347,80 +1347,55 @@ def search_exa(query: str) -> list:
 
 
 def search_firecrawl(query: str) -> list:
-
-    """Search Firecrawl for earning opportunities. Search endpoint: 2 credits per 10 results (free: 1k credits/month)."""
-
+    """Search Firecrawl for earning opportunities with retry logic and connection pooling.
+    Search endpoint: 2 credits per 10 results (free: 1k credits/month)."""
     if not FIRECRAWL_API_KEY:
-
         return []
-
+    
+    # Use requests Session with connection pooling + retry adapter
+    session = requests.Session()
+    from requests.adapters import HTTPAdapter
+    from urllib3.util.retry import Retry
+    retries = Retry(total=3, backoff_factor=0.5, status_forcelist=[429, 500, 502, 503, 504])
+    adapter = HTTPAdapter(max_retries=retries, pool_connections=4, pool_maxsize=8)
+    session.mount("https://", adapter)
+    
     try:
-
-        resp = requests.post(
-
+        resp = session.post(
             "https://api.firecrawl.dev/v1/search",
-
             headers={
-
                 "Authorization": f"Bearer {FIRECRAWL_API_KEY}",
-
                 "Content-Type": "application/json",
-
             },
-
             json={
-
                 "query": query,
-
                 "limit": 10,
-
                 "scrapeOptions": {"formats": ["markdown"]},
-
             },
-
-            timeout=15
-
+            timeout=20
         )
-
         if resp.status_code == 200:
-
             data = resp.json()
-
             results = []
-
             for r in data.get("data", []):
-
                 url = r.get("url", "")
-
                 title = r.get("title", "") or r.get("metadata", {}).get("title", "")
-
                 desc_raw = r.get("markdown", "") or r.get("description", "") or ""
-
                 desc = desc_raw[:400]
-
                 if url:
-
                     results.append({"title": title, "url": url, "description": desc})
-
             return results
-
         elif resp.status_code == 429:
-
             print("[Firecrawl] Rate limited", end=" ", flush=True)
-
             return []
-
         else:
-
             print(f"[Firecrawl] HTTP {resp.status_code}", end=" ", flush=True)
-
             return []
-
     except Exception as e:
-
         print(f"[Firecrawl] Error: {e}", end=" ", flush=True)
-
         return []
+    finally:
+        session.close()
 
 
 

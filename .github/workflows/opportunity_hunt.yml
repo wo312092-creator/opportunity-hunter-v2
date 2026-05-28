@@ -1,4 +1,4 @@
-name: Opportunity Hunter
+name: Opportunity Hunter V2
 
 on:
   schedule:
@@ -21,13 +21,17 @@ jobs:
 
       - name: Install Python dependencies
         run: |
-          pip install requests openpyxl google-auth google-auth-oauthlib google-auth-httplib2 google-api-python-client playwright google-generativeai curl-cffi
+          pip install requests openpyxl google-auth google-auth-oauthlib google-auth-httplib2 google-api-python-client playwright google-generativeai curl-cffi crawl4ai==0.7.1
 
       - name: Install Chromium for Playwright
         run: |
           playwright install --with-deps chromium
 
-      - name: Run opportunity hunter
+      - name: Create data directories
+        run: |
+          mkdir -p deep_analysis reports
+
+      - name: Run opportunity hunter v12
         env:
           PYTHONUNBUFFERED: 1
           FIRECRAWL_API_KEY: ${{ secrets.FIRECRAWL_API_KEY }}
@@ -49,17 +53,15 @@ jobs:
           GOOGLE_OAUTH_CLIENT_ID: ${{ secrets.GOOGLE_OAUTH_CLIENT_ID }}
           GOOGLE_OAUTH_CLIENT_SECRET: ${{ secrets.GOOGLE_OAUTH_CLIENT_SECRET }}
           GOOGLE_REFRESH_TOKEN: ${{ secrets.GOOGLE_REFRESH_TOKEN }}
+          GMAIL_USER: ${{ secrets.GMAIL_USER }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+          NOTIFICATION_EMAIL: ${{ secrets.NOTIFICATION_EMAIL }}
         run: python oh2_v5_deep_analysis.py
 
       - name: Commit and push changes
         run: |
           git config user.name "opportunity-hunter-bot"
           git config user.email "bot@opportunity-hunter.gh"
-          git add opportunities.xlsx reports/ bot_memory.json top_automatable_finds.json
-          [ -d deep_analysis/ ] && git add deep_analysis/ || true
-          if ! git diff --quiet || ! git diff --staged --quiet; then
-            git commit -m "auto: daily opportunity hunt $(date -u '+%Y-%m-%d %H:%M UTC')"
-            git push
-          else
-            echo "No changes to commit"
-          fi
+          git add opportunities.xlsx reports/ bot_memory.json top_automatable_finds.json deep_analysis/
+          git diff --quiet && git diff --staged --quiet || git commit -m "auto: daily opportunity hunt $(date -u '+%Y-%m-%d %H:%M UTC')"
+          git push

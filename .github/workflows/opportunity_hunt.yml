@@ -27,19 +27,13 @@ jobs:
             ~/.cache/pip
             .venv
             ~/.cache/ms-playwright
-          key: oh2-v6-${{ runner.os }}-${{ hashFiles('**/oh2_v6_unified.py') }}-${{ hashFiles('**/_workflow.yml') }}
+          key: oh2-v6-${{ runner.os }}-${{ hashFiles('**/oh2_v6_unified.py') }}
 
-      - name: Install dependencies (skip if cached)
-        if: steps.cache-all.outputs.cache-hit != 'true'
+      - name: Install dependencies and browsers
         run: |
           python -m venv .venv
           .venv/bin/pip install requests openpyxl google-auth google-auth-oauthlib google-auth-httplib2 google-api-python-client playwright google-generativeai curl-cffi
-          .venv/bin/playwright install --with-deps chromium
-
-      - name: Verify Playwright browsers (cached)
-        if: steps.cache-all.outputs.cache-hit == 'true'
-        run: |
-          .venv/bin/playwright install chromium 2>/dev/null || true
+          .venv/bin/playwright install chromium
 
       - name: Create data directories
         run: |

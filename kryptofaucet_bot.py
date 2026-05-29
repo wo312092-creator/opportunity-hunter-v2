@@ -74,8 +74,23 @@ class KryptofaucetBot:
             user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/125.0.0.0 Safari/537.36",
             viewport={"width": 1280, "height": 900},
             locale="en-US",
+            extra_http_headers={
+                "Accept-Language": "en-US,en;q=0.9",
+                "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8",
+                "Sec-Ch-Ua": '"Chromium";v="125", "Google Chrome";v="125"',
+                "Sec-Ch-Ua-Mobile": "?0",
+                "Sec-Ch-Ua-Platform": '"Windows"',
+            },
         )
         self.page = self.context.new_page()
+        
+        # Stealth: override navigator.webdriver
+        self.page.add_init_script("""
+            Object.defineProperty(navigator, 'webdriver', { get: () => false });
+            Object.defineProperty(navigator, 'plugins', { get: () => [1,2,3,4,5] });
+            Object.defineProperty(navigator, 'languages', { get: () => ['en-US', 'en'] });
+            window.chrome = { runtime: {} };
+        """)
         log.info("Browser started")
     
     def close(self):
@@ -102,9 +117,33 @@ class KryptofaucetBot:
     def register(self) -> bool:
         """Register a new account."""
         log.info("=== REGISTER ===")
-        if not self.goto(f"{BASE_URL}/register"):
-            log.error("Failed to load register page")
+        
+        # Step 1: Go to homepage first (homepage loads, subpages have CF challenge)
+        if not self.goto(BASE_URL):
+            log.error("Failed to load homepage")
             return False
+        
+        log.info(f"Homepage loaded: {self.page.title()[:50]}")
+        
+        # Step 2: Click Register link from homepage (bypasses CF challenge on subpage)
+        register_btn = self.page.query_selector('a[href*="register"], a:has-text("Register"), button:has-text("Register")')
+        if register_btn:
+            log.info("Clicking Register link from homepage")
+            register_btn.click()
+            time.sleep(5)
+            
+            # Wait for navigation
+            try:
+                self.page.wait_for_load_state("networkidle", timeout=15000)
+            except:
+                pass
+            time.sleep(3)
+            log.info(f"After register click URL: {self.page.url[:60]}")
+        else:
+            log.warning("No Register link found on homepage, trying direct navigation")
+            if not self.goto(f"{BASE_URL}/register"):
+                log.error("Failed to load register page")
+                return False
         
         # Check if already logged in (redirected to dashboard)
         if "/login" not in self.page.url and "/register" not in self.page.url:
@@ -169,9 +208,31 @@ class KryptofaucetBot:
     def login(self) -> bool:
         """Login to existing account."""
         log.info("=== LOGIN ===")
-        if not self.goto(f"{BASE_URL}/login"):
-            log.error("Failed to load login page")
+        
+        # Step 1: Go to homepage first
+        if not self.goto(BASE_URL):
+            log.error("Failed to load homepage")
             return False
+        
+        log.info(f"Homepage loaded: {self.page.title()[:50]}")
+        
+        # Step 2: Click Login link from homepage
+        login_btn = self.page.query_selector('a[href*="login"], a:has-text("Login"), button:has-text("Login")')
+        if login_btn:
+            log.info("Clicking Login link from homepage")
+            login_btn.click()
+            time.sleep(5)
+            try:
+                self.page.wait_for_load_state("networkidle", timeout=15000)
+            except:
+                pass
+            time.sleep(3)
+            log.info(f"After login click URL: {self.page.url[:60]}")
+        else:
+            log.warning("No Login link found on homepage, trying direct navigation")
+            if not self.goto(f"{BASE_URL}/login"):
+                log.error("Failed to load login page")
+                return False
         
         try:
             email_input = self.page.query_selector('input[type="email"], input[name="email"], input[name="username"]')

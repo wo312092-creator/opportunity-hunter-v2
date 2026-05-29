@@ -39,6 +39,9 @@ GMAIL_USER = os.environ.get("GMAIL_USER", "wo312092@gmail.com")
 GMAIL_APP_PASSWORD = os.environ.get("GMAIL_APP_PASSWORD", "")
 NOTIFICATION_EMAIL = os.environ.get("NOTIFICATION_EMAIL", "wo312092@gmail.com")
 
+# Permanent Google Doc ID for verified automatable sites (plain text format)
+GOOGLE_DOC_ID = "1tuZYC0RoCxP-Js5FuSUy6BmA72xU57N0M80O-ksoXoE"
+
 EXCEL_FILE = "opportunities.xlsx"
 MEMORY_FILE = "bot_memory.json"
 REPORT_DIR = "reports"
@@ -1710,12 +1713,11 @@ def write_top_finds(ws):
 
 def write_google_doc(mem, sheet_url="", analyzed_opps=None):
     """
-    Append ONLY confirmed (LTC-automatable) sites to a single permanent Google Doc
-    in a rich table format: Site Name, Link, How To Automate, Summary, How Site Works,
-    Per Hour, Per Day, Per Week, Per Month, Per Year, Score.
+    Append ONLY confirmed automatable sites to the permanent Google Doc
+    in plain text format (no tables). Format matches user's required style.
     """
-    if not GOOGLE_REFRESH_TOKEN:
-        print("[Google Docs] No token - skipping")
+    if not GOOGLE_REFRESH_TOKEN or not GOOGLE_DOC_ID:
+        print("[Google Docs] No token or doc ID - skipping")
         return False
     try:
         from google.auth.transport.requests import Request as GoogleRequest
@@ -1728,15 +1730,15 @@ def write_google_doc(mem, sheet_url="", analyzed_opps=None):
         creds.refresh(GoogleRequest())
         docs = build("docs", "v1", credentials=creds)
         date_str = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+        doc_id = GOOGLE_DOC_ID
         
-        doc_id = mem.get("google_doc_id")
-        if doc_id:
-            try:
-                docs.documents().get(documentId=doc_id).execute()
-                print(f"[Google Docs] Using existing doc: https://docs.google.com/document/d/{doc_id}")
-            except:
-                print("[Google Docs] Stored doc ID stale, creating new...")
-                doc_id = None
+        # Verify doc exists
+        try:
+            docs.documents().get(documentId=doc_id).execute()
+            print(f"[Google Docs] Using permanent doc: https://docs.google.com/document/d/{doc_id}")
+        except Exception as e:
+            print(f"[Google Docs] Cannot access doc {doc_id}: {e}")
+            return False
         
         # STRICT filter: confirmed + score >=7 + site_analyzed + workflow_steps > 50
         confirmed = [
@@ -1748,148 +1750,83 @@ def write_google_doc(mem, sheet_url="", analyzed_opps=None):
             and len(o.workflow_steps) > 50
         ]
         if not confirmed:
-            print("[Google Docs] No verified LTC-automatable sites found (need score >=7 + confirmed + analyzed)")
+            print("[Google Docs] No verified automatable sites found (need score >=7 + confirmed + analyzed)")
             return False
         
-        # Table column headers (11 columns as requested)
-        TABLE_HEADERS = [
-            "Site Name", "Link", "How To Automate", "Site Summary", "How Site Works",
-            "Per Hour", "Per Day", "Per Week", "Per Month", "Per Year", "Score"
-        ]
-        NUM_COLS = len(TABLE_HEADERS)
-        NUM_ROWS = 1 + len(confirmed)  # header + data rows
+        # Build plain text content in the user's required format
+        content_parts = []
+        content_parts.append(f"\n\n=== RUN DATE: {date_str} ===")
+        content_parts.append(f"Master Sheet: {sheet_url if sheet_url else 'N/A'}")
+        content_parts.append(f"Verified automatable sites: {len(confirmed)}")
+        content_parts.append("")
         
-        # ============================================================
-        # Phase 1: Create or update doc with heading + table structure
-        # ============================================================
-        if not doc_id:
-            # Create the permanent doc
-            doc = docs.documents().create(body={
-                "title": "Opportunity Hunter - Verified Automatable Sites (LTC-Gold)"
-            }).execute()
-            doc_id = doc["documentId"]
-            mem["google_doc_id"] = doc_id
-            print(f"[Google Docs] Created permanent doc: https://docs.google.com/document/d/{doc_id}")
-            # Doc starts with empty paragraph at index 1
-            start_idx = 1
-        else:
-            doc = docs.documents().get(documentId=doc_id).execute()
-            body = doc.get('body', {})
-            content = body.get('content', [])
-            start_idx = content[-1]['endIndex'] - 1 if content else 1
-        
-        # Insert heading text and then a table in a single batch
-        heading_text = f"\n{date_str} — Verified Automatable Sites ({len(confirmed)})\n"
-        requests = [
-            {"insertText": {"location": {"index": start_idx}, "text": heading_text}}
-        ]
-        docs.documents().batchUpdate(documentId=doc_id, body={"requests": requests}).execute()
-        
-        # Now insert the table right after the heading text.
-        # Re-read to get updated end index after heading insertion.
-        doc = docs.documents().get(documentId=doc_id).execute()
-        body = doc.get('body', {})
-        content = body.get('content', [])
-        table_idx = content[-1]['endIndex'] - 1 if content else 1
-        
-        docs.documents().batchUpdate(documentId=doc_id, body={"requests": [{
-            "insertTable": {"rows": NUM_ROWS, "columns": NUM_COLS, "location": {"index": table_idx}}
-        }]}).execute()
-        
-        # ============================================================
-        # Phase 2: Read document to find table cell positions
-        # ============================================================
-        doc = docs.documents().get(documentId=doc_id).execute()
-        body = doc.get('body', {})
-        content = body.get('content', [])
-        
-        # Extract all table cell content start indices in row-major order
-        cell_indices = []
-        for item in content:
-            if 'table' in item:
-                for table_row in item['table'].get('tableRows', []):
-                    for cell in table_row.get('tableCells', []):
-                        ccontent = cell.get('content', [])
-                        if ccontent:
-                            cell_indices.append(ccontent[0].get('startIndex', 0))
-        
-        expected_cells = NUM_ROWS * NUM_COLS
-        if len(cell_indices) < expected_cells:
-            print(f"[Google Docs] Warning: expected {expected_cells} cells, found {len(cell_indices)}")
-            # Fall back: write simple text instead
-            fallback_text = f"\n\n=== {date_str} === Verified: {len(confirmed)} sites\n"
-            for opp in confirmed:
-                fallback_text += f"\n- {opp.title} ({opp.deep_analysis_score}/10): {opp.url}"
-            docs.documents().batchUpdate(documentId=doc_id, body={"requests": [
-                {"insertText": {"endOfSegmentLocation": {}, "text": fallback_text}}
-            ]}).execute()
-            return True
-        
-        # ============================================================
-        # Phase 3: Populate table cells (header + data rows)
-        # ============================================================
-        batch_requests = []
-        
-        # --- Header row (bold) ---
-        for col, h in enumerate(TABLE_HEADERS):
-            idx = cell_indices[col]
-            batch_requests.append({
-                "insertText": {"location": {"index": idx}, "text": h}
-            })
-            batch_requests.append({
-                "updateTextStyle": {
-                    "range": {"startIndex": idx, "endIndex": idx + len(h)},
-                    "textStyle": {"bold": True},
-                    "fields": "bold"
-                }
-            })
-        
-        # --- Data rows ---
-        for row_num, opp in enumerate(confirmed):
-            row_offset = (row_num + 1) * NUM_COLS  # skip header row
+        for i, opp in enumerate(confirmed, 1):
+            score_str = f"{opp.deep_analysis_score}/10"
             
-            # Build description/How It Works summary
-            how_it_works = opp.workflow_steps or ""
-            if len(how_it_works) > 300:
-                how_it_works = how_it_works[:297] + "..."
+            # Automation match label
+            if opp.deep_analysis_score >= 9:
+                match_label = "Gold (Fully Automatable)"
+            elif opp.deep_analysis_score >= 7:
+                match_label = "High"
+            elif opp.deep_analysis_score >= 5:
+                match_label = "Medium"
+            else:
+                match_label = "Low"
             
-            site_summary = opp.description or ""
-            if len(site_summary) > 200:
-                site_summary = site_summary[:197] + "..."
+            content_parts.append("")
+            content_parts.append(f"--- SITE #{i}: {opp.title} ---")
+            content_parts.append(f"URL: {opp.url}")
+            content_parts.append(f"Category: {opp.category or 'Uncategorized'}")
+            content_parts.append(f"LTC Automation Match: {score_str} ({match_label})")
+            content_parts.append("")
             
-            how_to_auto = opp.how_to_automate or opp.automation_plan or ""
-            if len(how_to_auto) > 200:
-                how_to_auto = how_to_auto[:197] + "..."
+            # HOW IT WORKS
+            content_parts.append("HOW IT WORKS:")
+            if opp.workflow_steps:
+                content_parts.append(opp.workflow_steps)
+            else:
+                content_parts.append("N/A")
+            content_parts.append("")
             
-            row_values = [
-                opp.title,
-                opp.url,
-                how_to_auto,
-                site_summary,
-                how_it_works,
-                opp.profit_per_hour or "",
-                opp.profit_per_day or "",
-                opp.profit_per_week or "",
-                opp.profit_per_month or "",
-                opp.profit_per_year or "",
-                f"{opp.deep_analysis_score}/10"
-            ]
+            # ESTIMATED EARNINGS
+            content_parts.append("ESTIMATED EARNINGS:")
+            content_parts.append(f"  Per Hour:  {opp.profit_per_hour or 'N/A'}")
+            content_parts.append(f"  Per Day:   {opp.profit_per_day or 'N/A'}")
+            content_parts.append(f"  Per Week:  {opp.profit_per_week or 'N/A'}")
+            content_parts.append(f"  Per Month: {opp.profit_per_month or 'N/A'}")
+            content_parts.append(f"  Per Year:  {opp.profit_per_year or 'N/A'}")
+            content_parts.append("")
             
-            for col, val in enumerate(row_values):
-                idx = cell_indices[row_offset + col]
-                if val:
-                    batch_requests.append({
-                        "insertText": {"location": {"index": idx}, "text": str(val)}
-                    })
+            # AUTOMATION PLAN
+            content_parts.append("AUTOMATION PLAN:")
+            auto_plan = opp.automation_plan or opp.how_to_automate or ""
+            if auto_plan:
+                content_parts.append(auto_plan)
+            else:
+                content_parts.append("N/A")
+            content_parts.append("")
+            
+            # TOOLS & CREDENTIALS NEEDED
+            content_parts.append("TOOLS & CREDENTIALS NEEDED:")
+            content_parts.append(opp.tools_needed or "N/A")
+            content_parts.append("")
+            
+            # DIFFICULTY
+            difficulty = opp.effort_level or "Medium"
+            content_parts.append(f"DIFFICULTY: {difficulty}")
         
-        # Execute all cell updates in batches of 50 (API limit)
-        for chunk_start in range(0, len(batch_requests), 50):
-            docs.documents().batchUpdate(
-                documentId=doc_id,
-                body={"requests": batch_requests[chunk_start:chunk_start + 50]}
-            ).execute()
+        # Join with newlines
+        text_to_append = "\n".join(content_parts)
         
-        print(f"[Google Docs] Table with {len(confirmed)} verified sites appended to doc: https://docs.google.com/document/d/{doc_id}")
+        # Append to end of document
+        docs.documents().batchUpdate(
+            documentId=doc_id,
+            body={"requests": [
+                {"insertText": {"endOfSegmentLocation": {}, "text": text_to_append}}
+            ]}
+        ).execute()
+        
+        print(f"[Google Docs] Plain text with {len(confirmed)} verified sites appended to doc: https://docs.google.com/document/d/{doc_id}")
         return True
         
     except Exception as e:
@@ -2208,7 +2145,7 @@ def main():
         print("[Google Docs] No verified LTC-automatable sites this run - skipping doc")
         if analyzed_opps:
             print(f"[Google Docs] Analyzed {len(analyzed_opps)} sites, but none passed strict check")
-    # Re-save memory in case google_doc_id was set
+    
     json.dump(mem, open(MEMORY_FILE, "w"), indent=2)
     
     # ── Send email notification ──────────────────────────────────
@@ -2277,7 +2214,7 @@ def main():
     if sheet_url:
         body_html += f'<p>📗 <a href="{sheet_url}">View Google Sheet</a></p>'
     
-    doc_id = mem.get("google_doc_id")
+    doc_id = GOOGLE_DOC_ID
     if doc_id:
         body_html += f'<p>📄 <a href="https://docs.google.com/document/d/{doc_id}">View Verified Sites Doc</a></p>'
     
@@ -2297,7 +2234,7 @@ Results:
   ⏱️ Run Time: {elapsed:.0f}s
 
 Sheet: {sheet_url if sheet_url else 'N/A'}
-Doc: https://docs.google.com/document/d/{doc_id if mem.get('google_doc_id') else 'N/A'}
+Doc: https://docs.google.com/document/d/{GOOGLE_DOC_ID if GOOGLE_DOC_ID else 'N/A'}
 """
     if strict_confirmed:
         body_text += f"\nVerified Sites ({len(strict_confirmed)}):\n"

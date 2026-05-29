@@ -1,0 +1,57 @@
+name: NO-CAPTCHA Hunter
+
+on:
+  schedule:
+    - cron: "0 12 * * *"  # Run at 12:00 UTC daily (offset from main hunter at 00:00 UTC)
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  no_captcha_hunt:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Python dependencies
+        run: |
+          pip install requests openpyxl playwright curl-cffi
+
+      - name: Install Chromium for Playwright
+        run: |
+          playwright install --with-deps chromium
+
+      - name: Run NO-CAPTCHA Hunter
+        env:
+          PYTHONUNBUFFERED: 1
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          GROQ_API_KEY_2: ${{ secrets.GROQ_API_KEY_2 }}
+          GROQ_API_KEY_3: ${{ secrets.GROQ_API_KEY_3 }}
+          GROQ_API_KEY_4: ${{ secrets.GROQ_API_KEY_4 }}
+          GROQ_API_KEY_5: ${{ secrets.GROQ_API_KEY_5 }}
+          GROQ_API_KEY_6: ${{ secrets.GROQ_API_KEY_6 }}
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          OPENROUTER_API_KEY_2: ${{ secrets.OPENROUTER_API_KEY_2 }}
+          OPENROUTER_API_KEY_3: ${{ secrets.OPENROUTER_API_KEY_3 }}
+          OPENROUTER_API_KEY_4: ${{ secrets.OPENROUTER_API_KEY_4 }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_API_KEY_2: ${{ secrets.GEMINI_API_KEY_2 }}
+          GEMINI_API_KEY_3: ${{ secrets.GEMINI_API_KEY_3 }}
+          GEMINI_API_KEY_4: ${{ secrets.GEMINI_API_KEY_4 }}
+          EXA_API_KEY: ${{ secrets.EXA_API_KEY }}
+          FIRECRAWL_API_KEY: ${{ secrets.FIRECRAWL_API_KEY }}
+        run: python oh2_no_captcha_hunter.py
+
+      - name: Commit and push results
+        run: |
+          git config user.name "no-captcha-hunter-bot"
+          git config user.email "bot@no-captcha-hunter.gh"
+          git add no_captcha_finds.json
+          git diff --quiet && git diff --staged --quiet || git commit -m "auto: no-captcha hunt results $(date -u '+%Y-%m-%d %H:%M UTC')"
+          git push

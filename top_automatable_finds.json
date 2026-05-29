@@ -1,5 +1,5 @@
 {
-  "updated": "2026-05-28T22:25:52.098970+00:00",
+  "updated": "2026-05-29T00:29:28.781091+00:00",
   "top_finds": [
     {
       "title": "Faucet Bot - Multi-Account Claim Automation Engine (2026) - itch.io",
@@ -27,6 +27,24 @@
       "automation_score": 9,
       "automation_reason": "The bot is designed for automatic trading and social trading, with features that can be fully automated using GitHub Actions.",
       "tags": "money,earn"
+    },
+    {
+      "title": "Bitcoin Faucet Collector Bot",
+      "url": "https://bitcoin-collector.com/",
+      "category": "Crypto Faucet",
+      "description": "",
+      "automation_score": 9,
+      "automation_reason": "Fully automatable with auto-click, auto-claim, auto-mining, and auto-faucet scripts.",
+      "tags": "faucet,crypto,free"
+    },
+    {
+      "title": "SaintQuant Expands Free AI Crypto Trading Bot Access in 2026, Empowering Beginners to Automate Passive Income With No Ex",
+      "url": "https://markets.businessinsider.com/news/stocks/saintquant-expands-free-ai-crypto-trading-bot-access-in-2026-empowering-beginners-to-automate-passive-income-with-no-experience-required-1036115480",
+      "category": "Trading",
+      "description": "",
+      "automation_score": 9,
+      "automation_reason": "Free AI crypto trading bot access with no experience required, implying automation capabilities.",
+      "tags": "trading,bot,automation"
     },
     {
       "title": "Breaking News, Latest News and Videos | CNN",
@@ -251,24 +269,6 @@
       "description": "",
       "automation_score": 8,
       "automation_reason": "Unlimited claim with no timer, making it suitable for automation",
-      "tags": "faucet,crypto,free"
-    },
-    {
-      "title": "LITECOIN MINER - Litecoin Cloud Mining",
-      "url": "https://miningltc.xyz/",
-      "category": "Mining",
-      "description": "",
-      "automation_score": 8,
-      "automation_reason": "Fully automatable with scripts for auto-click, auto-claim, auto-mining, and auto-faucet, with occasional captchas requiring human approval.",
-      "tags": "mining,crypto"
-    },
-    {
-      "title": "Instant Faucet Rewards",
-      "url": "https://btc.instantfaucetrewards.com/",
-      "category": "Crypto Faucet",
-      "description": "",
-      "automation_score": 8,
-      "automation_reason": "Fully automatable with auto-click and auto-claim scripts, but may require occasional captchas.",
       "tags": "faucet,crypto,free"
     }
   ]

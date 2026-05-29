@@ -1,0 +1,2373 @@
+{
+  "run_date": "2026-05-29T19:47:36.958582",
+  "queries_used": 40,
+  "sites_found_total": 196,
+  "sites_analyzed": 50,
+  "summary": {
+    "ready_to_automate": 48,
+    "possible": 2,
+    "not_recommended": 0
+  },
+  "top_candidates": [
+    {
+      "title": "Gemifaucet - Free Crypto Faucet | Earn Every 30 Sec",
+      "url": "https://gemifaucet.com/",
+      "domain": "gemifaucet.com",
+      "score": 10,
+      "verdict": "READY TO AUTOMATE",
+      "positives": [
+        "Cloudflare Turnstile (bypassable)",
+        "Pays via FaucetPay (instant!)",
+        "GitHub Actions friendly",
+        "Simple address + claim flow",
+        "Has withdrawal support"
+      ],
+      "negatives": [],
+      "automation_estimate": {
+        "difficulty": "Easy (15 min)",
+        "type": "requests + cron",
+        "tool": "Python requests or Playwright",
+        "github_action": true
+      },
+      "has_faucetpay": true,
+      "has_captcha": true,
+      "captcha_type": [
+        "Cloudflare Turnstile"
+      ],
+      "recaptcha_challenge": ""
+    },
+    {
+      "title": "Liteton | Highest Paying Crypto Faucet",
+      "url": "https://liteton.xyz/",
+      "domain": "liteton.xyz",
+      "score": 10,
+      "verdict": "READY TO AUTOMATE",
+      "positives": [
+        "No captcha detected!",
+        "Pays via FaucetPay (instant!)",
+        "GitHub Actions friendly",
+        "Simple address + claim flow",
+        "Has withdrawal support"
+      ],
+      "negatives": [],
+      "automation_estimate": {
+        "difficulty": "Easy (15 min)",
+        "type": "requests + cron",
+        "tool": "Python requests or Playwright",
+        "github_action": true
+      },
+      "has_faucetpay": true,
+      "has_captcha": false,
+      "captcha_type": [],
+      "recaptcha_challenge": ""
+    },
+    {
+      "title": "SatoshiFaucet | Satoshi faucet",
+      "url": "https://satoshifaucet.io/",
+      "domain": "satoshifaucet.io",
+      "score": 10,
+      "verdict": "READY TO AUTOMATE",
+      "positives": [
+        "No captcha detected!",
+        "GitHub Actions friendly"
+      ],
+      "negatives": [],
+      "automation_estimate": {
+        "difficulty": "Easy (15 min)",
+        "type": "requests + cron",
+        "tool": "Python requests or Playwright",
+        "github_action": true
+      },
+      "has_faucetpay": false,
+      "has_captcha": false,
+      "captcha_type": [],
+      "recaptcha_challenge": ""
+    },
+    {
+      "title": "MegaFaucet Faucet",
+      "url": "https://mega-faucet.click/",
+      "domain": "mega-faucet.click",
+      "score": 10,
+      "verdict": "READY TO AUTOMATE",
+      "positives": [
+        "Pays via FaucetPay (instant!)",
+        "GitHub Actions friendly",
+        "Simple address + claim flow",
+        "Has withdrawal support"
+      ],
+      "negatives": [],
+      "automation_estimate": {
+        "difficulty": "Easy (15 min)",
+        "type": "requests + cron",
+        "tool": "Python requests or Playwright",
+        "github_action": true
+      },
+      "has_faucetpay": true,
+      "has_captcha": true,
+      "captcha_type": [
+        "Unknown (generic anti-bot)"
+      ],
+      "recaptcha_challenge": ""
+    },
+    {
+      "title": "Home | Kryptofaucet - Instant payment + withdraw from $0.003 + Weekly contests",
+      "url": "https://kryptofaucet.com/",
+      "domain": "kryptofaucet.com",
+      "score": 10,
+      "verdict": "READY TO AUTOMATE",
+      "positives": [
+        "No captcha detected!",
+        "Pays via FaucetPay (instant!)",
+        "GitHub Actions friendly",
+        "Simple address + claim flow",
+        "Has withdrawal support"
+      ],
+      "negatives": [],
+      "automation_estimate": {
+        "difficulty": "Easy (15 min)",
+        "type": "requests + cron",
+        "tool": "Python requests or Playwright",
+        "github_action": true
+      },
+      "has_faucetpay": true,
+      "has_captcha": false,
+      "captcha_type": [],
+      "recaptcha_challenge": ""
+    },
+    {
+      "title": "ADA Faucet | CoinTap.click",
+      "url": "https://cointap.click/?r=D5iN1uiYt6xZVSp3Ws3PQCCf1apMdbiYzu",
+      "domain": "cointap.click",
+      "score": 10,
+      "verdict": "READY TO AUTOMATE",
+      "positives": [
+        "Cloudflare Turnstile (bypassable)",
+        "Pays via FaucetPay (instant!)",
+        "GitHub Actions friendly",
+        "Simple address + claim flow",
+        "Has withdrawal support"
+      ],
+      "negatives": [],
+      "automation_estimate": {
+        "difficulty": "Easy (15 min)",
+        "type": "requests + cron",
+        "tool": "Python requests or Playwright",
+        "github_action": true
+      },
+      "has_faucetpay": true,
+      "has_captcha": true,
+      "captcha_type": [
+        "Google reCAPTCHA",
+        "Cloudflare Turnstile"
+      ],
+      "recaptcha_challenge": ""
+    },
+    {
+      "title": "MEMEFAUCET \u2014 Instant ZER Faucet",
+      "url": "https://memefaucet.click/",
+      "domain": "memefaucet.click",
+      "score": 10,
+      "verdict": "READY TO AUTOMATE",
+      "positives": [
+        "Cloudflare Turnstile (bypassable)",
+        "Pays via FaucetPay (instant!)",
+        "GitHub Actions friendly",
+        "Simple address + claim flow",
+        "Has withdrawal support"
+      ],
+      "negatives": [],
+      "automation_estimate": {
+        "difficulty": "Easy (15 min)",
+        "type": "requests + cron",
+        "tool": "Python requests or Playwright",
+        "github_action": true
+      },
+      "has_faucetpay": true,
+      "has_captcha": true,
+      "captcha_type": [
+        "Google reCAPTCHA",
+        "Cloudflare Turnstile"
+      ],
+      "recaptcha_challenge": ""
+    },
+    {
+      "title": "BTC.Day | BTC DAY Free Bitcoin Faucet: Claim Block's $1M BTC, 6 to 10 April 2026",
+      "url": "https://btcday.online/",
+      "domain": "btcday.online",
+      "score": 10,
+      "verdict": "READY TO AUTOMATE",
+      "positives": [
+        "No captcha detected!",
+        "GitHub Actions friendly",
+        "Simple address + claim flow"
+      ],
+      "negatives": [],
+      "automation_estimate": {
+        "difficulty": "Easy (15 min)",
+        "type": "requests + cron",
+        "tool": "Python requests or Playwright",
+        "github_action": true
+      },
+      "has_faucetpay": false,
+      "has_captcha": false,
+      "captcha_type": [],
+      "recaptcha_challenge": ""
+    },
+    {
+      "title": "Bitcoin (BTC) Faucet List",
+      "url": "https://faucetlist.top/btc",
+      "domain": "faucetlist.top",
+      "score": 10,
+      "verdict": "READY TO AUTOMATE",
+      "positives": [
+        "No captcha detected!",
+        "Pays via FaucetPay (instant!)",
+        "GitHub Actions friendly",
+        "Simple address + claim flow"
+      ],
+      "negatives": [],
+      "automation_estimate": {
+        "difficulty": "Easy (15 min)",
+        "type": "requests + cron",
+        "tool": "Python requests or Playwright",
+        "github_action": true
+      },
+      "has_faucetpay": true,
+      "has_captcha": false,
+      "captcha_type": [],
+      "recaptcha_challenge": ""
+    },
+    {
+      "title": "Best Bitcoin Faucets 2026: Top 10 Services That Pay and Withdraw Bitcoin for Free",
+      "url": "https://crypto-insite.com/en/best-bitcoin-faucets/",
+      "domain": "crypto-insite.com",
+      "score": 10,
+      "verdict": "READY TO AUTOMATE",
+      "positives": [
+        "Pays via FaucetPay (instant!)",
+        "GitHub Actions friendly",
+        "Simple address + claim flow",
+        "Has withdrawal support"
+      ],
+      "negatives": [],
+      "automation_estimate": {
+        "difficulty": "Easy (15 min)",
+        "type": "requests + cron",
+        "tool": "Python requests or Playwright",
+        "github_action": true
+      },
+      "has_faucetpay": true,
+      "has_captcha": true,
+      "captcha_type": [
+        "Unknown (generic anti-bot)"
+      ],
+      "recaptcha_challenge": ""
+    },
+    {
+      "title": "Best Crypto Faucets 2026: Top Platforms for Free Bitcoin & Crypto Rewards",
+      "url": "https://www.bitget.com/academy/crypto-faucets-2026",
+      "domain": "bitget.com",
+      "score": 10,
+      "verdict": "READY TO AUTOMATE",
+      "positives": [
+        "No captcha detected!",
+        "GitHub Actions friendly",
+        "Simple address + claim flow"
+      ],
+      "negatives": [],
+      "automation_estimate": {
+        "difficulty": "Easy (15 min)",
+        "type": "requests + cron",
+        "tool": "Python requests or Playwright",
+        "github_action": true
+      },
+      "has_faucetpay": false,
+      "has_captcha": false,
+      "captcha_type": [],
+      "recaptcha_challenge": ""
+    },
+    {
+      "title": "Free Crypto Tokens Without Investment \u2014 2026 Guide to Earning Digital Assets \u2014 Zarfo Blog | Zarfo",
+      "url": "https://zarfo.com/blog/free-crypto-tokens-without-investment",
+      "domain": "zarfo.com",
+      "score": 10,
+      "verdict": "READY TO AUTOMATE",
+      "positives": [
+        "Cloudflare Turnstile (bypassable)",
+        "GitHub Actions friendly",
+        "Simple address + claim flow",
+        "Has withdrawal support"
+      ],
+      "negatives": [],
+      "automation_estimate": {
+        "difficulty": "Easy (15 min)",
+        "type": "requests + cron",
+        "tool": "Python requests or Playwright",
+        "github_action": true
+      },
+      "has_faucetpay": false,
+      "has_captcha": true,
+      "captcha_type": [
+        "Cloudflare Turnstile",
+        "Math captcha"
+      ],
+      "recaptcha_challenge": ""
+    },
+    {
+      "title": "How to Earn Free Crypto in 2026: 6 Methods That Actually Pay | FT Games Blog",
+      "url": "https://ft.games/blog/how-to-earn-free-crypto-in-2026-the-complete-guide-to-stacking-tokens-without-spending-a-dime",
+      "domain": "ft.games",
+      "score": 10,
+      "verdict": "READY TO AUTOMATE",
+      "positives": [
+        "No captcha detected!",
+        "GitHub Actions friendly",
+        "Simple address + claim flow",
+        "Has withdrawal support"
+      ],
+      "negatives": [],
+      "automation_estimate": {
+        "difficulty": "Easy (15 min)",
+        "type": "requests + cron",
+        "tool": "Python requests or Playwright",
+        "github_action": true
+      },
+      "has_faucetpay": false,
+      "has_captcha": false,
+      "captcha_type": [],
+      "recaptcha_challenge": ""
+    },
+    {
+      "title": "Best Crypto Faucets 2026: Earn Free Bitcoin, Ethereum, and More",
+      "url": "https://www.businessinsider.com/personal-finance/best-crypto-faucets",
+      "domain": "businessinsider.com",
+      "score": 10,
+      "verdict": "READY TO AUTOMATE",
+      "positives": [
+        "Pays via FaucetPay (instant!)",
+        "GitHub Actions friendly",
+        "Simple address + claim flow",
+        "Has withdrawal support"
+      ],
+      "negatives": [],
+      "automation_estimate": {
+        "difficulty": "Easy (15 min)",
+        "type": "requests + cron",
+        "tool": "Python requests or Playwright",
+        "github_action": true
+      },
+      "has_faucetpay": true,
+      "has_captcha": true,
+      "captcha_type": [
+        "Unknown (generic anti-bot)"
+      ],
+      "recaptcha_challenge": ""
+    },
+    {
+      "title": "Free BTC Mining: What Works, What Doesn't in 2026",
+      "url": "https://earnpark.com/en/posts/free-btc-mining-what-works-what-doesnt-in-2026/",
+      "domain": "earnpark.com",
+      "score": 10,
+      "verdict": "READY TO AUTOMATE",
+      "positives": [
+        "Cloudflare Turnstile (bypassable)",
+        "GitHub Actions friendly",
+        "Simple address + claim flow",
+        "Has withdrawal support"
+      ],
+      "negatives": [],
+      "automation_estimate": {
+        "difficulty": "Easy (15 min)",
+        "type": "requests + cron",
+        "tool": "Python requests or Playwright",
+        "github_action": true
+      },
+      "has_faucetpay": false,
+      "has_captcha": true,
+      "captcha_type": [
+        "Cloudflare Turnstile",
+        "Math captcha"
+      ],
+      "recaptcha_challenge": ""
+    },
+    {
+      "title": "Home | New Solana Faucet 2026 - FaucetPay Instant Payments",
+      "url": "https://solfaucet.site/",
+      "domain": "solfaucet.site",
+      "score": 10,
+      "verdict": "READY TO AUTOMATE",
+      "positives": [
+        "No captcha detected!",
+        "GitHub Actions friendly"
+      ],
+      "negatives": [],
+      "automation_estimate": {
+        "difficulty": "Easy (15 min)",
+        "type": "requests + cron",
+        "tool": "Python requests or Playwright",
+        "github_action": true
+      },
+      "has_faucetpay": false,
+      "has_captcha": false,
+      "captcha_type": [],
+      "recaptcha_challenge": ""
+    },
+    {
+      "title": "FaucetPay on Instagram: \"Lock your FEY. Unlock the perks ...",
+      "url": "https://www.instagram.com/p/DYnIuJhhjuQ/",
+      "domain": "instagram.com",
+      "score": 10,
+      "verdict": "READY TO AUTOMATE",
+      "positives": [
+        "Simple captcha (OCR-solvable)",
+        "Pays via FaucetPay (instant!)",
+        "GitHub Actions friendly",
+        "Simple address + claim flow",
+        "Has withdrawal support"
+      ],
+      "negatives": [],
+      "automation_estimate": {
+        "difficulty": "Easy (15 min)",
+        "type": "requests + cron",
+        "tool": "Python requests or Playwright",
+        "github_action": true
+      },
+      "has_faucetpay": true,
+      "has_captcha": true,
+      "captcha_type": [
+        "Math captcha"
+      ],
+      "recaptcha_challenge": ""
+    },
+    {
+      "title": "Faucet Captcha",
+      "url": "https://faucetcaptcha.co.in/?r=11v5zKfcxuQSt8ToBdeXeni6vHrgugemy",
+      "domain": "faucetcaptcha.co.in",
+      "score": 10,
+      "verdict": "READY TO AUTOMATE",
+      "positives": [
+        "No captcha detected!",
+        "GitHub Actions friendly"
+      ],
+      "negatives": [],
+      "automation_estimate": {
+        "difficulty": "Easy (15 min)",
+        "type": "requests + cron",
+        "tool": "Python requests or Playwright",
+        "github_action": true
+      },
+      "has_faucetpay": false,
+      "has_captcha": false,
+      "captcha_type": [],
+      "recaptcha_challenge": ""
+    },
+    {
+      "title": "EarnCrypto.com | Earn Cryptocurrency",
+      "url": "https://www.earncrypto.com/",
+      "domain": "earncrypto.com",
+      "score": 10,
+      "verdict": "READY TO AUTOMATE",
+      "positives": [
+        "No captcha detected!",
+        "GitHub Actions friendly",
+        "Simple address + claim flow",
+        "Has withdrawal support"
+      ],
+      "negatives": [],
+      "automation_estimate": {
+        "difficulty": "Easy (15 min)",
+        "type": "requests + cron",
+        "tool": "Python requests or Playwright",
+        "github_action": true
+      },
+      "has_faucetpay": false,
+      "has_captcha": false,
+      "captcha_type": [],
+      "recaptcha_challenge": ""
+    },
+    {
+      "title": "Learn How To Get FREE Bitcoin (BTC) In 2026 - ApexPay",
+      "url": "https://apexpay.org/posts/how-to-get-free-bitcoin/",
+      "domain": "apexpay.org",
+      "score": 10,
+      "verdict": "READY TO AUTOMATE",
+      "positives": [
+        "No captcha detected!",
+        "GitHub Actions friendly",
+        "Simple address + claim flow",
+        "Has withdrawal support"
+      ],
+      "negatives": [],
+      "automation_estimate": {
+        "difficulty": "Easy (15 min)",
+        "type": "requests + cron",
+        "tool": "Python requests or Playwright",
+        "github_action": true
+      },
+      "has_faucetpay": false,
+      "has_captcha": false,
+      "captcha_type": [],
+      "recaptcha_challenge": ""
+    }
+  ],
+  "all_results": [
+    {
+      "title": "Gemifaucet - Free Crypto Faucet | Earn Every 30 Sec",
+      "url": "https://gemifaucet.com/",
+      "domain": "gemifaucet.com",
+      "description": "",
+      "source_query": "crypto faucet no captcha instant withdrawal 2026",
+      "found_at": "2026-05-29T19:38:06.496650",
+      "captcha": [
+        "Cloudflare Turnstile"
+      ],
+      "has_captcha": true,
+      "has_faucetpay": true,
+      "has_withdraw": true,
+      "has_claim_button": true,
+      "recaptcha_challenge": "",
+      "score": 10,
+      "verdict": "READY TO AUTOMATE",
+      "positives": [
+        "Cloudflare Turnstile (bypassable)",
+        "Pays via FaucetPay (instant!)",
+        "GitHub Actions friendly",
+        "Simple address + claim flow",
+        "Has withdrawal support"
+      ],
+      "negatives": [],
+      "factors": [
+        "TURNSTILE=+2",
+        "FAUCETPAY=+2",
+        "GHA_FRIENDLY=+1",
+        "SIMPLE_FLOW=+1",
+        "HAS_WITHDRAW=+1"
+      ],
+      "automation_estimate": {
+        "difficulty": "Easy (15 min)",
+        "type": "requests + cron",
+        "tool": "Python requests or Playwright",
+        "github_action": true
+      },
+      "detected_by": "curl_cffi"
+    },
+    {
+      "title": "Liteton | Highest Paying Crypto Faucet",
+      "url": "https://liteton.xyz/",
+      "domain": "liteton.xyz",
+      "description": "",
+      "source_query": "crypto faucet no captcha instant withdrawal 2026",
+      "found_at": "2026-05-29T19:38:06.496699",
+      "captcha": [],
+      "has_captcha": false,
+      "has_faucetpay": true,
+      "has_withdraw": true,
+      "has_claim_button": true,
+      "recaptcha_challenge": "",
+      "score": 10,
+      "verdict": "READY TO AUTOMATE",
+      "positives": [
+        "No captcha detected!",
+        "Pays via FaucetPay (instant!)",
+        "GitHub Actions friendly",
+        "Simple address + claim flow",
+        "Has withdrawal support"
+      ],
+      "negatives": [],
+      "factors": [
+        "NO_CAPTCHA=+4",
+        "FAUCETPAY=+2",
+        "GHA_FRIENDLY=+1",
+        "SIMPLE_FLOW=+1",
+        "HAS_WITHDRAW=+1"
+      ],
+      "automation_estimate": {
+        "difficulty": "Easy (15 min)",
+        "type": "requests + cron",
+        "tool": "Python requests or Playwright",
+        "github_action": true
+      },
+      "detected_by": "curl_cffi"
+    },
+    {
+      "title": "SatoshiFaucet | Satoshi faucet",
+      "url": "https://satoshifaucet.io/",
+      "domain": "satoshifaucet.io",
+      "description": "",
+      "source_query": "crypto faucet no captcha instant withdrawal 2026",
+      "found_at": "2026-05-29T19:38:06.496729",
+      "captcha": [],
+      "has_captcha": false,
+      "has_faucetpay": false,
+      "has_withdraw": false,
+      "has_claim_button": false,
+      "recaptcha_challenge": "",
+      "score": 10,
+      "verdict": "READY TO AUTOMATE",
+      "positives": [
+        "No captcha detected!",
+        "GitHub Actions friendly"
+      ],
+      "negatives": [],
+      "factors": [
+        "NO_CAPTCHA=+4",
+        "GHA_FRIENDLY=+1"
+      ],
+      "automation_estimate": {
+        "difficulty": "Easy (15 min)",
+        "type": "requests + cron",
+        "tool": "Python requests or Playwright",
+        "github_action": true
+      },
+      "detected_by": "curl_cffi"
+    },
+    {
+      "title": "MegaFaucet Faucet",
+      "url": "https://mega-faucet.click/",
+      "domain": "mega-faucet.click",
+      "description": "",
+      "source_query": "crypto faucet no captcha instant withdrawal 2026",
+      "found_at": "2026-05-29T19:38:06.496748",
+      "captcha": [
+        "Unknown (generic anti-bot)"
+      ],
+      "has_captcha": true,
+      "has_faucetpay": true,
+      "has_withdraw": true,
+      "has_claim_button": true,
+      "recaptcha_challenge": "",
+      "score": 10,
+      "verdict": "READY TO AUTOMATE",
+      "positives": [
+        "Pays via FaucetPay (instant!)",
+        "GitHub Actions friendly",
+        "Simple address + claim flow",
+        "Has withdrawal support"
+      ],
+      "negatives": [],
+      "factors": [
+        "UNKNOWN_CAPTCHA=+0",
+        "FAUCETPAY=+2",
+        "GHA_FRIENDLY=+1",
+        "SIMPLE_FLOW=+1",
+        "HAS_WITHDRAW=+1"
+      ],
+      "automation_estimate": {
+        "difficulty": "Easy (15 min)",
+        "type": "requests + cron",
+        "tool": "Python requests or Playwright",
+        "github_action": true
+      },
+      "detected_by": "curl_cffi"
+    },
+    {
+      "title": "Home | Kryptofaucet - Instant payment + withdraw from $0.003 + Weekly contests",
+      "url": "https://kryptofaucet.com/",
+      "domain": "kryptofaucet.com",
+      "description": "",
+      "source_query": "crypto faucet no captcha instant withdrawal 2026",
+      "found_at": "2026-05-29T19:38:06.496786",
+      "captcha": [],
+      "has_captcha": false,
+      "has_faucetpay": true,
+      "has_withdraw": true,
+      "has_claim_button": true,
+      "recaptcha_challenge": "",
+      "score": 10,
+      "verdict": "READY TO AUTOMATE",
+      "positives": [
+        "No captcha detected!",
+        "Pays via FaucetPay (instant!)",
+        "GitHub Actions friendly",
+        "Simple address + claim flow",
+        "Has withdrawal support"
+      ],
+      "negatives": [],
+      "factors": [
+        "NO_CAPTCHA=+4",
+        "FAUCETPAY=+2",
+        "GHA_FRIENDLY=+1",
+        "SIMPLE_FLOW=+1",
+        "HAS_WITHDRAW=+1"
+      ],
+      "automation_estimate": {
+        "difficulty": "Easy (15 min)",
+        "type": "requests + cron",
+        "tool": "Python requests or Playwright",
+        "github_action": true
+      },
+      "detected_by": "curl_cffi"
+    },
+    {
+      "title": "ADA Faucet | CoinTap.click",
+      "url": "https://cointap.click/?r=D5iN1uiYt6xZVSp3Ws3PQCCf1apMdbiYzu",
+      "domain": "cointap.click",
+      "description": "",
+      "source_query": "crypto faucet no captcha instant withdrawal 2026",
+      "found_at": "2026-05-29T19:38:06.496840",
+      "captcha": [
+        "Google reCAPTCHA",
+        "Cloudflare Turnstile"
+      ],
+      "has_captcha": true,
+      "has_faucetpay": true,
+      "has_withdraw": true,
+      "has_claim_button": true,
+      "recaptcha_challenge": "",
+      "score": 10,
+      "verdict": "READY TO AUTOMATE",
+      "positives": [
+        "Cloudflare Turnstile (bypassable)",
+        "Pays via FaucetPay (instant!)",
+        "GitHub Actions friendly",
+        "Simple address + claim flow",
+        "Has withdrawal support"
+      ],
+      "negatives": [],
+      "factors": [
+        "TURNSTILE=+2",
+        "FAUCETPAY=+2",
+        "GHA_FRIENDLY=+1",
+        "SIMPLE_FLOW=+1",
+        "HAS_WITHDRAW=+1"
+      ],
+      "automation_estimate": {
+        "difficulty": "Easy (15 min)",
+        "type": "requests + cron",
+        "tool": "Python requests or Playwright",
+        "github_action": true
+      },
+      "detected_by": "curl_cffi"
+    },
+    {
+      "title": "MEMEFAUCET \u2014 Instant ZER Faucet",
+      "url": "https://memefaucet.click/",
+      "domain": "memefaucet.click",
+      "description": "",
+      "source_query": "crypto faucet no captcha instant withdrawal 2026",
+      "found_at": "2026-05-29T19:38:06.496867",
+      "captcha": [
+        "Google reCAPTCHA",
+        "Cloudflare Turnstile"
+      ],
+      "has_captcha": true,
+      "has_faucetpay": true,
+      "has_withdraw": true,
+      "has_claim_button": true,
+      "recaptcha_challenge": "",
+      "score": 10,
+      "verdict": "READY TO AUTOMATE",
+      "positives": [
+        "Cloudflare Turnstile (bypassable)",
+        "Pays via FaucetPay (instant!)",
+        "GitHub Actions friendly",
+        "Simple address + claim flow",
+        "Has withdrawal support"
+      ],
+      "negatives": [],
+      "factors": [
+        "TURNSTILE=+2",
+        "FAUCETPAY=+2",
+        "GHA_FRIENDLY=+1",
+        "SIMPLE_FLOW=+1",
+        "HAS_WITHDRAW=+1"
+      ],
+      "automation_estimate": {
+        "difficulty": "Easy (15 min)",
+        "type": "requests + cron",
+        "tool": "Python requests or Playwright",
+        "github_action": true
+      },
+      "detected_by": "curl_cffi"
+    },
+    {
+      "title": "BTC.Day | BTC DAY Free Bitcoin Faucet: Claim Block's $1M BTC, 6 to 10 April 2026",
+      "url": "https://btcday.online/",
+      "domain": "btcday.online",
+      "description": "",
+      "source_query": "no captcha bitcoin faucet instant pay 2026",
+      "found_at": "2026-05-29T19:38:13.171163",
+      "captcha": [],
+      "has_captcha": false,
+      "has_faucetpay": false,
+      "has_withdraw": false,
+      "has_claim_button": true,
+      "recaptcha_challenge": "",
+      "score": 10,
+      "verdict": "READY TO AUTOMATE",
+      "positives": [
+        "No captcha detected!",
+        "GitHub Actions friendly",
+        "Simple address + claim flow"
+      ],
+      "negatives": [],
+      "factors": [
+        "NO_CAPTCHA=+4",
+        "GHA_FRIENDLY=+1",
+        "SIMPLE_FLOW=+1"
+      ],
+      "automation_estimate": {
+        "difficulty": "Easy (15 min)",
+        "type": "requests + cron",
+        "tool": "Python requests or Playwright",
+        "github_action": true
+      },
+      "detected_by": "curl_cffi"
+    },
+    {
+      "title": "Bitcoin (BTC) Faucet List",
+      "url": "https://faucetlist.top/btc",
+      "domain": "faucetlist.top",
+      "description": "",
+      "source_query": "no captcha bitcoin faucet instant pay 2026",
+      "found_at": "2026-05-29T19:38:13.171225",
+      "captcha": [],
+      "has_captcha": false,
+      "has_faucetpay": true,
+      "has_withdraw": false,
+      "has_claim_button": true,
+      "recaptcha_challenge": "",
+      "score": 10,
+      "verdict": "READY TO AUTOMATE",
+      "positives": [
+        "No captcha detected!",
+        "Pays via FaucetPay (instant!)",
+        "GitHub Actions friendly",
+        "Simple address + claim flow"
+      ],
+      "negatives": [],
+      "factors": [
+        "NO_CAPTCHA=+4",
+        "FAUCETPAY=+2",
+        "GHA_FRIENDLY=+1",
+        "SIMPLE_FLOW=+1"
+      ],
+      "automation_estimate": {
+        "difficulty": "Easy (15 min)",
+        "type": "requests + cron",
+        "tool": "Python requests or Playwright",
+        "github_action": true
+      },
+      "detected_by": "curl_cffi"
+    },
+    {
+      "title": "Best Bitcoin Faucets 2026: Top 10 Services That Pay and Withdraw Bitcoin for Free",
+      "url": "https://crypto-insite.com/en/best-bitcoin-faucets/",
+      "domain": "crypto-insite.com",
+      "description": "",
+      "source_query": "no captcha bitcoin faucet instant pay 2026",
+      "found_at": "2026-05-29T19:38:13.171332",
+      "captcha": [
+        "Unknown (generic anti-bot)"
+      ],
+      "has_captcha": true,
+      "has_faucetpay": true,
+      "has_withdraw": true,
+      "has_claim_button": true,
+      "recaptcha_challenge": "",
+      "score": 10,
+      "verdict": "READY TO AUTOMATE",
+      "positives": [
+        "Pays via FaucetPay (instant!)",
+        "GitHub Actions friendly",
+        "Simple address + claim flow",
+        "Has withdrawal support"
+      ],
+      "negatives": [],
+      "factors": [
+        "UNKNOWN_CAPTCHA=+0",
+        "FAUCETPAY=+2",
+        "GHA_FRIENDLY=+1",
+        "SIMPLE_FLOW=+1",
+        "HAS_WITHDRAW=+1"
+      ],
+      "automation_estimate": {
+        "difficulty": "Easy (15 min)",
+        "type": "requests + cron",
+        "tool": "Python requests or Playwright",
+        "github_action": true
+      },
+      "detected_by": "curl_cffi"
+    },
+    {
+      "title": "Best Crypto Faucets 2026: Top Platforms for Free Bitcoin & Crypto Rewards",
+      "url": "https://www.bitget.com/academy/crypto-faucets-2026",
+      "domain": "bitget.com",
+      "description": "",
+      "source_query": "no captcha bitcoin faucet instant pay 2026",
+      "found_at": "2026-05-29T19:38:13.171349",
+      "captcha": [],
+      "has_captcha": false,
+      "has_faucetpay": false,
+      "has_withdraw": false,
+      "has_claim_button": true,
+      "recaptcha_challenge": "",
+      "score": 10,
+      "verdict": "READY TO AUTOMATE",
+      "positives": [
+        "No captcha detected!",
+        "GitHub Actions friendly",
+        "Simple address + claim flow"
+      ],
+      "negatives": [],
+      "factors": [
+        "NO_CAPTCHA=+4",
+        "GHA_FRIENDLY=+1",
+        "SIMPLE_FLOW=+1"
+      ],
+      "automation_estimate": {
+        "difficulty": "Easy (15 min)",
+        "type": "requests + cron",
+        "tool": "Python requests or Playwright",
+        "github_action": true
+      },
+      "detected_by": "curl_cffi"
+    },
+    {
+      "title": "Free Crypto Tokens Without Investment \u2014 2026 Guide to Earning Digital Assets \u2014 Zarfo Blog | Zarfo",
+      "url": "https://zarfo.com/blog/free-crypto-tokens-without-investment",
+      "domain": "zarfo.com",
+      "description": "",
+      "source_query": "free crypto no captcha no survey no tasks 2026",
+      "found_at": "2026-05-29T19:38:19.325024",
+      "captcha": [
+        "Cloudflare Turnstile",
+        "Math captcha"
+      ],
+      "has_captcha": true,
+      "has_faucetpay": false,
+      "has_withdraw": true,
+      "has_claim_button": true,
+      "recaptcha_challenge": "",
+      "score": 10,
+      "verdict": "READY TO AUTOMATE",
+      "positives": [
+        "Cloudflare Turnstile (bypassable)",
+        "GitHub Actions friendly",
+        "Simple address + claim flow",
+        "Has withdrawal support"
+      ],
+      "negatives": [],
+      "factors": [
+        "TURNSTILE=+2",
+        "GHA_FRIENDLY=+1",
+        "SIMPLE_FLOW=+1",
+        "HAS_WITHDRAW=+1"
+      ],
+      "automation_estimate": {
+        "difficulty": "Easy (15 min)",
+        "type": "requests + cron",
+        "tool": "Python requests or Playwright",
+        "github_action": true
+      },
+      "detected_by": "curl_cffi"
+    },
+    {
+      "title": "How to Earn Free Crypto in 2026: 6 Methods That Actually Pay | FT Games Blog",
+      "url": "https://ft.games/blog/how-to-earn-free-crypto-in-2026-the-complete-guide-to-stacking-tokens-without-spending-a-dime",
+      "domain": "ft.games",
+      "description": "",
+      "source_query": "free crypto no captcha no survey no tasks 2026",
+      "found_at": "2026-05-29T19:38:19.325073",
+      "captcha": [],
+      "has_captcha": false,
+      "has_faucetpay": false,
+      "has_withdraw": true,
+      "has_claim_button": true,
+      "recaptcha_challenge": "",
+      "score": 10,
+      "verdict": "READY TO AUTOMATE",
+      "positives": [
+        "No captcha detected!",
+        "GitHub Actions friendly",
+        "Simple address + claim flow",
+        "Has withdrawal support"
+      ],
+      "negatives": [],
+      "factors": [
+        "NO_CAPTCHA=+4",
+        "GHA_FRIENDLY=+1",
+        "SIMPLE_FLOW=+1",
+        "HAS_WITHDRAW=+1"
+      ],
+      "automation_estimate": {
+        "difficulty": "Easy (15 min)",
+        "type": "requests + cron",
+        "tool": "Python requests or Playwright",
+        "github_action": true
+      },
+      "detected_by": "curl_cffi"
+    },
+    {
+      "title": "Best Crypto Faucets 2026: Earn Free Bitcoin, Ethereum, and More",
+      "url": "https://www.businessinsider.com/personal-finance/best-crypto-faucets",
+      "domain": "businessinsider.com",
+      "description": "",
+      "source_query": "free crypto no captcha no survey no tasks 2026",
+      "found_at": "2026-05-29T19:38:19.325090",
+      "captcha": [
+        "Unknown (generic anti-bot)"
+      ],
+      "has_captcha": true,
+      "has_faucetpay": true,
+      "has_withdraw": true,
+      "has_claim_button": true,
+      "recaptcha_challenge": "",
+      "score": 10,
+      "verdict": "READY TO AUTOMATE",
+      "positives": [
+        "Pays via FaucetPay (instant!)",
+        "GitHub Actions friendly",
+        "Simple address + claim flow",
+        "Has withdrawal support"
+      ],
+      "negatives": [],
+      "factors": [
+        "UNKNOWN_CAPTCHA=+0",
+        "FAUCETPAY=+2",
+        "GHA_FRIENDLY=+1",
+        "SIMPLE_FLOW=+1",
+        "HAS_WITHDRAW=+1"
+      ],
+      "automation_estimate": {
+        "difficulty": "Easy (15 min)",
+        "type": "requests + cron",
+        "tool": "Python requests or Playwright",
+        "github_action": true
+      },
+      "detected_by": "curl_cffi"
+    },
+    {
+      "title": "Free BTC Mining: What Works, What Doesn't in 2026",
+      "url": "https://earnpark.com/en/posts/free-btc-mining-what-works-what-doesnt-in-2026/",
+      "domain": "earnpark.com",
+      "description": "",
+      "source_query": "free crypto no captcha no survey no tasks 2026",
+      "found_at": "2026-05-29T19:38:19.325106",
+      "captcha": [
+        "Cloudflare Turnstile",
+        "Math captcha"
+      ],
+      "has_captcha": true,
+      "has_faucetpay": false,
+      "has_withdraw": true,
+      "has_claim_button": true,
+      "recaptcha_challenge": "",
+      "score": 10,
+      "verdict": "READY TO AUTOMATE",
+      "positives": [
+        "Cloudflare Turnstile (bypassable)",
+        "GitHub Actions friendly",
+        "Simple address + claim flow",
+        "Has withdrawal support"
+      ],
+      "negatives": [],
+      "factors": [
+        "TURNSTILE=+2",
+        "GHA_FRIENDLY=+1",
+        "SIMPLE_FLOW=+1",
+        "HAS_WITHDRAW=+1"
+      ],
+      "automation_estimate": {
+        "difficulty": "Easy (15 min)",
+        "type": "requests + cron",
+        "tool": "Python requests or Playwright",
+        "github_action": true
+      },
+      "detected_by": "curl_cffi"
+    },
+    {
+      "title": "Home | New Solana Faucet 2026 - FaucetPay Instant Payments",
+      "url": "https://solfaucet.site/",
+      "domain": "solfaucet.site",
+      "description": "",
+      "source_query": "\"no captcha\" faucet faucetpay 2026",
+      "found_at": "2026-05-29T19:38:25.423966",
+      "captcha": [],
+      "has_captcha": false,
+      "has_faucetpay": false,
+      "has_withdraw": false,
+      "has_claim_button": false,
+      "recaptcha_challenge": "",
+      "score": 10,
+      "verdict": "READY TO AUTOMATE",
+      "positives": [
+        "No captcha detected!",
+        "GitHub Actions friendly"
+      ],
+      "negatives": [],
+      "factors": [
+        "NO_CAPTCHA=+4",
+        "GHA_FRIENDLY=+1"
+      ],
+      "automation_estimate": {
+        "difficulty": "Easy (15 min)",
+        "type": "requests + cron",
+        "tool": "Python requests or Playwright",
+        "github_action": true
+      },
+      "detected_by": ""
+    },
+    {
+      "title": "FaucetPay on Instagram: \"Lock your FEY. Unlock the perks ...",
+      "url": "https://www.instagram.com/p/DYnIuJhhjuQ/",
+      "domain": "instagram.com",
+      "description": "",
+      "source_query": "\"no captcha\" faucet faucetpay 2026",
+      "found_at": "2026-05-29T19:38:25.424002",
+      "captcha": [
+        "Math captcha"
+      ],
+      "has_captcha": true,
+      "has_faucetpay": true,
+      "has_withdraw": true,
+      "has_claim_button": true,
+      "recaptcha_challenge": "",
+      "score": 10,
+      "verdict": "READY TO AUTOMATE",
+      "positives": [
+        "Simple captcha (OCR-solvable)",
+        "Pays via FaucetPay (instant!)",
+        "GitHub Actions friendly",
+        "Simple address + claim flow",
+        "Has withdrawal support"
+      ],
+      "negatives": [],
+      "factors": [
+        "SIMPLE_CAPTCHA=+1",
+        "FAUCETPAY=+2",
+        "GHA_FRIENDLY=+1",
+        "SIMPLE_FLOW=+1",
+        "HAS_WITHDRAW=+1"
+      ],
+      "automation_estimate": {
+        "difficulty": "Easy (15 min)",
+        "type": "requests + cron",
+        "tool": "Python requests or Playwright",
+        "github_action": true
+      },
+      "detected_by": "curl_cffi"
+    },
+    {
+      "title": "Faucet Captcha",
+      "url": "https://faucetcaptcha.co.in/?r=11v5zKfcxuQSt8ToBdeXeni6vHrgugemy",
+      "domain": "faucetcaptcha.co.in",
+      "description": "",
+      "source_query": "\"no captcha\" faucet faucetpay 2026",
+      "found_at": "2026-05-29T19:38:25.424069",
+      "captcha": [],
+      "has_captcha": false,
+      "has_faucetpay": false,
+      "has_withdraw": false,
+      "has_claim_button": false,
+      "recaptcha_challenge": "",
+      "score": 10,
+      "verdict": "READY TO AUTOMATE",
+      "positives": [
+        "No captcha detected!",
+        "GitHub Actions friendly"
+      ],
+      "negatives": [],
+      "factors": [
+        "NO_CAPTCHA=+4",
+        "GHA_FRIENDLY=+1"
+      ],
+      "automation_estimate": {
+        "difficulty": "Easy (15 min)",
+        "type": "requests + cron",
+        "tool": "Python requests or Playwright",
+        "github_action": true
+      },
+      "detected_by": "curl_cffi"
+    },
+    {
+      "title": "EarnCrypto.com | Earn Cryptocurrency",
+      "url": "https://www.earncrypto.com/",
+      "domain": "earncrypto.com",
+      "description": "",
+      "source_query": "earn crypto without captcha 2026 free",
+      "found_at": "2026-05-29T19:38:37.782806",
+      "captcha": [],
+      "has_captcha": false,
+      "has_faucetpay": false,
+      "has_withdraw": true,
+      "has_claim_button": true,
+      "recaptcha_challenge": "",
+      "score": 10,
+      "verdict": "READY TO AUTOMATE",
+      "positives": [
+        "No captcha detected!",
+        "GitHub Actions friendly",
+        "Simple address + claim flow",
+        "Has withdrawal support"
+      ],
+      "negatives": [],
+      "factors": [
+        "NO_CAPTCHA=+4",
+        "GHA_FRIENDLY=+1",
+        "SIMPLE_FLOW=+1",
+        "HAS_WITHDRAW=+1"
+      ],
+      "automation_estimate": {
+        "difficulty": "Easy (15 min)",
+        "type": "requests + cron",
+        "tool": "Python requests or Playwright",
+        "github_action": true
+      },
+      "detected_by": "curl_cffi"
+    },
+    {
+      "title": "Learn How To Get FREE Bitcoin (BTC) In 2026 - ApexPay",
+      "url": "https://apexpay.org/posts/how-to-get-free-bitcoin/",
+      "domain": "apexpay.org",
+      "description": "",
+      "source_query": "earn crypto without captcha 2026 free",
+      "found_at": "2026-05-29T19:38:37.782898",
+      "captcha": [],
+      "has_captcha": false,
+      "has_faucetpay": false,
+      "has_withdraw": true,
+      "has_claim_button": true,
+      "recaptcha_challenge": "",
+      "score": 10,
+      "verdict": "READY TO AUTOMATE",
+      "positives": [
+        "No captcha detected!",
+        "GitHub Actions friendly",
+        "Simple address + claim flow",
+        "Has withdrawal support"
+      ],
+      "negatives": [],
+      "factors": [
+        "NO_CAPTCHA=+4",
+        "GHA_FRIENDLY=+1",
+        "SIMPLE_FLOW=+1",
+        "HAS_WITHDRAW=+1"
+      ],
+      "automation_estimate": {
+        "difficulty": "Easy (15 min)",
+        "type": "requests + cron",
+        "tool": "Python requests or Playwright",
+        "github_action": true
+      },
+      "detected_by": "curl_cffi"
+    },
+    {
+      "title": "Click For Crypto - Earn Real Cryptocurrency by Completing Microjobs Online",
+      "url": "https://www.clickforcrypto.com/",
+      "domain": "clickforcrypto.com",
+      "description": "",
+      "source_query": "earn crypto without captcha 2026 free",
+      "found_at": "2026-05-29T19:38:37.782983",
+      "captcha": [],
+      "has_captcha": false,
+      "has_faucetpay": false,
+      "has_withdraw": true,
+      "has_claim_button": true,
+      "recaptcha_challenge": "",
+      "score": 10,
+      "verdict": "READY TO AUTOMATE",
+      "positives": [
+        "No captcha detected!",
+        "GitHub Actions friendly",
+        "Has withdrawal support"
+      ],
+      "negatives": [],
+      "factors": [
+        "NO_CAPTCHA=+4",
+        "GHA_FRIENDLY=+1",
+        "HAS_WITHDRAW=+1"
+      ],
+      "automation_estimate": {
+        "difficulty": "Easy (15 min)",
+        "type": "requests + cron",
+        "tool": "Python requests or Playwright",
+        "github_action": true
+      },
+      "detected_by": "curl_cffi"
+    },
+    {
+      "title": "TrxZilla - FREE TRX FAUCET | Earn Crypto Instantly",
+      "url": "https://trxzilla.live/",
+      "domain": "trxzilla.live",
+      "description": "",
+      "source_query": "no captcha trx faucet instant payout 2026",
+      "found_at": "2026-05-29T19:38:44.136655",
+      "captcha": [],
+      "has_captcha": false,
+      "has_faucetpay": false,
+      "has_withdraw": true,
+      "has_claim_button": true,
+      "recaptcha_challenge": "",
+      "score": 10,
+      "verdict": "READY TO AUTOMATE",
+      "positives": [
+        "No captcha detected!",
+        "GitHub Actions friendly",
+        "Has withdrawal support"
+      ],
+      "negatives": [],
+      "factors": [
+        "NO_CAPTCHA=+4",
+        "GHA_FRIENDLY=+1",
+        "HAS_WITHDRAW=+1"
+      ],
+      "automation_estimate": {
+        "difficulty": "Easy (15 min)",
+        "type": "requests + cron",
+        "tool": "Python requests or Playwright",
+        "github_action": true
+      },
+      "detected_by": "curl_cffi"
+    },
+    {
+      "title": "TRX True - Free TRX Faucet",
+      "url": "https://trxtrue.com/",
+      "domain": "trxtrue.com",
+      "description": "",
+      "source_query": "no captcha trx faucet instant payout 2026",
+      "found_at": "2026-05-29T19:38:44.136698",
+      "captcha": [],
+      "has_captcha": false,
+      "has_faucetpay": false,
+      "has_withdraw": true,
+      "has_claim_button": true,
+      "recaptcha_challenge": "",
+      "score": 10,
+      "verdict": "READY TO AUTOMATE",
+      "positives": [
+        "No captcha detected!",
+        "GitHub Actions friendly",
+        "Simple address + claim flow",
+        "Has withdrawal support"
+      ],
+      "negatives": [],
+      "factors": [
+        "NO_CAPTCHA=+4",
+        "GHA_FRIENDLY=+1",
+        "SIMPLE_FLOW=+1",
+        "HAS_WITHDRAW=+1"
+      ],
+      "automation_estimate": {
+        "difficulty": "Easy (15 min)",
+        "type": "requests + cron",
+        "tool": "Python requests or Playwright",
+        "github_action": true
+      },
+      "detected_by": "curl_cffi"
+    },
+    {
+      "title": "Claim Free TRX | trxpayz.com",
+      "url": "https://trxpayz.com/",
+      "domain": "trxpayz.com",
+      "description": "",
+      "source_query": "no captcha trx faucet instant payout 2026",
+      "found_at": "2026-05-29T19:38:44.136795",
+      "captcha": [],
+      "has_captcha": false,
+      "has_faucetpay": true,
+      "has_withdraw": true,
+      "has_claim_button": true,
+      "recaptcha_challenge": "",
+      "score": 10,
+      "verdict": "READY TO AUTOMATE",
+      "positives": [
+        "No captcha detected!",
+        "Pays via FaucetPay (instant!)",
+        "GitHub Actions friendly",
+        "Simple address + claim flow",
+        "Has withdrawal support"
+      ],
+      "negatives": [],
+      "factors": [
+        "NO_CAPTCHA=+4",
+        "FAUCETPAY=+2",
+        "GHA_FRIENDLY=+1",
+        "SIMPLE_FLOW=+1",
+        "HAS_WITHDRAW=+1"
+      ],
+      "automation_estimate": {
+        "difficulty": "Easy (15 min)",
+        "type": "requests + cron",
+        "tool": "Python requests or Playwright",
+        "github_action": true
+      },
+      "detected_by": "curl_cffi"
+    },
+    {
+      "title": "Litecoin (LTC) Faucet | April 2026",
+      "url": "https://litecoin-faucet.com/?r=MTss5pqMuuU7jSCNsqMWXRTn7RFt6g1n3o",
+      "domain": "litecoin-faucet.com",
+      "description": "",
+      "source_query": "no captcha ltc faucet free litecoin 2026",
+      "found_at": "2026-05-29T19:38:49.999144",
+      "captcha": [],
+      "has_captcha": false,
+      "has_faucetpay": true,
+      "has_withdraw": false,
+      "has_claim_button": true,
+      "recaptcha_challenge": "",
+      "score": 10,
+      "verdict": "READY TO AUTOMATE",
+      "positives": [
+        "No captcha detected!",
+        "Pays via FaucetPay (instant!)",
+        "GitHub Actions friendly"
+      ],
+      "negatives": [],
+      "factors": [
+        "NO_CAPTCHA=+4",
+        "FAUCETPAY=+2",
+        "GHA_FRIENDLY=+1"
+      ],
+      "automation_estimate": {
+        "difficulty": "Easy (15 min)",
+        "type": "requests + cron",
+        "tool": "Python requests or Playwright",
+        "github_action": true
+      },
+      "detected_by": "curl_cffi"
+    },
+    {
+      "title": "The Bitcoin Faucet in 2026: How Earning BTC Works Now | Oshi",
+      "url": "https://www.bitcoinrewards.app/blog/bitcoin-faucet",
+      "domain": "bitcoinrewards.app",
+      "description": "",
+      "source_query": "no captcha bitcoin faucet instant pay 2026",
+      "found_at": "2026-05-29T19:38:13.171307",
+      "captcha": [
+        "Math captcha"
+      ],
+      "has_captcha": true,
+      "has_faucetpay": false,
+      "has_withdraw": true,
+      "has_claim_button": true,
+      "recaptcha_challenge": "",
+      "score": 9,
+      "verdict": "READY TO AUTOMATE",
+      "positives": [
+        "Simple captcha (OCR-solvable)",
+        "GitHub Actions friendly",
+        "Simple address + claim flow",
+        "Has withdrawal support"
+      ],
+      "negatives": [],
+      "factors": [
+        "SIMPLE_CAPTCHA=+1",
+        "GHA_FRIENDLY=+1",
+        "SIMPLE_FLOW=+1",
+        "HAS_WITHDRAW=+1"
+      ],
+      "automation_estimate": {
+        "difficulty": "Easy (15 min)",
+        "type": "requests + cron",
+        "tool": "Python requests or Playwright",
+        "github_action": true
+      },
+      "detected_by": "curl_cffi"
+    },
+    {
+      "title": "How to Earn Free Cryptocurrency in 2026",
+      "url": "https://tokentax.co/blog/earn-free-crypto",
+      "domain": "tokentax.co",
+      "description": "",
+      "source_query": "free crypto no captcha no survey no tasks 2026",
+      "found_at": "2026-05-29T19:38:19.325006",
+      "captcha": [
+        "Math captcha"
+      ],
+      "has_captcha": true,
+      "has_faucetpay": false,
+      "has_withdraw": true,
+      "has_claim_button": true,
+      "recaptcha_challenge": "",
+      "score": 9,
+      "verdict": "READY TO AUTOMATE",
+      "positives": [
+        "Simple captcha (OCR-solvable)",
+        "GitHub Actions friendly",
+        "Simple address + claim flow",
+        "Has withdrawal support"
+      ],
+      "negatives": [],
+      "factors": [
+        "SIMPLE_CAPTCHA=+1",
+        "GHA_FRIENDLY=+1",
+        "SIMPLE_FLOW=+1",
+        "HAS_WITHDRAW=+1"
+      ],
+      "automation_estimate": {
+        "difficulty": "Easy (15 min)",
+        "type": "requests + cron",
+        "tool": "Python requests or Playwright",
+        "github_action": true
+      },
+      "detected_by": "curl_cffi"
+    },
+    {
+      "title": "EARN FREE BNB! No Captcha! Instant withdrawal to FaucetPay!",
+      "url": "https://www.youtube.com/watch?v=stFAky84cAM",
+      "domain": "youtube.com",
+      "description": "",
+      "source_query": "\"no captcha\" faucet faucetpay 2026",
+      "found_at": "2026-05-29T19:38:25.423876",
+      "captcha": [
+        "Unknown (generic anti-bot)"
+      ],
+      "has_captcha": true,
+      "has_faucetpay": true,
+      "has_withdraw": true,
+      "has_claim_button": true,
+      "recaptcha_challenge": "",
+      "score": 9,
+      "verdict": "READY TO AUTOMATE",
+      "positives": [
+        "Pays via FaucetPay (instant!)",
+        "GitHub Actions friendly",
+        "Has withdrawal support"
+      ],
+      "negatives": [],
+      "factors": [
+        "UNKNOWN_CAPTCHA=+0",
+        "FAUCETPAY=+2",
+        "GHA_FRIENDLY=+1",
+        "HAS_WITHDRAW=+1"
+      ],
+      "automation_estimate": {
+        "difficulty": "Easy (15 min)",
+        "type": "requests + cron",
+        "tool": "Python requests or Playwright",
+        "github_action": true
+      },
+      "detected_by": "curl_cffi"
+    },
+    {
+      "title": "FaucetPayz - Earn Free Crypto Instantly to FaucetPay Wallet",
+      "url": "https://faucetpayz.com/",
+      "domain": "faucetpayz.com",
+      "description": "",
+      "source_query": "\"no captcha\" faucet faucetpay 2026",
+      "found_at": "2026-05-29T19:38:25.423927",
+      "captcha": [
+        "Unknown (generic anti-bot)"
+      ],
+      "has_captcha": true,
+      "has_faucetpay": true,
+      "has_withdraw": true,
+      "has_claim_button": true,
+      "recaptcha_challenge": "",
+      "score": 9,
+      "verdict": "READY TO AUTOMATE",
+      "positives": [
+        "Pays via FaucetPay (instant!)",
+        "GitHub Actions friendly",
+        "Has withdrawal support"
+      ],
+      "negatives": [],
+      "factors": [
+        "UNKNOWN_CAPTCHA=+0",
+        "FAUCETPAY=+2",
+        "GHA_FRIENDLY=+1",
+        "HAS_WITHDRAW=+1"
+      ],
+      "automation_estimate": {
+        "difficulty": "Easy (15 min)",
+        "type": "requests + cron",
+        "tool": "Python requests or Playwright",
+        "github_action": true
+      },
+      "detected_by": "curl_cffi"
+    },
+    {
+      "title": "12 Top Methods to Earn Free Crypto Rewards in 2026",
+      "url": "https://www.bitdegree.org/crypto/tutorials/free-crypto-rewards",
+      "domain": "bitdegree.org",
+      "description": "",
+      "source_query": "earn crypto without captcha 2026 free",
+      "found_at": "2026-05-29T19:38:37.782957",
+      "captcha": [
+        "Math captcha"
+      ],
+      "has_captcha": true,
+      "has_faucetpay": false,
+      "has_withdraw": true,
+      "has_claim_button": true,
+      "recaptcha_challenge": "",
+      "score": 9,
+      "verdict": "READY TO AUTOMATE",
+      "positives": [
+        "Simple captcha (OCR-solvable)",
+        "GitHub Actions friendly",
+        "Simple address + claim flow",
+        "Has withdrawal support"
+      ],
+      "negatives": [],
+      "factors": [
+        "SIMPLE_CAPTCHA=+1",
+        "GHA_FRIENDLY=+1",
+        "SIMPLE_FLOW=+1",
+        "HAS_WITHDRAW=+1"
+      ],
+      "automation_estimate": {
+        "difficulty": "Easy (15 min)",
+        "type": "requests + cron",
+        "tool": "Python requests or Playwright",
+        "github_action": true
+      },
+      "detected_by": "curl_cffi"
+    },
+    {
+      "title": "TronPick review - Multi-Faucet",
+      "url": "https://multi-faucet.com/faucets/tronpick",
+      "domain": "multi-faucet.com",
+      "description": "",
+      "source_query": "no captcha trx faucet instant payout 2026",
+      "found_at": "2026-05-29T19:38:44.136768",
+      "captcha": [
+        "Unknown (generic anti-bot)"
+      ],
+      "has_captcha": true,
+      "has_faucetpay": true,
+      "has_withdraw": true,
+      "has_claim_button": true,
+      "recaptcha_challenge": "",
+      "score": 9,
+      "verdict": "READY TO AUTOMATE",
+      "positives": [
+        "Pays via FaucetPay (instant!)",
+        "GitHub Actions friendly",
+        "Has withdrawal support"
+      ],
+      "negatives": [],
+      "factors": [
+        "UNKNOWN_CAPTCHA=+0",
+        "FAUCETPAY=+2",
+        "GHA_FRIENDLY=+1",
+        "HAS_WITHDRAW=+1"
+      ],
+      "automation_estimate": {
+        "difficulty": "Easy (15 min)",
+        "type": "requests + cron",
+        "tool": "Python requests or Playwright",
+        "github_action": true
+      },
+      "detected_by": "curl_cffi"
+    },
+    {
+      "title": "Get free crypto \u2014 claim every minute",
+      "url": "https://www.herofaucet.com/",
+      "domain": "herofaucet.com",
+      "description": "",
+      "source_query": "crypto faucet no captcha instant withdrawal 2026",
+      "found_at": "2026-05-29T19:38:06.496821",
+      "captcha": [],
+      "has_captcha": false,
+      "has_faucetpay": false,
+      "has_withdraw": false,
+      "has_claim_button": false,
+      "recaptcha_challenge": "",
+      "score": 8,
+      "verdict": "READY TO AUTOMATE",
+      "positives": [
+        "No captcha detected!"
+      ],
+      "negatives": [
+        "May block datacenter IPs"
+      ],
+      "factors": [
+        "NO_CAPTCHA=+4",
+        "GHA_RISK=-1"
+      ],
+      "automation_estimate": {
+        "difficulty": "Easy (15 min)",
+        "type": "requests + cron",
+        "tool": "Python requests or Playwright",
+        "github_action": true
+      },
+      "detected_by": "curl_cffi"
+    },
+    {
+      "title": "Simplex | Crypto faucet without CAPTCHA: your guide to easy crypto rewards",
+      "url": "https://www.simplex.com/crypto-faucet-without-captcha",
+      "domain": "simplex.com",
+      "description": "",
+      "source_query": "free crypto no captcha no survey no tasks 2026",
+      "found_at": "2026-05-29T19:38:19.324970",
+      "captcha": [
+        "Unknown (generic anti-bot)"
+      ],
+      "has_captcha": true,
+      "has_faucetpay": false,
+      "has_withdraw": true,
+      "has_claim_button": true,
+      "recaptcha_challenge": "",
+      "score": 8,
+      "verdict": "READY TO AUTOMATE",
+      "positives": [
+        "GitHub Actions friendly",
+        "Simple address + claim flow",
+        "Has withdrawal support"
+      ],
+      "negatives": [],
+      "factors": [
+        "UNKNOWN_CAPTCHA=+0",
+        "GHA_FRIENDLY=+1",
+        "SIMPLE_FLOW=+1",
+        "HAS_WITHDRAW=+1"
+      ],
+      "automation_estimate": {
+        "difficulty": "Easy (15 min)",
+        "type": "requests + cron",
+        "tool": "Python requests or Playwright",
+        "github_action": true
+      },
+      "detected_by": "curl_cffi"
+    },
+    {
+      "title": "Binance Red Packet Daily Code Answers for May 28, 2026",
+      "url": "https://www.bitrue.com/blog/binance-red-packet-daily-code-answers-for-may-28-2026",
+      "domain": "bitrue.com",
+      "description": "",
+      "source_query": "free crypto no captcha no survey no tasks 2026",
+      "found_at": "2026-05-29T19:38:19.324990",
+      "captcha": [
+        "Math captcha"
+      ],
+      "has_captcha": true,
+      "has_faucetpay": false,
+      "has_withdraw": true,
+      "has_claim_button": true,
+      "recaptcha_challenge": "",
+      "score": 8,
+      "verdict": "READY TO AUTOMATE",
+      "positives": [
+        "Simple captcha (OCR-solvable)",
+        "GitHub Actions friendly",
+        "Has withdrawal support"
+      ],
+      "negatives": [],
+      "factors": [
+        "SIMPLE_CAPTCHA=+1",
+        "GHA_FRIENDLY=+1",
+        "HAS_WITHDRAW=+1"
+      ],
+      "automation_estimate": {
+        "difficulty": "Easy (15 min)",
+        "type": "requests + cron",
+        "tool": "Python requests or Playwright",
+        "github_action": true
+      },
+      "detected_by": "curl_cffi"
+    },
+    {
+      "title": "Best Crypto Faucets 2026: Top Platforms to Earn Free Bitcoin and Crypto",
+      "url": "https://coindcx.com/blog/cryptocurrency/best-crypto-faucets/",
+      "domain": "coindcx.com",
+      "description": "",
+      "source_query": "free crypto no captcha no survey no tasks 2026",
+      "found_at": "2026-05-29T19:38:19.325057",
+      "captcha": [
+        "Cloudflare Turnstile"
+      ],
+      "has_captcha": true,
+      "has_faucetpay": false,
+      "has_withdraw": false,
+      "has_claim_button": false,
+      "recaptcha_challenge": "",
+      "score": 8,
+      "verdict": "READY TO AUTOMATE",
+      "positives": [
+        "Cloudflare Turnstile (bypassable)",
+        "GitHub Actions friendly"
+      ],
+      "negatives": [],
+      "factors": [
+        "TURNSTILE=+2",
+        "GHA_FRIENDLY=+1"
+      ],
+      "automation_estimate": {
+        "difficulty": "Easy (15 min)",
+        "type": "requests + cron",
+        "tool": "Python requests or Playwright",
+        "github_action": true
+      },
+      "detected_by": "curl_cffi"
+    },
+    {
+      "title": "FaucetPay Auto Rotator 2026 | Auto Claim + No Captcha + Fast ...",
+      "url": "https://greasyfork.org/en/scripts/558269-faucetpay-auto-rotator-2026-auto-claim-no-captcha-fast-earnings/code",
+      "domain": "greasyfork.org",
+      "description": "",
+      "source_query": "\"no captcha\" faucet faucetpay 2026",
+      "found_at": "2026-05-29T19:38:25.423907",
+      "captcha": [
+        "Google reCAPTCHA"
+      ],
+      "has_captcha": true,
+      "has_faucetpay": true,
+      "has_withdraw": false,
+      "has_claim_button": true,
+      "recaptcha_challenge": "",
+      "score": 8,
+      "verdict": "READY TO AUTOMATE",
+      "positives": [
+        "Pays via FaucetPay (instant!)",
+        "Has auto-claim feature",
+        "GitHub Actions friendly",
+        "Simple address + claim flow"
+      ],
+      "negatives": [
+        "Google reCAPTCHA image challenge (hard to automate)"
+      ],
+      "factors": [
+        "RECAPTCHA_IMAGE=-3",
+        "FAUCETPAY=+2",
+        "AUTO_CLAIM=+2",
+        "GHA_FRIENDLY=+1",
+        "SIMPLE_FLOW=+1"
+      ],
+      "automation_estimate": {
+        "difficulty": "Easy (15 min)",
+        "type": "requests + cron",
+        "tool": "Python requests or Playwright",
+        "github_action": true
+      },
+      "detected_by": "curl_cffi"
+    },
+    {
+      "title": "How to Earn Free Crypto with Zero Investment (Guide 2026)",
+      "url": "https://trustee.io/academy/how-to-earn-on-crypto-without-investment/",
+      "domain": "trustee.io",
+      "description": "",
+      "source_query": "earn crypto without captcha 2026 free",
+      "found_at": "2026-05-29T19:38:37.782871",
+      "captcha": [
+        "Unknown (generic anti-bot)"
+      ],
+      "has_captcha": true,
+      "has_faucetpay": false,
+      "has_withdraw": true,
+      "has_claim_button": true,
+      "recaptcha_challenge": "",
+      "score": 8,
+      "verdict": "READY TO AUTOMATE",
+      "positives": [
+        "GitHub Actions friendly",
+        "Simple address + claim flow",
+        "Has withdrawal support"
+      ],
+      "negatives": [],
+      "factors": [
+        "UNKNOWN_CAPTCHA=+0",
+        "GHA_FRIENDLY=+1",
+        "SIMPLE_FLOW=+1",
+        "HAS_WITHDRAW=+1"
+      ],
+      "automation_estimate": {
+        "difficulty": "Easy (15 min)",
+        "type": "requests + cron",
+        "tool": "Python requests or Playwright",
+        "github_action": true
+      },
+      "detected_by": "curl_cffi"
+    },
+    {
+      "title": "Top 10 Ways to Earn Free Crypto in 2026 - Marketcapof Blog",
+      "url": "https://marketcapof.com/blog/earn-free-crypto/",
+      "domain": "marketcapof.com",
+      "description": "",
+      "source_query": "earn crypto without captcha 2026 free",
+      "found_at": "2026-05-29T19:38:37.782930",
+      "captcha": [
+        "Cloudflare Turnstile"
+      ],
+      "has_captcha": true,
+      "has_faucetpay": false,
+      "has_withdraw": false,
+      "has_claim_button": false,
+      "recaptcha_challenge": "",
+      "score": 8,
+      "verdict": "READY TO AUTOMATE",
+      "positives": [
+        "Cloudflare Turnstile (bypassable)",
+        "GitHub Actions friendly"
+      ],
+      "negatives": [],
+      "factors": [
+        "TURNSTILE=+2",
+        "GHA_FRIENDLY=+1"
+      ],
+      "automation_estimate": {
+        "difficulty": "Easy (15 min)",
+        "type": "requests + cron",
+        "tool": "Python requests or Playwright",
+        "github_action": true
+      },
+      "detected_by": "curl_cffi"
+    },
+    {
+      "title": "Tronkong.live - Instant FREE Faucet & Games! Claim TRX Every Hour",
+      "url": "https://tronkong.live/",
+      "domain": "tronkong.live",
+      "description": "",
+      "source_query": "no captcha trx faucet instant payout 2026",
+      "found_at": "2026-05-29T19:38:44.136823",
+      "captcha": [
+        "Unknown (generic anti-bot)"
+      ],
+      "has_captcha": true,
+      "has_faucetpay": false,
+      "has_withdraw": true,
+      "has_claim_button": true,
+      "recaptcha_challenge": "",
+      "score": 8,
+      "verdict": "READY TO AUTOMATE",
+      "positives": [
+        "GitHub Actions friendly",
+        "Simple address + claim flow",
+        "Has withdrawal support"
+      ],
+      "negatives": [],
+      "factors": [
+        "UNKNOWN_CAPTCHA=+0",
+        "GHA_FRIENDLY=+1",
+        "SIMPLE_FLOW=+1",
+        "HAS_WITHDRAW=+1"
+      ],
+      "automation_estimate": {
+        "difficulty": "Easy (15 min)",
+        "type": "requests + cron",
+        "tool": "Python requests or Playwright",
+        "github_action": true
+      },
+      "detected_by": "curl_cffi"
+    },
+    {
+      "title": "Tronlux.io: Trusted Tron Faucet | Provably fair Tron Games",
+      "url": "https://tronlux.io/",
+      "domain": "tronlux.io",
+      "description": "",
+      "source_query": "no captcha trx faucet instant payout 2026",
+      "found_at": "2026-05-29T19:38:44.136850",
+      "captcha": [
+        "Unknown (generic anti-bot)"
+      ],
+      "has_captcha": true,
+      "has_faucetpay": false,
+      "has_withdraw": true,
+      "has_claim_button": true,
+      "recaptcha_challenge": "",
+      "score": 8,
+      "verdict": "READY TO AUTOMATE",
+      "positives": [
+        "GitHub Actions friendly",
+        "Simple address + claim flow",
+        "Has withdrawal support"
+      ],
+      "negatives": [],
+      "factors": [
+        "UNKNOWN_CAPTCHA=+0",
+        "GHA_FRIENDLY=+1",
+        "SIMPLE_FLOW=+1",
+        "HAS_WITHDRAW=+1"
+      ],
+      "automation_estimate": {
+        "difficulty": "Easy (15 min)",
+        "type": "requests + cron",
+        "tool": "Python requests or Playwright",
+        "github_action": true
+      },
+      "detected_by": "curl_cffi"
+    },
+    {
+      "title": "Free Bitcoin Faucet | Claim BTC Every 3 Minutes | Instant FaucetPay Payouts",
+      "url": "https://claimclicks.com/btc/",
+      "domain": "claimclicks.com",
+      "description": "",
+      "source_query": "crypto faucet no captcha instant withdrawal 2026",
+      "found_at": "2026-05-29T19:38:06.496768",
+      "captcha": [
+        "Google reCAPTCHA"
+      ],
+      "has_captcha": true,
+      "has_faucetpay": true,
+      "has_withdraw": true,
+      "has_claim_button": true,
+      "recaptcha_challenge": "",
+      "score": 7,
+      "verdict": "READY TO AUTOMATE",
+      "positives": [
+        "Pays via FaucetPay (instant!)",
+        "GitHub Actions friendly",
+        "Simple address + claim flow",
+        "Has withdrawal support"
+      ],
+      "negatives": [
+        "Google reCAPTCHA image challenge (hard to automate)"
+      ],
+      "factors": [
+        "RECAPTCHA_IMAGE=-3",
+        "FAUCETPAY=+2",
+        "GHA_FRIENDLY=+1",
+        "SIMPLE_FLOW=+1",
+        "HAS_WITHDRAW=+1"
+      ],
+      "automation_estimate": {
+        "difficulty": "Medium (1-2 hrs)",
+        "type": "Playwright script",
+        "tool": "Playwright + GitHub Actions",
+        "github_action": true
+      },
+      "detected_by": "curl_cffi"
+    },
+    {
+      "title": "Free Tron Faucet - Claim Free TRX Every 5 Minutes - Faucet Wave",
+      "url": "https://faucet-wave.online/tron-faucet/",
+      "domain": "faucet-wave.online",
+      "description": "",
+      "source_query": "crypto faucet no captcha instant withdrawal 2026",
+      "found_at": "2026-05-29T19:38:06.496804",
+      "captcha": [
+        "Google reCAPTCHA",
+        "hCaptcha"
+      ],
+      "has_captcha": true,
+      "has_faucetpay": true,
+      "has_withdraw": true,
+      "has_claim_button": true,
+      "recaptcha_challenge": "",
+      "score": 7,
+      "verdict": "READY TO AUTOMATE",
+      "positives": [
+        "Pays via FaucetPay (instant!)",
+        "GitHub Actions friendly",
+        "Simple address + claim flow",
+        "Has withdrawal support"
+      ],
+      "negatives": [
+        "Google reCAPTCHA image challenge (hard to automate)"
+      ],
+      "factors": [
+        "RECAPTCHA_IMAGE=-3",
+        "FAUCETPAY=+2",
+        "GHA_FRIENDLY=+1",
+        "SIMPLE_FLOW=+1",
+        "HAS_WITHDRAW=+1"
+      ],
+      "automation_estimate": {
+        "difficulty": "Medium (1-2 hrs)",
+        "type": "Playwright script",
+        "tool": "Playwright + GitHub Actions",
+        "github_action": true
+      },
+      "detected_by": "curl_cffi"
+    },
+    {
+      "title": "BTC Faucet \u2013 Instant Payout, Free Bitcoin",
+      "url": "https://btcfaucet.in/",
+      "domain": "btcfaucet.in",
+      "description": "",
+      "source_query": "no captcha bitcoin faucet instant pay 2026",
+      "found_at": "2026-05-29T19:38:13.171190",
+      "captcha": [
+        "Google reCAPTCHA",
+        "hCaptcha"
+      ],
+      "has_captcha": true,
+      "has_faucetpay": true,
+      "has_withdraw": true,
+      "has_claim_button": true,
+      "recaptcha_challenge": "",
+      "score": 7,
+      "verdict": "READY TO AUTOMATE",
+      "positives": [
+        "Pays via FaucetPay (instant!)",
+        "GitHub Actions friendly",
+        "Simple address + claim flow",
+        "Has withdrawal support"
+      ],
+      "negatives": [
+        "Google reCAPTCHA image challenge (hard to automate)"
+      ],
+      "factors": [
+        "RECAPTCHA_IMAGE=-3",
+        "FAUCETPAY=+2",
+        "GHA_FRIENDLY=+1",
+        "SIMPLE_FLOW=+1",
+        "HAS_WITHDRAW=+1"
+      ],
+      "automation_estimate": {
+        "difficulty": "Medium (1-2 hrs)",
+        "type": "Playwright script",
+        "tool": "Playwright + GitHub Actions",
+        "github_action": true
+      },
+      "detected_by": "curl_cffi"
+    },
+    {
+      "title": "What Is a Crypto Faucet and How Does It Work in 2026? | spunk.bet",
+      "url": "https://spunk.bet/blog/what-is-a-crypto-faucet-how-it-works-2026.html",
+      "domain": "spunk.bet",
+      "description": "",
+      "source_query": "free crypto no captcha no survey no tasks 2026",
+      "found_at": "2026-05-29T19:38:19.324934",
+      "captcha": [
+        "Unknown (generic anti-bot)"
+      ],
+      "has_captcha": true,
+      "has_faucetpay": false,
+      "has_withdraw": true,
+      "has_claim_button": true,
+      "recaptcha_challenge": "",
+      "score": 7,
+      "verdict": "READY TO AUTOMATE",
+      "positives": [
+        "GitHub Actions friendly",
+        "Has withdrawal support"
+      ],
+      "negatives": [],
+      "factors": [
+        "UNKNOWN_CAPTCHA=+0",
+        "GHA_FRIENDLY=+1",
+        "HAS_WITHDRAW=+1"
+      ],
+      "automation_estimate": {
+        "difficulty": "Medium (1-2 hrs)",
+        "type": "Playwright script",
+        "tool": "Playwright + GitHub Actions",
+        "github_action": true
+      },
+      "detected_by": "curl_cffi"
+    },
+    {
+      "title": "Vaganza | USDT | Free Tether Faucet",
+      "url": "https://coinvaganza.xyz/",
+      "domain": "coinvaganza.xyz",
+      "description": "",
+      "source_query": "\"no captcha\" faucet faucetpay 2026",
+      "found_at": "2026-05-29T19:38:25.424098",
+      "captcha": [
+        "Google reCAPTCHA",
+        "hCaptcha"
+      ],
+      "has_captcha": true,
+      "has_faucetpay": true,
+      "has_withdraw": true,
+      "has_claim_button": true,
+      "recaptcha_challenge": "",
+      "score": 7,
+      "verdict": "READY TO AUTOMATE",
+      "positives": [
+        "Pays via FaucetPay (instant!)",
+        "GitHub Actions friendly",
+        "Simple address + claim flow",
+        "Has withdrawal support"
+      ],
+      "negatives": [
+        "Google reCAPTCHA image challenge (hard to automate)"
+      ],
+      "factors": [
+        "RECAPTCHA_IMAGE=-3",
+        "FAUCETPAY=+2",
+        "GHA_FRIENDLY=+1",
+        "SIMPLE_FLOW=+1",
+        "HAS_WITHDRAW=+1"
+      ],
+      "automation_estimate": {
+        "difficulty": "Medium (1-2 hrs)",
+        "type": "Playwright script",
+        "tool": "Playwright + GitHub Actions",
+        "github_action": true
+      },
+      "detected_by": "curl_cffi"
+    },
+    {
+      "title": "Airdrops-Auto-Claimer/airdrops-auto-claimer",
+      "url": "https://github.com/Airdrops-Auto-Claimer/airdrops-auto-claimer",
+      "domain": "github.com",
+      "description": "",
+      "source_query": "auto claim crypto no captcha 2026",
+      "found_at": "2026-05-29T19:38:31.011252",
+      "captcha": [
+        "Unknown (generic anti-bot)"
+      ],
+      "has_captcha": true,
+      "has_faucetpay": false,
+      "has_withdraw": false,
+      "has_claim_button": true,
+      "recaptcha_challenge": "",
+      "score": 7,
+      "verdict": "READY TO AUTOMATE",
+      "positives": [
+        "GitHub Actions friendly",
+        "Simple address + claim flow"
+      ],
+      "negatives": [],
+      "factors": [
+        "UNKNOWN_CAPTCHA=+0",
+        "GHA_FRIENDLY=+1",
+        "SIMPLE_FLOW=+1"
+      ],
+      "automation_estimate": {
+        "difficulty": "Medium (1-2 hrs)",
+        "type": "Playwright script",
+        "tool": "Playwright + GitHub Actions",
+        "github_action": true
+      },
+      "detected_by": "curl_cffi"
+    },
+    {
+      "title": "15 Best Ways to Get Free Cryptocurrency 2026 (User Tested) | Koinly",
+      "url": "https://koinly.io/blog/how-to-earn-free-cryptocurrency/",
+      "domain": "koinly.io",
+      "description": "",
+      "source_query": "earn crypto without captcha 2026 free",
+      "found_at": "2026-05-29T19:38:37.782843",
+      "captcha": [
+        "Math captcha"
+      ],
+      "has_captcha": true,
+      "has_faucetpay": false,
+      "has_withdraw": false,
+      "has_claim_button": true,
+      "recaptcha_challenge": "",
+      "score": 7,
+      "verdict": "READY TO AUTOMATE",
+      "positives": [
+        "Simple captcha (OCR-solvable)",
+        "GitHub Actions friendly"
+      ],
+      "negatives": [],
+      "factors": [
+        "SIMPLE_CAPTCHA=+1",
+        "GHA_FRIENDLY=+1"
+      ],
+      "automation_estimate": {
+        "difficulty": "Medium (1-2 hrs)",
+        "type": "Playwright script",
+        "tool": "Playwright + GitHub Actions",
+        "github_action": true
+      },
+      "detected_by": "curl_cffi"
+    },
+    {
+      "title": "Claim Free TRX - Free Tron Faucet",
+      "url": "https://claimfreecoins.io/free-tron/",
+      "domain": "claimfreecoins.io",
+      "description": "",
+      "source_query": "no captcha trx faucet instant payout 2026",
+      "found_at": "2026-05-29T19:38:44.136876",
+      "captcha": [
+        "Google reCAPTCHA"
+      ],
+      "has_captcha": true,
+      "has_faucetpay": true,
+      "has_withdraw": true,
+      "has_claim_button": true,
+      "recaptcha_challenge": "",
+      "score": 7,
+      "verdict": "READY TO AUTOMATE",
+      "positives": [
+        "Pays via FaucetPay (instant!)",
+        "GitHub Actions friendly",
+        "Simple address + claim flow",
+        "Has withdrawal support"
+      ],
+      "negatives": [
+        "Google reCAPTCHA image challenge (hard to automate)"
+      ],
+      "factors": [
+        "RECAPTCHA_IMAGE=-3",
+        "FAUCETPAY=+2",
+        "GHA_FRIENDLY=+1",
+        "SIMPLE_FLOW=+1",
+        "HAS_WITHDRAW=+1"
+      ],
+      "automation_estimate": {
+        "difficulty": "Medium (1-2 hrs)",
+        "type": "Playwright script",
+        "tool": "Playwright + GitHub Actions",
+        "github_action": true
+      },
+      "detected_by": "curl_cffi"
+    },
+    {
+      "title": "Lightning Faucet - Free Bitcoin on Lightning Network",
+      "url": "https://lightningfaucet.com/",
+      "domain": "lightningfaucet.com",
+      "description": "",
+      "source_query": "no captcha bitcoin faucet instant pay 2026",
+      "found_at": "2026-05-29T19:38:13.171134",
+      "captcha": [
+        "Google reCAPTCHA"
+      ],
+      "has_captcha": true,
+      "has_faucetpay": false,
+      "has_withdraw": true,
+      "has_claim_button": true,
+      "recaptcha_challenge": "",
+      "score": 5,
+      "verdict": "POSSIBLE",
+      "positives": [
+        "GitHub Actions friendly",
+        "Simple address + claim flow",
+        "Has withdrawal support"
+      ],
+      "negatives": [
+        "Google reCAPTCHA image challenge (hard to automate)"
+      ],
+      "factors": [
+        "RECAPTCHA_IMAGE=-3",
+        "GHA_FRIENDLY=+1",
+        "SIMPLE_FLOW=+1",
+        "HAS_WITHDRAW=+1"
+      ],
+      "automation_estimate": {
+        "difficulty": "Hard (4+ hrs)",
+        "type": "Complex Playwright + bypass",
+        "tool": "Playwright + anti-detection",
+        "github_action": "Maybe"
+      },
+      "detected_by": "curl_cffi"
+    },
+    {
+      "title": "3 Free Crypto Airdrops 2026: DAC, Tings & Purinta Guide",
+      "url": "https://airdrops.io/blog/free-crypto-airdrops-2026-dac-tings-purinta/",
+      "domain": "airdrops.io",
+      "description": "",
+      "source_query": "free crypto no captcha no survey no tasks 2026",
+      "found_at": "2026-05-29T19:38:19.325041",
+      "captcha": [
+        "Google reCAPTCHA"
+      ],
+      "has_captcha": true,
+      "has_faucetpay": false,
+      "has_withdraw": true,
+      "has_claim_button": true,
+      "recaptcha_challenge": "",
+      "score": 5,
+      "verdict": "POSSIBLE",
+      "positives": [
+        "GitHub Actions friendly",
+        "Simple address + claim flow",
+        "Has withdrawal support"
+      ],
+      "negatives": [
+        "Google reCAPTCHA image challenge (hard to automate)"
+      ],
+      "factors": [
+        "RECAPTCHA_IMAGE=-3",
+        "GHA_FRIENDLY=+1",
+        "SIMPLE_FLOW=+1",
+        "HAS_WITHDRAW=+1"
+      ],
+      "automation_estimate": {
+        "difficulty": "Hard (4+ hrs)",
+        "type": "Complex Playwright + bypass",
+        "tool": "Playwright + anti-detection",
+        "github_action": "Maybe"
+      },
+      "detected_by": "curl_cffi"
+    }
+  ]
+}

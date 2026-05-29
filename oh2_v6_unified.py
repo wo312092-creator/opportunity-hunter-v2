@@ -773,9 +773,22 @@ class PlaywrightPool:
                 locale="en-US",
             )
             page = ctx.new_page()
-            page.goto(f"https://www.bing.com/search?q={urllib.parse.quote(query)}&count=10", timeout=20000)
-            page.wait_for_timeout(2000)
-            if "captcha" in page.content().lower():
+            page.goto(f"https://www.bing.com/search?q={urllib.parse.quote(query)}&count=10", timeout=30000, wait_until="domcontentloaded")
+            # Wait for results OR captcha to appear (avoids 'Page is navigating' on content())
+            try:
+                page.wait_for_selector("li.b_algo, #b_results, #captcha", timeout=15000)
+            except:
+                page.wait_for_timeout(3000)
+            # Safely check for captcha — wrap content() in retry for navigation-safe reads
+            for _attempt in range(3):
+                try:
+                    content = page.content()
+                    break
+                except Exception:
+                    page.wait_for_timeout(2000)
+            else:
+                content = ""
+            if "captcha" in content.lower() or "captcha" in page.url.lower():
                 ctx.close()
                 return []
             page.evaluate("window.scrollBy(0, 400)")

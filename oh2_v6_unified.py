@@ -2267,6 +2267,36 @@ Doc: https://docs.google.com/document/d/{GOOGLE_DOC_ID if GOOGLE_DOC_ID else 'N/
         for opp in strict_confirmed:
             body_text += f"  - {opp.title} ({opp.deep_analysis_score}/10): {opp.profit_per_day or '?'}/day\n"
     send_email_notification(subject, body_html, body_text)
+
+    # === WEBHOOK NOTIFICATION ===
+    try:
+        webhook_url = os.environ.get("WEBHOOK_URL", "https://notify.opencode.co/webhook/opportunity-hunt")
+        if webhook_url:
+            webhook_payload = {
+                "event": "run_completed",
+                "run_number": run_num,
+                "date": date_today,
+                "total_new": total_new,
+                "total_all_time": mem['total_found'],
+                "deep_analyzed": len(analyzed_opps) if analyzed_opps else 0,
+                "verified_count": len(strict_confirmed),
+                "elapsed_seconds": int(elapsed),
+                "sheet_url": sheet_url if sheet_id else "",
+                "doc_url": f"https://docs.google.com/document/d/{GOOGLE_DOC_ID}" if GOOGLE_DOC_ID else "",
+                "verified_sites": [
+                    {"title": opp.title, "url": opp.url, "score": opp.deep_analysis_score,
+                     "profit_per_day": opp.profit_per_day or ""}
+                    for opp in strict_confirmed
+                ] if strict_confirmed else []
+            }
+            r = requests.post(webhook_url, json=webhook_payload, timeout=15,
+                headers={"User-Agent": "OpportunityHunterV6/1.0"})
+            if r.status_code == 200:
+                print(f"[Webhook] Sent to {webhook_url}")
+            else:
+                print(f"[Webhook] HTTP {r.status_code} from {webhook_url}")
+    except Exception as e:
+        print(f"[Webhook] Error: {e}")
     print(f"[{datetime.now(timezone.utc).isoformat()}] Done!")
 
 if __name__ == "__main__":

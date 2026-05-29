@@ -19,19 +19,33 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Install Python dependencies
-        run: |
-          pip install requests openpyxl google-auth google-auth-oauthlib google-auth-httplib2 google-api-python-client playwright google-generativeai curl-cffi crawl4ai==0.7.1 scrapling
+      - name: Cache pip + venv + Playwright browsers
+        id: cache-all
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/pip
+            .venv
+            ~/.cache/ms-playwright
+          key: oh2-v6-${{ runner.os }}-${{ hashFiles('**/oh2_v6_unified.py') }}-${{ hashFiles('**/_workflow.yml') }}
 
-      - name: Install Chromium for Playwright
+      - name: Install dependencies (skip if cached)
+        if: steps.cache-all.outputs.cache-hit != 'true'
         run: |
-          playwright install --with-deps chromium
+          python -m venv .venv
+          .venv/bin/pip install requests openpyxl google-auth google-auth-oauthlib google-auth-httplib2 google-api-python-client playwright google-generativeai curl-cffi
+          .venv/bin/playwright install --with-deps chromium
+
+      - name: Verify Playwright browsers (cached)
+        if: steps.cache-all.outputs.cache-hit == 'true'
+        run: |
+          .venv/bin/playwright install chromium 2>/dev/null || true
 
       - name: Create data directories
         run: |
           mkdir -p deep_analysis reports
 
-      - name: Run opportunity hunter v12
+      - name: Run opportunity hunter v6
         env:
           PYTHONUNBUFFERED: 1
           FIRECRAWL_API_KEY: ${{ secrets.FIRECRAWL_API_KEY }}
@@ -56,7 +70,7 @@ jobs:
           GMAIL_USER: ${{ secrets.GMAIL_USER }}
           GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
           NOTIFICATION_EMAIL: ${{ secrets.NOTIFICATION_EMAIL }}
-        run: python oh2_v6_unified.py
+        run: .venv/bin/python oh2_v6_unified.py
 
       - name: Commit and push changes
         run: |

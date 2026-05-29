@@ -183,21 +183,41 @@ class KryptofaucetBot:
                 time.sleep(5)
                 log.info("Registration submitted")
             
-            # Check for success / redirect to dashboard
+            # Check for success
+            body = self.page.inner_text("body").lower()
             current_url = self.page.url
-            if "/login" in current_url or "success" in current_url.lower() or "dashboard" in current_url.lower():
+            
+            # Success indicators
+            success_keywords = ["success", "dashboard", "welcome", "account created", "registered", 
+                              "verification sent", "check your email", "confirm your email"]
+            is_success = any(kw in body for kw in success_keywords) or \
+                        any(kw in current_url.lower() for kw in ["dashboard", "home", "account"])
+            
+            if is_success:
                 log.info("Registration successful!")
                 self.state["email"] = USER_EMAIL
                 self.state["password"] = USER_PASSWORD
                 self.state["registered_at"] = datetime.now().isoformat()
                 save_state(self.state)
-                return True
+                
+                # Try to login instead (in case registration auto-logs in)
+                if "/dashboard" in current_url.lower() or "/home" in current_url.lower():
+                    log.info("Auto-logged in after registration!")
+                    return True
+                else:
+                    # Try login with the newly created credentials
+                    log.info("Registration done, now logging in...")
+                    return self.login()
             else:
                 # Check for errors
-                error = self.page.query_selector(".error, .alert, .message")
+                error = self.page.query_selector(".error, .alert, .message, .notification")
                 if error:
-                    log.warning(f"Registration error: {error.inner_text()[:100]}")
-                # Might need email verification
+                    log.warning(f"Registration feedback: {error.inner_text()[:100]}")
+                else:
+                    log.warning("No specific error found, checking page text...")
+                    # Save screenshot for debugging
+                    self.page.screenshot(path="kf_register_result.png")
+                    log.info(f"Register page body (first 500 chars):\n{body[:500]}")
                 log.warning("Registration may require email verification")
                 return False
                 

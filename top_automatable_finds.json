@@ -1,5 +1,5 @@
 {
-  "updated": "2026-05-29T02:26:21.126447+00:00",
+  "updated": "2026-05-29T21:26:31.865141+00:00",
   "top_finds": [
     {
       "title": "Faucet Bot - Multi-Account Claim Automation Engine (2026) - itch.io",
@@ -44,6 +44,24 @@
       "description": "",
       "automation_score": 9,
       "automation_reason": "Free AI crypto trading bot access with no experience required, implying automation capabilities.",
+      "tags": "trading,bot,automation"
+    },
+    {
+      "title": "KryllOS - Open-Source Automated Crypto Trading System",
+      "url": "https://os.kryll.io/",
+      "category": "General",
+      "description": "",
+      "automation_score": 9,
+      "automation_reason": "Fully automatable with scripts for auto-click, auto-claim, auto-mining, auto-faucet, and auto-task execution.",
+      "tags": "money,earn"
+    },
+    {
+      "title": "Fomoed \u2014 Free Automated Trading Bots",
+      "url": "https://fomoed.com/en/",
+      "category": "Trading",
+      "description": "",
+      "automation_score": 9,
+      "automation_reason": "Fully automatable with pre-built trading bots and scripts",
       "tags": "trading,bot,automation"
     },
     {
@@ -251,24 +269,6 @@
       "description": "",
       "automation_score": 8,
       "automation_reason": "Fully automatable with scripts for auto-click, auto-claim, and auto-task execution.",
-      "tags": "faucet,crypto,free"
-    },
-    {
-      "title": "FaucetBR - DOGE Auto-Faucet",
-      "url": "https://faucetbr.tk/doge/",
-      "category": "Crypto Faucet",
-      "description": "",
-      "automation_score": 8,
-      "automation_reason": "Auto-click, auto-claim, auto-mining, and auto-faucet scripts can be used with occasional captcha solving.",
-      "tags": "faucet,crypto,free"
-    },
-    {
-      "title": "DOGE FAUCET - Unlimited Claim No Timer",
-      "url": "https://dogefaucet.fun/",
-      "category": "Crypto Faucet",
-      "description": "",
-      "automation_score": 8,
-      "automation_reason": "Unlimited claim with no timer, making it suitable for automation",
       "tags": "faucet,crypto,free"
     }
   ]

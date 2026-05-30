@@ -317,6 +317,14 @@ def extract_ddg_url(u: str) -> str:
 
 # === AI GENERATION FUNCTIONS ===
 
+def ollama_generate(prompt_str, model='llama3.2:1b', max_tokens=800):
+    try:
+        r = requests.post('http://localhost:11434/api/generate', json={'model': model, 'prompt': prompt_str, 'stream': False, 'options': {'num_predict': max_tokens, 'temperature': 0.1}}, timeout=300)
+        return r.json().get('response', None)
+    except Exception as e:
+        print(f'[Ollama {type(e).__name__}]', end=' ', flush=True)
+    return None
+
 def groq_generate(prompt_str, model=None):
     global _groq_key_index
     if not GROQ_API_KEYS:
@@ -490,7 +498,8 @@ URL: {url[:200]}
 
 Respond ONLY with JSON: {{"score": N, "reason": "short reason", "how_to_earn": "how to earn from this", "how_to_automate": "how to automate with GitHub Actions"}}"""
 
-    text = groq_generate(prompt, model=FAST_GROQ_MODEL)
+    text = ollama_generate(prompt)
+    if not text: print('L', end='', flush=True); text = groq_generate(prompt, model=FAST_GROQ_MODEL)
     if text:
         try:
             match = re.search(r'\{[^}]+\}', text)
@@ -2115,7 +2124,35 @@ def send_email_notification(subject, body_html, body_text=""):
 
 # === MAIN ===
 
+def clean_old_caches():
+    token = os.environ.get('GITHUB_TOKEN', '') or os.environ.get('GH_TOKEN', '')
+    repo = os.environ.get('GITHUB_REPOSITORY', '')
+    if not token or not repo: return
+    try:
+        headers = {'Authorization': f'Bearer {token}', 'Accept': 'application/vnd.github.v3+json', 'User-Agent': 'cache-cleaner'}
+        resp = requests.get(f'https://api.github.com/repos/{repo}/actions/caches', headers=headers, timeout=30)
+        caches = resp.json().get('actions_caches', [])
+        if len(caches) <= 1: return
+        h = hashlib.sha256(open(os.path.abspath(__file__), 'rb').read()).hexdigest()[:16]
+        now = datetime.now(timezone.utc)
+        for c in caches:
+            key = c.get('key', '')
+            if h in key: continue
+            try: age = (now - datetime.fromisoformat(c['created_at'].replace('Z', '+00:00'))).days
+            except: age = 99
+            if age > 7:
+                cid = c['id']
+                mb = c.get('size_in_bytes', 0) / 1048576
+                try:
+                    requests.delete(f'https://api.github.com/repos/{repo}/actions/caches/{cid}', headers=headers, timeout=30)
+                    print(f"  Cleaned old cache #{cid} ({mb:.0f} MB, {age}d)", flush=True)
+                except: pass
+    except Exception as e:
+        print(f"  Cache cleanup: {type(e).__name__}", flush=True)
+
 def main():
+    try: clean_old_caches()
+    except: pass
     try:
         with open(MEMORY_FILE, "r", encoding="utf-8", errors="replace") as f:
             mem = json.load(f)

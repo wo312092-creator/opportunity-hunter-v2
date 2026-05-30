@@ -19,6 +19,13 @@ jobs:
         with:
           python-version: "3.12"
 
+      - name: Cache Ollama model
+        id: cache-ollama
+        uses: actions/cache@v4
+        with:
+          path: ~/.ollama
+          key: ollama-llama3.2-1b-${{ runner.os }}
+
       - name: Cache pip + venv + Playwright browsers
         id: cache-all
         uses: actions/cache@v4
@@ -40,6 +47,18 @@ jobs:
         if: steps.cache-all.outputs.cache-hit == 'true'
         run: |
           .venv/bin/playwright install chromium 2>/dev/null || true
+
+      - name: Install Ollama
+        run: curl -fsSL https://ollama.com/install.sh | sh
+      - name: Pull Ollama model (if not cached)
+        if: steps.cache-ollama.outputs.cache-hit != 'true'
+        run: ollama pull llama3.2:1b
+      - name: Start Ollama server
+        run: |
+          ollama serve &
+          sleep 3
+          echo "Ollama ready"
+          ollama list
 
       - name: Create data directories
         run: |
@@ -67,7 +86,6 @@ jobs:
           GOOGLE_OAUTH_CLIENT_ID: ${{ secrets.GOOGLE_OAUTH_CLIENT_ID }}
           GOOGLE_OAUTH_CLIENT_SECRET: ${{ secrets.GOOGLE_OAUTH_CLIENT_SECRET }}
           GOOGLE_REFRESH_TOKEN: ${{ secrets.GOOGLE_REFRESH_TOKEN }}
-          GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
           GMAIL_USER: ${{ secrets.GMAIL_USER }}
           GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
           NOTIFICATION_EMAIL: ${{ secrets.NOTIFICATION_EMAIL }}

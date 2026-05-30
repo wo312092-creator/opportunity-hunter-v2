@@ -58,6 +58,7 @@ GMAIL_USER = os.environ.get("GMAIL_USER", "wo312092@gmail.com")
 GMAIL_APP_PASSWORD = os.environ.get("GMAIL_APP_PASSWORD", "")
 NOTIFICATION_EMAIL = os.environ.get("NOTIFICATION_EMAIL", "wo312092@gmail.com")
 GOOGLE_DOC_ID = "1tuZYC0RoCxP-Js5FuSUy6BmA72xU57N0M80O-ksoXoE"
+HARDCODED_SHEET_ID = "16N4vLfARruxPC4SqUv6tx5sWJi35ay-5hIu5UyQ84XE"
 EXCEL_FILE = "opportunities.xlsx"
 MEMORY_FILE = "bot_memory.json"
 REPORT_DIR = "reports"
@@ -1675,22 +1676,16 @@ def get_google_service(api_name, api_version, scopes):
         return None
 
 def get_or_create_spreadsheet(service, mem):
-    sheet_id = mem.get("google_sheet_id")
-    if sheet_id:
-        try:
-            service.spreadsheets().get(spreadsheetId=sheet_id).execute()
-            print(f"[Sheet] Using: https://docs.google.com/spreadsheets/d/{sheet_id}")
-            return sheet_id
-        except:
-            print("[Sheet] Stored ID stale, creating new...")
-            mem.pop("google_sheet_id", None)
-    sheet = service.spreadsheets().create(body={
-        "properties": {"title": "Opportunity Hunter - Daily Findings"}
-    }).execute()
-    sheet_id = sheet["spreadsheetId"]
-    mem["google_sheet_id"] = sheet_id
-    print(f"[Sheet] Created: https://docs.google.com/spreadsheets/d/{sheet_id}")
-    return sheet_id
+    sheet_id = HARDCODED_SHEET_ID
+    try:
+        service.spreadsheets().get(spreadsheetId=sheet_id).execute()
+        print(f"[Sheet] Using hardcoded: https://docs.google.com/spreadsheets/d/{sheet_id}")
+        mem["google_sheet_id"] = sheet_id
+        return sheet_id
+    except Exception as e:
+        print(f"[Sheet] Cannot access hardcoded sheet {sheet_id}: {e}")
+        print(f"[Sheet] Share the sheet with: {SERVICE_ACCOUNT_INFO.get('client_email', 'service account') if SERVICE_ACCOUNT_INFO else 'service account'}")
+        return None
 
 def create_run_sheet(service, sheet_id, date_str, total_new, categories, verification):
     try:

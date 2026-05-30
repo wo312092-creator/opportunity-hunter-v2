@@ -1,1 +1,1170 @@
-test
+import os, json, time, re, hashlib, sys, urllib.parse, html as html_mod, random
+from datetime import datetime, timezone
+from typing import Optional
+from dataclasses import dataclass, field
+
+os.system("pip install requests openpyxl google-auth google-auth-oauthlib google-auth-httplib2 google-api-python-client playwright google-generativeai 2>/dev/null")
+os.system("playwright install chromium 2>/dev/null")
+
+import requests
+from openpyxl import Workbook, load_workbook
+
+# ──────────────────────────────────────────────
+# AUTH CONFIG — Service Account (NEVER EXPIRES)
+# ──────────────────────────────────────────────
+# Primary: Service account JSON (permanent, no expiry)
+GOOGLE_SERVICE_ACCOUNT_JSON = os.environ.get("GOOGLE_SERVICE_ACCOUNT_JSON", "")
+
+# Fallback: OAuth (backward compat, will be removed)
+GOOGLE_OAUTH_CLIENT_ID = os.environ.get("GOOGLE_OAUTH_CLIENT_ID", "")
+GOOGLE_OAUTH_CLIENT_SECRET = os.environ.get("GOOGLE_OAUTH_CLIENT_SECRET", "")
+GOOGLE_REFRESH_TOKEN = os.environ.get("GOOGLE_REFRESH_TOKEN", "")
+
+FIRECRAWL_API_KEY = os.environ.get("FIRECRAWL_API_KEY", "")
+GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY", "")
+
+EXCEL_FILE = "opportunities.xlsx"
+MEMORY_FILE = "bot_memory.json"
+REPORT_DIR = "reports"
+TOP_FINDS_FILE = "top_automatable_finds.json"
+DEEP_ANALYSIS_DIR = "deep_analysis"
+
+SHEET_COLUMNS = [
+    "ID", "Website Name", "URL", "Category", "What It Does",
+    "How To Earn", "Per Hour", "Per Day", "Per Week", "Per Month", "Per Year",
+    "Auto Score", "How To Automate (GitHub)", "Feasibility", "Source",
+    "Found Date", "Status"
+]
+
+VERIFIED_SHEET_COLUMNS = [
+    "ID", "Website Name", "URL", "Category", "What It Does",
+    "How To Earn", "Per Hour", "Per Day", "Per Week", "Per Month", "Per Year",
+    "Auto Score", "How To Automate (GitHub)", "Feasibility",
+    "LTC Similarity", "Automation Steps", "Tools Needed", "Date Verified"
+]
+
+@dataclass
+class Opportunity:
+    id: str = ""
+    title: str = ""
+    url: str = ""
+    category: str = ""
+    description: str = ""
+    profit_per_hour: str = ""
+    profit_per_day: str = ""
+    profit_per_week: str = ""
+    profit_per_month: str = ""
+    profit_per_year: str = ""
+    effort_level: str = ""
+    automation_potential: int = 0
+    automation_reason: str = ""
+    source: str = ""
+    found_date: str = ""
+    tags: list = field(default_factory=list)
+    status: str = "new"
+    how_to_earn: str = ""
+    how_to_automate: str = ""
+    feasibility: str = ""
+    # Deep analysis fields
+    workflow_steps: str = ""
+    tools_needed: str = ""
+    automation_plan: str = ""
+    site_analyzed: bool = False
+    deep_analysis_score: int = 0  # 0-10 how well it fits LTC-like automation
+
+# ══════════════════════════════════════════════
+# SERVICE ACCOUNT AUTH (PERMANENT — NEVER EXPIRES)
+# ══════════════════════════════════════════════
+
+def get_google_service(api_name, api_version, scopes):
+    """Try service account first (permanent), fall back to OAuth."""
+    sa_service = _get_service_account_service(api_name, api_version, scopes)
+    if sa_service:
+        return sa_service
+    return _get_oauth_service(api_name, api_version, scopes)
+
+
+def _get_service_account_service(api_name, api_version, scopes):
+    """Authenticate using service account JSON (NEVER EXPIRES)."""
+    if not GOOGLE_SERVICE_ACCOUNT_JSON:
+        return None
+    try:
+        from google.oauth2.service_account import Credentials as SACredentials
+        from googleapiclient.discovery import build
+
+        sa_info = json.loads(GOOGLE_SERVICE_ACCOUNT_JSON)
+        creds = SACredentials.from_service_account_info(sa_info, scopes=scopes)
+        service = build(api_name, api_version, credentials=creds)
+        print(f"[{api_name}] ✅ Service account auth successful")
+        return service
+    except Exception as e:
+        print(f"[{api_name}] Service account auth error: {e}")
+        return None
+
+
+def _get_oauth_service(api_name, api_version, scopes):
+    """Fallback: OAuth refresh token (EXPIRES — temporary)."""
+    if not GOOGLE_REFRESH_TOKEN:
+        return None
+    try:
+        from google.auth.transport.requests import Request
+        from google.oauth2.credentials import Credentials
+        from googleapiclient.discovery import build
+        creds = Credentials(
+            token=None,
+            client_id=GOOGLE_OAUTH_CLIENT_ID,
+            client_secret=GOOGLE_OAUTH_CLIENT_SECRET,
+            refresh_token=GOOGLE_REFRESH_TOKEN,
+            token_uri="https://oauth2.googleapis.com/token",
+            scopes=scopes
+        )
+        creds.refresh(Request())
+        print(f"[{api_name}] ⚠ OAuth fallback auth successful (will expire)")
+        return build(api_name, api_version, credentials=creds)
+    except Exception as e:
+        print(f"[{api_name}] OAuth auth error: {e}")
+        return None
+
+
+# ══════════════════════════════════════════════
+# GOOGLE SHEETS
+# ══════════════════════════════════════════════
+
+def get_or_create_spreadsheet(service, mem):
+    sheet_id = mem.get("google_sheet_id")
+    if sheet_id:
+        try:
+            service.spreadsheets().get(spreadsheetId=sheet_id).execute()
+            print(f"[Sheet] Using: https://docs.google.com/spreadsheets/d/{sheet_id}")
+            return sheet_id
+        except:
+            print("[Sheet] Stored ID stale, creating new...")
+            mem.pop("google_sheet_id", None)
+    sheet = service.spreadsheets().create(body={
+        "properties": {"title": "Opportunity Hunter - Daily Findings"}
+    }).execute()
+    sheet_id = sheet["spreadsheetId"]
+    mem["google_sheet_id"] = sheet_id
+    print(f"[Sheet] Created: https://docs.google.com/spreadsheets/d/{sheet_id}")
+    return sheet_id
+
+
+def create_run_sheet(service, sheet_id, date_str, total_new, categories):
+    try:
+        result = service.spreadsheets().batchUpdate(
+            spreadsheetId=sheet_id,
+            body={"requests": [{"addSheet": {"properties": {"title": date_str}}}]}
+        ).execute()
+        new_sheet_id = result["replies"][0]["addSheet"]["properties"]["sheetId"]
+        header_row = [f"Run Date: {date_str}", f"Total New: {total_new}"]
+        for cat, cnt in sorted(categories.items(), key=lambda x: -x[1]):
+            header_row += [f"{cat}: {cnt}"]
+        service.spreadsheets().values().update(
+            spreadsheetId=sheet_id, range=f"'{date_str}'!A1",
+            valueInputOption="USER_ENTERED",
+            body={"values": [header_row]}
+        ).execute()
+        service.spreadsheets().values().update(
+            spreadsheetId=sheet_id, range=f"'{date_str}'!A2",
+            valueInputOption="USER_ENTERED",
+            body={"values": [SHEET_COLUMNS]}
+        ).execute()
+        service.spreadsheets().batchUpdate(spreadsheetId=sheet_id, body={"requests": [{
+            "repeatCell": {
+                "range": {"sheetId": new_sheet_id, "startRowIndex": 1, "endRowIndex": 2},
+                "cell": {"userEnteredFormat": {"textFormat": {"bold": True}}},
+                "fields": "userEnteredFormat.textFormat.bold"
+            }
+        }]}).execute()
+        print(f"[Sheet] Created run tab: {date_str}")
+        return date_str
+    except Exception as e:
+        print(f"[Sheet] Error creating run tab: {e}")
+        return None
+
+
+def append_google_sheet_row(service, sheet_id, opp, sheet_name):
+    row = [opp.id, opp.title, opp.url, opp.category, opp.description,
+        opp.how_to_earn or opp.automation_reason,
+        opp.profit_per_hour, opp.profit_per_day, opp.profit_per_week, opp.profit_per_month, opp.profit_per_year,
+        opp.automation_potential,
+        opp.how_to_automate, opp.feasibility,
+        opp.source, opp.found_date, opp.status]
+    try:
+        service.spreadsheets().values().append(
+            spreadsheetId=sheet_id, range=f"'{sheet_name}'!A:Q",
+            valueInputOption="USER_ENTERED",
+            insertDataOption="INSERT_ROWS",
+            body={"values": [row]}
+        ).execute()
+    except Exception as e:
+        print(f"[Sheet] Append error: {e}")
+
+
+def create_verified_tab(service, sheet_id, verified_opps):
+    """
+    Create or update the '✅ Verified Automatable' tab with confirmed sites.
+    """
+    tab_name = "✅ Verified Automatable"
+    
+    # Check if tab already exists
+    try:
+        spreadsheet = service.spreadsheets().get(spreadsheetId=sheet_id).execute()
+        existing_tabs = [s["properties"]["title"] for s in spreadsheet.get("sheets", [])]
+    except:
+        existing_tabs = []
+    
+    # Clear existing rows if tab exists, otherwise create it
+    if tab_name in existing_tabs:
+        # Get the sheet ID
+        for s in spreadsheet.get("sheets", []):
+            if s["properties"]["title"] == tab_name:
+                # Clear all content
+                service.spreadsheets().values().clear(
+                    spreadsheetId=sheet_id, range=f"'{tab_name}'!A:R"
+                ).execute()
+                break
+    else:
+        # Create new tab
+        try:
+            service.spreadsheets().batchUpdate(
+                spreadsheetId=sheet_id,
+                body={"requests": [{"addSheet": {"properties": {"title": tab_name}}}]}
+            ).execute()
+        except Exception as e:
+            print(f"[Sheet] Error creating verified tab: {e}")
+            return None
+    
+    # Write header
+    service.spreadsheets().values().update(
+        spreadsheetId=sheet_id, range=f"'{tab_name}'!A1",
+        valueInputOption="USER_ENTERED",
+        body={"values": [VERIFIED_SHEET_COLUMNS]}
+    ).execute()
+    
+    # Write verified rows
+    rows = []
+    for opp in verified_opps:
+        rows.append([
+            opp.id, opp.title, opp.url, opp.category, opp.description,
+            opp.how_to_earn or opp.automation_reason,
+            opp.profit_per_hour, opp.profit_per_day, opp.profit_per_week,
+            opp.profit_per_month, opp.profit_per_year,
+            opp.automation_potential,
+            opp.how_to_automate, opp.feasibility,
+            f"{opp.deep_analysis_score}/10",
+            opp.automation_plan or opp.workflow_steps,
+            opp.tools_needed,
+            datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+        ])
+    
+    if rows:
+        service.spreadsheets().values().update(
+            spreadsheetId=sheet_id, range=f"'{tab_name}'!A2",
+            valueInputOption="USER_ENTERED",
+            body={"values": rows}
+        ).execute()
+    
+    print(f"[Sheet] ✅ Verified tab: {len(rows)} confirmed sites")
+    return tab_name
+
+
+# ══════════════════════════════════════════════
+# EXCEL (LOCAL CACHE)
+# ══════════════════════════════════════════════
+
+def load_excel():
+    if not os.path.exists(EXCEL_FILE):
+        wb = Workbook()
+        ws = wb.active
+        ws.title = "Opportunities"
+        headers = ["ID","Title","URL","Category","Description","Profit/Hour","Profit/Day","Profit/Week","Profit/Month","Profit/Year","Effort","AutoScore","AutoReason","Source","Found Date","Tags","Status"]
+        ws.append(headers)
+        for col, w in [("A",8),("B",40),("C",50),("D",20),("E",60),("F",15),("G",15),("H",15),("I",15),("J",15),("K",12),("L",10),("M",50),("N",20),("O",20),("P",30),("Q",10)]:
+            ws.column_dimensions[col].width = w
+        wb.save(EXCEL_FILE)
+        return wb, ws
+    wb = load_workbook(EXCEL_FILE)
+    return wb, wb.active
+
+
+def opportunity_exists(ws, url: str) -> bool:
+    for row in ws.iter_rows(min_row=2, values_only=True):
+        if len(row) > 2 and row[2] == url:
+            return True
+    return False
+
+
+def extract_ddg_url(u: str) -> str:
+    if "duckduckgo.com/l/" in u:
+        parsed = urllib.parse.urlparse(u)
+        qs = urllib.parse.parse_qs(parsed.query)
+        return qs.get("uddg", [u])[0]
+    return u
+
+# ══════════════════════════════════════════════
+# SEARCH ENGINES
+# ══════════════════════════════════════════════
+
+USER_AGENTS = [
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
+    "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
+]
+
+def search_bing_html(query: str, ua_idx: int = 0) -> list:
+    try:
+        resp = requests.get("https://www.bing.com/search", params={"q": query, "count": 10},
+            headers={"User-Agent": USER_AGENTS[ua_idx % len(USER_AGENTS)], "Accept-Language": "en-US,en;q=0.9"},
+            timeout=10)
+        links = re.findall(r'<a[^>]+href="(https?://[^"]+)"[^>]*><h2>(.*?)</h2>', resp.text, re.DOTALL)
+        if not links:
+            links = re.findall(r'<h2[^>]*><a[^>]+href="(https?://[^"]+)"[^>]*>(.*?)</a></h2>', resp.text, re.DOTALL)
+        snippets = re.findall(r'<p[^>]*>(.*?)</p>', resp.text, re.DOTALL)
+        results = []
+        for i, (u, t) in enumerate(links[:10]):
+            desc = html_mod.unescape(re.sub(r'<[^>]+>', '', snippets[i] if i < len(snippets) else "")).strip()[:300] if i < len(snippets) else ""
+            results.append({"title": html_mod.unescape(re.sub(r'<[^>]+>', '', t)).strip()[:200], "url": u, "description": desc})
+        return results
+    except Exception as e:
+        print(f"[Bing HTML] Error: {e}")
+        return []
+
+def search_ddg(query: str, ua_idx: int = 0) -> list:
+    try:
+        resp = requests.get("https://html.duckduckgo.com/html/", params={"q": query},
+            headers={"User-Agent": USER_AGENTS[ua_idx % len(USER_AGENTS)]}, timeout=8)
+        links = re.findall(r'<a[^>]+class="result__a"[^>]+href="([^"]+)"[^>]*>(.*?)</a>', resp.text, re.DOTALL)
+        snippets = re.findall(r'<a[^>]+class="result__snippet"[^>]*>(.*?)</a>', resp.text, re.DOTALL)
+        if not links:
+            return []
+        results = []
+        for i, (u, t) in enumerate(links[:10]):
+            desc = html_mod.unescape(re.sub(r'<[^>]+>', '', snippets[i] if i < len(snippets) else "")).strip()[:300] if i < len(snippets) else ""
+            url = extract_ddg_url(u)
+            if url:
+                results.append({"title": html_mod.unescape(re.sub(r'<[^>]+>', '', t)).strip()[:200], "url": url, "description": desc})
+        return results
+    except:
+        return []
+
+def search_startpage(query: str, ua_idx: int = 0) -> list:
+    try:
+        resp = requests.post("https://www.startpage.com/sp/search",
+            data={"query": query, "language": "en", "cat": "web", "page": 1},
+            headers={"User-Agent": USER_AGENTS[ua_idx % len(USER_AGENTS)]}, timeout=10)
+        if resp.status_code == 200:
+            links = re.findall(r'<a[^>]+class="w-gl__result-title"[^>]+href="([^"]+)"[^>]*>(.*?)</a>', resp.text, re.DOTALL)
+            descs = re.findall(r'<p class="w-gl__description[^>]*>(.*?)</p>', resp.text, re.DOTALL)
+            results = []
+            for i, (u, t) in enumerate(links[:10]):
+                desc = html_mod.unescape(re.sub(r'<[^>]+>', '', descs[i] if i < len(descs) else "")).strip()[:300]
+                results.append({"title": html_mod.unescape(re.sub(r'<[^>]+>', '', t)).strip()[:200], "url": u, "description": desc})
+            return results
+        return []
+    except:
+        return []
+
+class PlaywrightPool:
+    def __init__(self):
+        self.browser = None
+        self._pw = None
+    def start(self):
+        from playwright.sync_api import sync_playwright
+        self._pw = sync_playwright()
+        p = self._pw.start()
+        self.browser = p.chromium.launch(headless=True, args=["--no-sandbox","--disable-setuid-sandbox","--window-size=1920,1080"])
+    def search(self, query: str, q_idx: int = 0) -> list:
+        if not self.browser:
+            self.start()
+        try:
+            ctx = self.browser.new_context(
+                user_agent=USER_AGENTS[q_idx % len(USER_AGENTS)],
+                viewport={"width": 1920, "height": 1080},
+                locale="en-US",
+            )
+            page = ctx.new_page()
+            page.goto(f"https://www.bing.com/search?q={urllib.parse.quote(query)}&count=10", timeout=20000)
+            page.wait_for_timeout(2000)
+            if "captcha" in page.content().lower():
+                ctx.close()
+                return []
+            page.evaluate("window.scrollBy(0, 400)")
+            page.wait_for_timeout(500)
+            items = page.query_selector_all("li.b_algo")
+            results = []
+            for el in items[:12]:
+                try:
+                    h2 = el.query_selector("h2")
+                    a = h2.query_selector("a[href^='http']") if h2 else None
+                    if not a: continue
+                    url = a.get_attribute("href") or ""
+                    title = h2.inner_text().strip()
+                    desc_el = el.query_selector("div.b_caption p, div.b_snippet")
+                    desc = desc_el.inner_text()[:400] if desc_el else ""
+                    if url and title:
+                        results.append({"title": title, "url": url, "description": desc.strip()})
+                except: continue
+            ctx.close()
+            return results
+        except Exception as e:
+            print(f"[Bing PW] Error: {e}")
+            return []
+    def visit_page(self, url: str) -> dict:
+        """Visit a URL and return page content for deep analysis."""
+        if not self.browser:
+            self.start()
+        try:
+            ctx = self.browser.new_context(
+                user_agent=random.choice(USER_AGENTS),
+                viewport={"width": 1920, "height": 1080},
+                locale="en-US",
+            )
+            page = ctx.new_page()
+            resp = page.goto(url, timeout=25000, wait_until="domcontentloaded")
+            page.wait_for_timeout(3000)
+            status = resp.status if resp else 0
+            title = page.title()
+            body_text = page.evaluate("() => document.body?.innerText?.substring(0, 8000) || ''")
+            links = page.evaluate("""() => {
+                const anchors = Array.from(document.querySelectorAll('a[href]'));
+                return anchors.slice(0, 50).map(a => ({text: a.innerText?.trim()?.substring(0, 60) || '', href: a.href})).filter(x => x.text && x.href);
+            }""")
+            buttons = page.evaluate("""() => {
+                const btns = Array.from(document.querySelectorAll('button, input[type=\"submit\"], a[class*=\"btn\"]'));
+                return btns.slice(0, 30).map(b => ({text: b.innerText?.trim()?.substring(0, 40) || b.value?.substring(0, 40) || ''}));
+            }""")
+            inputs = page.evaluate("""() => {
+                const inp = Array.from(document.querySelectorAll('input[type!=\"hidden\"]'));
+                return inp.slice(0, 20).map(i => ({name: i.name || '', type: i.type || '', placeholder: i.placeholder || ''}));
+            }""")
+            ctx.close()
+            return {
+                "success": True,
+                "status": status,
+                "title": title,
+                "body_text": body_text[:8000],
+                "links": links,
+                "buttons": [b["text"] for b in buttons if b["text"]],
+                "inputs": inputs,
+            }
+        except Exception as e:
+            return {"success": False, "error": str(e)}
+    def close(self):
+        if self.browser:
+            self.browser.close()
+        if self._pw:
+            try: self._pw.__exit__(None, None, None)
+            except: pass
+
+def search_all(query: str, pw: PlaywrightPool, q_idx: int) -> list:
+    seen = set()
+    results = []
+    pw_results = pw.search(query, q_idx)
+    print(f"[Bing PW] {len(pw_results)} results", end=" ", flush=True)
+    for r in pw_results:
+        if r["url"] and r["url"] not in seen:
+            seen.add(r["url"])
+            results.append(r)
+    time.sleep(random.uniform(0.3, 0.8))
+    html_results = search_bing_html(query, q_idx)
+    print(f"[Bing HTML] {len(html_results)}", end=" ", flush=True)
+    for r in html_results:
+        if r["url"] and r["url"] not in seen:
+            seen.add(r["url"])
+            results.append(r)
+    if len(results) < 3:
+        time.sleep(random.uniform(0.3, 0.8))
+        ddg_results = search_ddg(query, q_idx)
+        print(f"[DDG] {len(ddg_results)}", end=" ", flush=True)
+        for r in ddg_results:
+            if r["url"] and r["url"] not in seen:
+                seen.add(r["url"])
+                results.append(r)
+    if len(results) < 2:
+        time.sleep(random.uniform(0.3, 0.8))
+        sp_results = search_startpage(query, q_idx)
+        print(f"[SP] {len(sp_results)}", end=" ", flush=True)
+        for r in sp_results:
+            if r["url"] and r["url"] not in seen:
+                seen.add(r["url"])
+                results.append(r)
+    print(f"=> {len(results)} unique", flush=True)
+    return results
+
+# ══════════════════════════════════════════════
+# SCORING
+# ══════════════════════════════════════════════
+
+def score_automation_gemini(title: str, desc: str, url: str) -> tuple:
+    if not GEMINI_API_KEY:
+        return rule_score_automation(title, desc, url)
+    try:
+        import google.generativeai as genai
+        genai.configure(api_key=GEMINI_API_KEY)
+        model = genai.GenerativeModel('gemini-2.0-flash')
+        prompt = f"""Rate this opportunity's AUTOMATION POTENTIAL (0-10).
+High (7-10): fully automatable with a GitHub bot - auto-click, auto-claim, auto-mining, auto-faucet, auto-task scripts. No human needed.
+Medium (4-6): partially automatable - needs occasional captchas or approvals.
+Low (0-3): requires continuous human work - typing, reading, manual trading.
+
+Title: {title[:200]}
+Description: {desc[:300]}
+URL: {url[:200]}
+
+Respond ONLY with JSON: {{"score": N, "reason": "short reason", "how_to_earn": "how to earn from this", "how_to_automate": "how to automate with GitHub Actions"}}"""
+        resp = model.generate_content(prompt)
+        text = resp.text.strip()
+        match = re.search(r'\{[^}]+\}', text)
+        if match:
+            data = json.loads(match.group())
+            score = max(0, min(10, int(data.get("score", 5))))
+            return score, str(data.get("reason", ""))[:200], str(data.get("how_to_earn", ""))[:300], str(data.get("how_to_automate", ""))[:300]
+        return 5, "Parse error", "", ""
+    except Exception as e:
+        print(f"[Gemini] Error: {e}")
+        return rule_score_automation(title, desc, url)
+
+def rule_score_automation(title: str, desc: str, url: str) -> tuple:
+    c = f"{title} {desc} {url}".lower()
+    if any(s in c for s in ["dictionary","meaning","definition","wikipedia","encyclopedia","tutorial","course","educational","academic"]):
+        return 1, "Educational content", "", ""
+    bonus, signals = 0, 0
+    for words, pts in [(["mining","miner","hash","cloud mining","free btc","free eth","free ltc","free doge"], 3),
+                       (["faucet","claim","withdraw","crypto faucet"], 3),
+                       (["auto","bot","telegram bot","auto claim","auto bot"], 2),
+                       (["click","ptc","paid-to-click","earn per"], 2),
+                       (["passive income","staking","stake","passive"], 2),
+                       (["refer","affiliate","earn crypto","reward","bonus","cash"], 1)]:
+        if any(w in c for w in words):
+            if words[0] == "faucet" and any(pk in c for pk in PLUMBING_FAUCET_KEYWORDS):
+                continue
+            bonus += pts
+            signals += 1
+    if "survey" in c or "data entry" in c or "freelance" in c:
+        bonus -= 2
+    score = min(10, max(0, 5 + bonus // max(1, signals // 2 if signals else 1)))
+    if signals == 0:
+        return 0, "Low: no automation signals", "", ""
+    how_to_earn = "Visit website, complete tasks/claims, withdraw earnings to wallet"
+    how_to_automate = "Use Playwright browser automation on GitHub Actions to login, claim, and withdraw on schedule"
+    if score >= 7:
+        return score, "High automation: bot-friendly signals", how_to_earn, how_to_automate
+    elif score >= 4:
+        return score, "Medium: partially automatable", how_to_earn, how_to_automate
+    return score, "Low: human interaction needed", how_to_earn, how_to_automate
+
+PLUMBING_FAUCET_KEYWORDS = ["kitchen","bathroom","sink","plumbing","delta","lowes","homedepot","home depot","ferguson","moen","toilet","shower","plumber","vanity","pipe","tub","spout","cartridge","hardware store","plumbing supply"]
+
+CLASSIFY_KEYWORDS = [
+    (["faucet","free crypto","claim","btc faucet","eth faucet","crypto faucet","bitcoin faucet"], "Crypto Faucet", ["faucet","crypto","free"]),
+    (["airdrop","token distribution","free token","claim airdrop","crypto airdrop"], "Airdrop", ["airdrop","crypto","free"]),
+    (["ptc","paid-to-click","bux","click ads","get paid to","paidtoclick","earn per click"], "PTC / GPT", ["ptc","gpt","click"]),
+    (["survey","paid survey","market research","paid surveys"], "Paid Surveys", ["survey","research"]),
+    (["cashback","cash back","rebate","shopping","cashback site"], "Cashback", ["cashback","shopping"]),
+    (["affiliate","referral","refer","affiliate program"], "Affiliate", ["affiliate","referral"]),
+    (["stake","staking","defi","yield","lend","apr","liquidity","pool"], "DeFi / Staking", ["defi","staking","yield"]),
+    (["play to earn","p2e","gamefi","nft game","play-to-earn","crypto game"], "Play-to-Earn", ["p2e","gaming","nft"]),
+    (["mining","cloud mining","hash","mine","miner","crypto mining","ltc miner","bitcoin miner","free mining","mining pool"], "Mining", ["mining","crypto"]),
+    (["trading bot","auto trade","signal","copy trade","trading platform","grid trading"], "Trading", ["trading","bot","automation"]),
+    (["micro task","microtask","data entry","freelance","micro job","gig"], "Micro Tasks", ["micro-task","freelance"]),
+    (["browser automation","auto earn","auto claim","auto bot","automation bot","auto click","auto faucet"], "Automation Bot", ["automation","bot"]),
+    (["earn crypto","free crypto","get crypto","crypto earn","crypto reward","crypto bonus"], "Crypto Earnings", ["crypto","earn"]),
+    (["ltc","litecoin","dogecoin","doge coin","doge mining","ltc mining","free ltc","free doge"], "Altcoin Mining", ["mining","ltc","doge"]),
+]
+
+def classify(item: dict, genai_scoring: bool = True) -> Optional[Opportunity]:
+    t, u, d = item.get("title",""), item.get("url",""), item.get("description","")
+    c = f"{t} {d}".lower()
+    for keywords, cat, tags in CLASSIFY_KEYWORDS:
+        if any(k in c for k in keywords):
+            if cat == "Crypto Faucet" and any(pk in c for pk in PLUMBING_FAUCET_KEYWORDS):
+                continue
+            if genai_scoring:
+                auto_score, auto_reason, how_to_earn, how_to_automate = score_automation_gemini(t, d, u)
+            else:
+                auto_score, auto_reason, how_to_earn, how_to_automate = rule_score_automation(t, d, u)
+            fea = "Easy" if auto_score >= 7 else "Medium" if auto_score >= 4 else "Hard"
+            return Opportunity(id=hashlib.md5(f"{t}{u}{time.time()}".encode()).hexdigest()[:12],
+                title=t[:120], url=u[:300], category=cat, description=d[:500],
+                profit_per_hour="Analyzing...", profit_per_day="Analyzing...", profit_per_week="Analyzing...",
+                profit_per_month="Analyzing...", profit_per_year="Analyzing...",
+                effort_level="Analyzing...", automation_potential=auto_score, automation_reason=auto_reason,
+                how_to_earn=how_to_earn, how_to_automate=how_to_automate, feasibility=fea,
+                source="web_search", found_date=datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC"),
+                tags=tags, status="new")
+    if any(k in c for k in ["earn","money","income","profit","passive","free","reward","bonus","cash","crypto","bitcoin"]):
+        if genai_scoring:
+            auto_score, auto_reason, how_to_earn, how_to_automate = score_automation_gemini(t, d, u)
+        else:
+            auto_score, auto_reason, how_to_earn, how_to_automate = rule_score_automation(t, d, u)
+        fea = "Easy" if auto_score >= 7 else "Medium" if auto_score >= 4 else "Hard"
+        return Opportunity(id=hashlib.md5(f"{t}{u}{time.time()}".encode()).hexdigest()[:12],
+            title=t[:120], url=u[:300], category="General", description=d[:500],
+            profit_per_hour="Analyzing...", profit_per_day="Analyzing...", profit_per_week="Analyzing...",
+            profit_per_month="Analyzing...", profit_per_year="Analyzing...",
+            effort_level="Analyzing...", automation_potential=auto_score, automation_reason=auto_reason,
+            how_to_earn=how_to_earn, how_to_automate=how_to_automate, feasibility=fea,
+            source="web_search", found_date=datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC"),
+            tags=["money","earn"], status="new")
+    return None
+
+# ══════════════════════════════════════════════
+# DEEP ANALYSIS
+# ══════════════════════════════════════════════
+
+def deep_analyze_site(pw: PlaywrightPool, opp: Opportunity) -> Opportunity:
+    """
+    Visit the site with Playwright, extract page content, use Gemini to analyze
+    the workflow and estimate earnings. Returns the updated Opportunity.
+    """
+    print(f"\n[Deep] Visiting: {opp.title[:50]}...", flush=True)
+    page_data = pw.visit_page(opp.url)
+    
+    if not page_data.get("success"):
+        print(f"[Deep] Cannot reach site: {page_data.get('error', 'unknown')}")
+        opp.deep_analysis_score = 0
+        opp.site_analyzed = True
+        opp.profit_per_hour = "N/A (site unreachable)"
+        opp.profit_per_day = "N/A"
+        opp.profit_per_week = "N/A"
+        opp.profit_per_month = "N/A"
+        opp.profit_per_year = "N/A"
+        return opp
+
+    print(f"[Deep] Status {page_data['status']}, {len(page_data.get('body_text',''))} chars, "
+          f"{len(page_data.get('buttons',[]))} buttons, {len(page_data.get('inputs',[]))} inputs", flush=True)
+
+    # If no Gemini key, use rule-based estimate
+    if not GEMINI_API_KEY:
+        return deep_analyze_rule_based(opp, page_data)
+
+    # Use Gemini to analyze the site content and estimate earnings
+    try:
+        import google.generativeai as genai
+        genai.configure(api_key=GEMINI_API_KEY)
+        model = genai.GenerativeModel('gemini-2.0-flash')
+
+        page_text = page_data.get("body_text", "")[:6000]
+        buttons_text = ", ".join(page_data.get("buttons", [])[:15])
+        inputs_text = ", ".join([f"{i.get('name','')}({i.get('type','')})" for i in page_data.get("inputs", [])[:10]])
+        links_text = ", ".join([f"{l['text']}" for l in page_data.get("links", [])[:15] if l['text']])
+
+        prompt = f"""You are a professional earnings analyst. Analyze this money-making website and provide REALISTIC estimates.
+
+WEBSITE: {opp.title}
+URL: {opp.url}
+CATEGORY: {opp.category}
+
+PAGE TITLE: {page_data.get('title','')}
+PAGE TEXT (excerpt): {page_text}
+
+VISIBLE BUTTONS: {buttons_text}
+INPUT FIELDS: {inputs_text}
+VISIBLE LINKS: {links_text}
+
+The LTC miner automation pattern is: Login → Click Withdraw → Enter Wallet → Confirm → Done. It's SIMPLE and fully automatable.
+
+TASK: Based on the page content:
+1. How does this site ACTUALLY work? (describe the workflow)
+2. Is it easy to automate like LTC? (login → action → withdraw?)
+3. Estimate REALISTIC earnings (be conservative - this is crypto earning, not a job):
+   - Per hour (in USD)
+   - Per day (in USD)  
+   - Per week (in USD)
+   - Per month (in USD)
+   - Per year (in USD)
+4. What EXACT steps for a GitHub Actions Playwright bot?
+5. What tools/credentials needed?
+6. Rate automation similarity to LTC (0-10): 10 = exactly like LTC (login→click→withdraw)
+
+Respond ONLY with JSON:
+{{{{
+  "summary": "2-3 sentence site overview",
+  "workflow": "step by step how it works",
+  "automation_steps": "exact steps for Playwright bot",
+  "tools_needed": "tools and credentials required",
+  "earn_per_hour": "$X.XX",
+  "earn_per_day": "$X.XX",
+  "earn_per_week": "$X.XX",
+  "earn_per_month": "$X.XX",
+  "earn_per_year": "$X.XX",
+  "ltc_similarity_score": 0-10,
+  "complexity": "Easy/Medium/Hard",
+  "verdict": "GOOD TO AUTOMATE / NOT RECOMMENDED"
+}}}}"""
+        
+        resp = model.generate_content(prompt)
+        text = resp.text.strip()
+        match = re.search(r'\{[^}]+\}', text)
+        if match:
+            data = json.loads(match.group())
+            opp.workflow_steps = str(data.get("workflow", ""))[:500]
+            opp.automation_plan = str(data.get("automation_steps", ""))[:500]
+            opp.tools_needed = str(data.get("tools_needed", ""))[:300]
+            opp.profit_per_hour = str(data.get("earn_per_hour", "Unknown"))
+            opp.profit_per_day = str(data.get("earn_per_day", "Unknown"))
+            opp.profit_per_week = str(data.get("earn_per_week", "Unknown"))
+            opp.profit_per_month = str(data.get("earn_per_month", "Unknown"))
+            opp.profit_per_year = str(data.get("earn_per_year", "Unknown"))
+            opp.deep_analysis_score = int(data.get("ltc_similarity_score", 0))
+            opp.effort_level = str(data.get("complexity", "Unknown"))
+            opp.description = str(data.get("summary", opp.description))[:500]
+            verdict = str(data.get("verdict", ""))
+            opp.status = "confirmed" if "GOOD" in verdict.upper() else "complex"
+            opp.site_analyzed = True
+            print(f"[Deep] Score: {opp.deep_analysis_score}/10 | {verdict} | "
+                  f"${opp.profit_per_day}/day", flush=True)
+        else:
+            print(f"[Deep] Gemini parse error, using rule fallback")
+            return deep_analyze_rule_based(opp, page_data)
+    except Exception as e:
+        print(f"[Deep] Gemini error: {e}, using rule fallback")
+        return deep_analyze_rule_based(opp, page_data)
+    
+    return opp
+
+
+def deep_analyze_rule_based(opp: Opportunity, page_data: dict) -> Opportunity:
+    """Rule-based deep analysis when Gemini unavailable."""
+    body = page_data.get("body_text", "").lower()
+    buttons = page_data.get("buttons", [])
+    
+    # Check for LTC-like patterns
+    has_login = any(w in body for w in ["login", "sign in", "log in", "email", "password"])
+    has_withdraw = any(w in body for w in ["withdraw", "withdrawal", "claim", "send", "payout"])
+    has_register = any(w in body for w in ["register", "sign up", "create account", "get started"])
+    has_click = any(w in body for w in ["click", "claim", "start", "earn"])
+    
+    # Count how many LTC-similar signals
+    signals = sum([has_login, has_withdraw, has_register, has_click])
+    
+    if signals >= 3 and has_withdraw:
+        opp.deep_analysis_score = 8
+        opp.effort_level = "Easy"
+        opp.status = "confirmed"
+        opp.workflow_steps = "Register → Login → Click to earn/claim → Withdraw to wallet"
+        opp.automation_plan = "1. Open site 2. Login (fill email+password) 3. Click claim/earn button 4. Click withdraw 5. Enter wallet address 6. Confirm"
+        opp.tools_needed = "Playwright, GitHub Actions, email+password credentials, wallet address"
+        opp.profit_per_hour = "$0.01 - $0.10"
+        opp.profit_per_day = "$0.05 - $1.00"
+        opp.profit_per_week = "$0.35 - $7.00"
+        opp.profit_per_month = "$1.50 - $30.00"
+        opp.profit_per_year = "$18 - $365"
+        print(f"[Deep-Rule] HIGH: {signals}/4 signals, LTC-like pattern detected", flush=True)
+    elif signals >= 2:
+        opp.deep_analysis_score = 5
+        opp.effort_level = "Medium"
+        opp.status = "complex"
+        opp.workflow_steps = "Register → Complete tasks → Earn → Request withdrawal"
+        opp.automation_plan = "Investigate further - partial automation possible"
+        opp.profit_per_hour = "Unknown - needs human check"
+        opp.profit_per_day = "Unknown - needs human check"
+        opp.profit_per_week = "Unknown - needs human check"
+        opp.profit_per_month = "Unknown - needs human check"
+        opp.profit_per_year = "Unknown - needs human check"
+        print(f"[Deep-Rule] MEDIUM: {signals}/4 signals, partial automation", flush=True)
+    else:
+        opp.deep_analysis_score = 1
+        opp.effort_level = "Hard"
+        opp.status = "complex"
+        opp.workflow_steps = "Unknown - site content unclear"
+        opp.profit_per_hour = "Unlikely"
+        opp.profit_per_day = "Unlikely"
+        opp.profit_per_week = "Unlikely"
+        opp.profit_per_month = "Unlikely"
+        opp.profit_per_year = "Unlikely"
+        print(f"[Deep-Rule] LOW: {signals}/4 signals, not suitable for automation", flush=True)
+    
+    opp.site_analyzed = True
+    return opp
+
+
+QUERIES = [
+    "free ltc mining sites 2026 no deposit instant withdrawal",
+    "free dogecoin mining sites 2026 no deposit",
+    "free bitcoin mining cloud mining 2026 no deposit withdraw",
+    "free ethereum mining sites 2026 no investment",
+    "crypto mining faucet earn free btc eth ltc doge 2026",
+    "best crypto faucets 2026 free bitcoin ethereum litecoin",
+    "auto claim crypto faucet bot 2026",
+    "paid to click sites that pay instantly 2026 free registration",
+    "best GPT sites earn money free 2026 auto earn",
+    "new crypto airdrops 2026 free tokens claim",
+    "solana airdrop 2026 claim free",
+    "telegram bot airdrop claim 2026",
+    "passive income crypto staking defi 2026 no minimum",
+    "free crypto staking rewards 2026",
+    "browser automation earn crypto free 2026",
+    "telegram bot earn crypto 2026 free automated",
+    "auto trading crypto bot free 2026",
+    "free crypto arbitrage bot 2026",
+    "play to earn crypto games 2026 free no investment",
+    "micro task sites pay crypto 2026",
+    "best cashback apps 2026 free money crypto",
+    "affiliate programs crypto 2026 high paying free",
+    "earn free crypto no deposit 2026 withdraw instantly",
+    "free litecoin mining pool 2026 no deposit required",
+    "doge coin faucet free claim every hour 2026",
+    "btc mining telegram bot free 2026",
+    "automatic crypto earning platform 2026 no investment",
+    "free bitcoin earning sites 2026 withdraw to wallet",
+    "cloud mining free trial 2026 no deposit btc",
+    "web3 earn crypto free 2026 browser mining",
+    "free crypto signals telegram 2026 copy trade",
+    "defi yield farming 2026 no minimum deposit",
+    "passive crypto income 2026 set and forget",
+    "telegram mining bot free withdrawal 2026",
+    "faucet pay crypto instant 2026 free claim",
+]
+
+# ══════════════════════════════════════════════
+# REPORTS
+# ══════════════════════════════════════════════
+
+def write_report(wb, total_new, categories, analyzed_opps=None):
+    os.makedirs(REPORT_DIR, exist_ok=True)
+    date_str = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    path = os.path.join(REPORT_DIR, f"report_{date_str}.md")
+    ws = wb.active
+    total = max(0, ws.max_row - 1)
+    with open(path, "w", encoding="utf-8") as f:
+        f.write(f"# Opportunity Hunter Report - {date_str}\n\n")
+        f.write(f"**Total tracked (all time):** {total}  |  **New today:** {total_new}\n\n")
+        if total_new == 0:
+            f.write("## No new opportunities found today\n\n")
+            return path
+        
+        # Deep analysis summary section
+        if analyzed_opps:
+            confirmed = [o for o in analyzed_opps if o.status == "confirmed"]
+            f.write("## Deep Analysis Results\n\n")
+            f.write(f"**Sites analyzed:** {len(analyzed_opps)}  |  "
+                   f"**Confirmed automatable:** {len(confirmed)}\n\n")
+            if confirmed:
+                f.write("### ✅ CONFIRMED AUTOMATABLE (LTC-like)\n\n")
+                for opp in confirmed:
+                    f.write(f"#### {opp.title}\n")
+                    f.write(f"- **URL:** {opp.url}\n")
+                    f.write(f"- **Workflow:** {opp.workflow_steps}\n")
+                    f.write(f"- **Est. Earnings:** {opp.profit_per_day}/day, {opp.profit_per_month}/month\n")
+                    f.write(f"- **LTC Similarity:** {opp.deep_analysis_score}/10\n")
+                    f.write(f"- **Automation Plan:** {opp.automation_plan}\n")
+                    f.write(f"- **Tools:** {opp.tools_needed}\n\n")
+            
+            non_confirmed = [o for o in analyzed_opps if o.status != "confirmed"]
+            if non_confirmed:
+                f.write("### ❌ Complex / Not Recommended\n\n")
+                for opp in non_confirmed:
+                    f.write(f"- **{opp.title}** - {opp.effort_level} - {opp.workflow_steps[:100]}\n")
+                f.write("\n")
+        
+        f.write("## Categories\n\n")
+        for cat, cnt in sorted(categories.items(), key=lambda x: -x[1]):
+            f.write(f"- **{cat}**: {cnt}\n")
+        f.write("\n## Top Automatable Finds (AutoScore >= 6)\n\n")
+        f.write("| Title | Auto | Category | Link |\n|---|---|---|---|\n")
+        for row in ws.iter_rows(min_row=2, values_only=True):
+            if len(row) > 11 and row[11] and isinstance(row[11], (int,float)) and row[11] >= 6:
+                f.write(f"| {str(row[1] or '')[:40]} | {row[11]}/10 | {row[3]} | {str(row[2] or '')[:50]} |\n")
+    return path
+
+
+def write_top_finds(ws):
+    top = []
+    for row in ws.iter_rows(min_row=2, values_only=True):
+        if len(row) > 11 and row[11] and isinstance(row[11], (int,float)) and row[11] >= 7:
+            top.append({"title": row[1] or "", "url": row[2] or "", "category": row[3] or "",
+                "description": (row[4] or "")[:200], "automation_score": row[11],
+                "automation_reason": row[12] or "", "tags": str(row[15] or "")})
+    top = sorted(top, key=lambda x: -x["automation_score"])[:30]
+    with open(TOP_FINDS_FILE, "w", encoding="utf-8") as f:
+        json.dump({"updated": datetime.now(timezone.utc).isoformat(), "top_finds": top}, f, indent=2)
+    print(f"[Top Finds] {len(top)} high-automation opportunities saved")
+
+
+def write_google_doc(report_path, sheet_url="", analyzed_opps=None):
+    """
+    Create Google Doc with automation plans using service account auth.
+    """
+    if not GOOGLE_SERVICE_ACCOUNT_JSON and not GOOGLE_REFRESH_TOKEN:
+        print("[Google Docs] No auth available - skipping")
+        return False
+    
+    try:
+        from google.oauth2.service_account import Credentials as SACredentials
+        from googleapiclient.discovery import build
+
+        # Use service account (preferred) or OAuth (fallback)
+        if GOOGLE_SERVICE_ACCOUNT_JSON:
+            sa_info = json.loads(GOOGLE_SERVICE_ACCOUNT_JSON)
+            creds = SACredentials.from_service_account_info(sa_info, scopes=[
+                "https://www.googleapis.com/auth/documents",
+                "https://www.googleapis.com/auth/drive"
+            ])
+        else:
+            from google.auth.transport.requests import Request as GoogleRequest
+            from google.oauth2.credentials import Credentials
+            creds = Credentials(token=None, client_id=GOOGLE_OAUTH_CLIENT_ID,
+                client_secret=GOOGLE_OAUTH_CLIENT_SECRET,
+                refresh_token=GOOGLE_REFRESH_TOKEN,
+                token_uri="https://oauth2.googleapis.com/token",
+                scopes=["https://www.googleapis.com/auth/documents", "https://www.googleapis.com/auth/drive"])
+            creds.refresh(GoogleRequest())
+        
+        docs = build("docs", "v1", credentials=creds)
+        date_str = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+        
+        # Create a detailed automation plan doc
+        doc = docs.documents().create(body={
+            "title": f"Opportunity Hunter - Automation Plans ({date_str})"
+        }).execute()
+        doc_id = doc["documentId"]
+        
+        # Build rich content
+        lines = []
+        lines.append(f"OPPORTUNITY HUNTER - DETAILED AUTOMATION PLANS")
+        lines.append(f"Date: {date_str}")
+        if sheet_url:
+            lines.append(f"Master Sheet: {sheet_url}")
+        lines.append("")
+        
+        if analyzed_opps:
+            confirmed = [o for o in analyzed_opps if o.status == "confirmed"]
+            lines.append("=" * 60)
+            lines.append(f"AUTOMATABLE FINDS: {len(confirmed)} site(s) ready to build")
+            lines.append("=" * 60)
+            lines.append("")
+            
+            for i, opp in enumerate(confirmed, 1):
+                lines.append(f"--- OPPORTUNITY #{i} ---")
+                lines.append(f"Site: {opp.title}")
+                lines.append(f"URL: {opp.url}")
+                lines.append(f"Category: {opp.category}")
+                lines.append(f"LTC Similarity: {opp.deep_analysis_score}/10")
+                lines.append(f"")
+                lines.append(f"HOW IT WORKS:")
+                lines.append(f"{opp.workflow_steps}")
+                lines.append(f"")
+                lines.append(f"ESTIMATED EARNINGS:")
+                lines.append(f"  Per Hour:  {opp.profit_per_hour}")
+                lines.append(f"  Per Day:   {opp.profit_per_day}")
+                lines.append(f"  Per Week:  {opp.profit_per_week}")
+                lines.append(f"  Per Month: {opp.profit_per_month}")
+                lines.append(f"  Per Year:  {opp.profit_per_year}")
+                lines.append(f"")
+                lines.append(f"AUTOMATION PLAN (GitHub Actions + Playwright):")
+                lines.append(f"{opp.automation_plan}")
+                lines.append(f"")
+                lines.append(f"TOOLS & CREDENTIALS NEEDED:")
+                lines.append(f"{opp.tools_needed}")
+                lines.append(f"")
+                lines.append(f"DIFFICULTY: {opp.effort_level}")
+                lines.append(f"")
+            
+            non_confirmed = [o for o in analyzed_opps if o.status != "confirmed"]
+            if non_confirmed:
+                lines.append("=" * 60)
+                lines.append(f"COMPLEX SITES (not recommended for automation):")
+                lines.append("=" * 60)
+                for opp in non_confirmed:
+                    lines.append(f"- {opp.title} ({opp.effort_level})")
+                lines.append("")
+        
+        lines.append("=" * 60)
+        lines.append(f"Report generated: {datetime.now(timezone.utc).isoformat()}")
+        
+        clean_text = "\n".join(lines)
+        
+        docs.documents().batchUpdate(documentId=doc_id,
+            body={"requests": [{"insertText": {"endOfSegmentLocation": {}, "text": clean_text}}]}).execute()
+        print(f"[Google Docs] Created automation plans doc: https://docs.google.com/document/d/{doc_id}")
+        
+        # Also create the standard report
+        with open(report_path, encoding="utf-8") as f:
+            content = f.read()
+        clean_lines = []
+        for line in content.split('\n'):
+            line = re.sub(r'^#{1,6}\s+', '', line)
+            line = line.replace('**', '').replace('*', '').replace('__', '').replace('_', '')
+            if re.match(r'^\|[\s\-:]+\|$', line): continue
+            if line.startswith('|') and '|' in line[1:]:
+                cells = [c.strip() for c in line.split('|')[1:-1]]
+                line = ' | '.join(cells)
+            clean_lines.append(line)
+        
+        report_doc = docs.documents().create(body={
+            "title": f"Opportunity Hunter Report - {date_str}"
+        }).execute()
+        report_doc_id = report_doc["documentId"]
+        report_text = '\n'.join(clean_lines)
+        if sheet_url:
+            report_text = f"Master Sheet: {sheet_url}\n\n" + report_text
+        
+        docs.documents().batchUpdate(documentId=report_doc_id,
+            body={"requests": [{"insertText": {"endOfSegmentLocation": {}, "text": report_text}}]}).execute()
+        print(f"[Google Docs] Created report doc: https://docs.google.com/document/d/{report_doc_id}")
+        return True
+    except Exception as e:
+        print(f"[Google Docs] Error: {e}")
+        return False
+
+
+# ══════════════════════════════════════════════
+# MAIN
+# ══════════════════════════════════════════════
+
+def main():
+    mem = json.load(open(MEMORY_FILE)) if os.path.exists(MEMORY_FILE) else {
+        "runs": 0, "total_found": 0, "categories_found": {}, "last_run": None,
+        "learning": [], "google_sheet_id": None, "seen_urls": []
+    }
+    mem["runs"] += 1
+    wb, ws = load_excel()
+    total_new, categories = 0, {}
+
+    # ── Google Services Setup ──
+    sheets_service = None
+    sheet_id = None
+    has_auth = bool(GOOGLE_SERVICE_ACCOUNT_JSON) or bool(GOOGLE_REFRESH_TOKEN)
+    
+    if has_auth:
+        if GOOGLE_SERVICE_ACCOUNT_JSON:
+            print("[Auth] ✅ Using SERVICE ACCOUNT (permanent, never expires)")
+        else:
+            print("[Auth] ⚠ Using OAuth (will expire - set GOOGLE_SERVICE_ACCOUNT_JSON for permanent auth)")
+        
+        sheets_service = get_google_service("sheets", "v4", [
+            "https://www.googleapis.com/auth/spreadsheets",
+            "https://www.googleapis.com/auth/drive"
+        ])
+        if sheets_service:
+            sheet_id = get_or_create_spreadsheet(sheets_service, mem)
+    else:
+        print("[Sheet] No Google auth available - Google Sheets/Docs disabled")
+
+    pw = PlaywrightPool()
+    pw.start()
+    start_time = time.time()
+
+    genai_available = bool(GEMINI_API_KEY)
+    new_opps = []
+
+    # ── PHASE 1: Search & Classify ──
+    print(f"\n{'='*60}")
+    print(f"PHASE 1: SEARCH & CLASSIFY ({len(QUERIES)} queries)")
+    print(f"{'='*60}\n")
+
+    for i, q in enumerate(QUERIES):
+        elapsed = time.time() - start_time
+        print(f"[{i+1}/{len(QUERIES)}] ({elapsed:.0f}s) {q[:55]}... ", end="", flush=True)
+        items = search_all(q, pw, i)
+        new_for_query = 0
+        for item in items:
+            opp = classify(item, genai_scoring=genai_available)
+            if opp and not opportunity_exists(ws, opp.url):
+                ws.append([opp.id, opp.title, opp.url, opp.category, opp.description,
+                    opp.profit_per_hour, opp.profit_per_day, opp.profit_per_week,
+                    opp.profit_per_month, opp.profit_per_year,
+                    opp.effort_level, opp.automation_potential, opp.automation_reason,
+                    opp.source, opp.found_date, ",".join(opp.tags), opp.status])
+                new_opps.append(opp)
+                new_for_query += 1
+                total_new += 1
+                categories[opp.category] = categories.get(opp.category, 0) + 1
+                mem["total_found"] += 1
+        print(f"+{new_for_query}")
+        mem["learning"].append({"date": datetime.now(timezone.utc).isoformat(), "query": q, "results": len(items), "new_opps": new_for_query})
+        if len(mem["learning"]) > 100: mem["learning"] = mem["learning"][-100:]
+        time.sleep(random.uniform(1.0, 2.5))
+
+    # Save intermediate results
+    wb.save(EXCEL_FILE)
+
+    # ── PHASE 2: Deep Analysis (visit top sites) ──
+    analyzed_opps = []
+    if new_opps:
+        # Score cutoff > 0 to analyze all new... but limit to top 8 for speed
+        top_for_analysis = sorted(new_opps, key=lambda x: -x.automation_potential)[:8]
+        
+        print(f"\n{'='*60}")
+        print(f"PHASE 2: DEEP ANALYSIS ({len(top_for_analysis)} sites)")
+        print(f"{'='*60}\n")
+        
+        for opp in top_for_analysis:
+            opp = deep_analyze_site(pw, opp)
+            analyzed_opps.append(opp)
+            # Update Excel with deep analysis results
+            for row in ws.iter_rows(min_row=2):
+                if row[2].value == opp.url:  # match by URL
+                    row[5].value = opp.profit_per_hour   # Per Hour (col F)
+                    row[6].value = opp.profit_per_day     # Per Day (col G)
+                    row[7].value = opp.profit_per_week    # Per Week (col H)
+                    row[8].value = opp.profit_per_month   # Per Month (col I)
+                    row[9].value = opp.profit_per_year    # Per Year (col J)
+                    row[10].value = opp.effort_level      # Effort (col K)
+                    break
+            time.sleep(random.uniform(1.0, 2.0))
+        
+        print(f"\n[Deep] Analysis complete. Confirmed: {len([o for o in analyzed_opps if o.status == 'confirmed'])}/{len(analyzed_opps)}")
+    
+    pw.close()
+    wb.save(EXCEL_FILE)
+    mem["last_run"] = datetime.now(timezone.utc).isoformat()
+    for cat, cnt in categories.items():
+        mem["categories_found"][cat] = mem["categories_found"].get(cat, 0) + cnt
+    
+    # Track seen URLs for dedup
+    if "seen_urls" not in mem:
+        mem["seen_urls"] = []
+    for opp in new_opps:
+        if opp.url not in mem["seen_urls"]:
+            mem["seen_urls"].append(opp.url)
+    if len(mem["seen_urls"]) > 10000:
+        mem["seen_urls"] = mem["seen_urls"][-5000:]
+    
+    json.dump(mem, open(MEMORY_FILE, "w"), indent=2)
+
+    run_date = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+
+    # ── Write to Google Sheet (daily tab) ──
+    if new_opps and sheets_service and sheet_id:
+        run_sheet_name = create_run_sheet(sheets_service, sheet_id, run_date, total_new, categories)
+        if run_sheet_name:
+            for opp in new_opps:
+                append_google_sheet_row(sheets_service, sheet_id, opp, run_sheet_name)
+            print(f"[Sheet] {len(new_opps)} opps written to tab '{run_sheet_name}'")
+    elif sheet_id:
+        print(f"[Sheet] No new opportunities found - no daily sheet created")
+
+    # ── Write Verified Automatable Tab ──
+    confirmed_opps = [o for o in analyzed_opps if o.status == "confirmed"] if analyzed_opps else []
+    if confirmed_opps and sheets_service and sheet_id:
+        create_verified_tab(sheets_service, sheet_id, confirmed_opps)
+        print(f"[Sheet] ✅ Verified tab updated with {len(confirmed_opps)} confirmed sites")
+
+    write_top_finds(ws)
+    report_path = write_report(wb, total_new, categories, analyzed_opps)
+    elapsed = time.time() - start_time
+    sheet_url = f"https://docs.google.com/spreadsheets/d/{sheet_id}" if sheet_id else ""
+    print(f"\nRun #{mem['runs']}: +{total_new} new, {mem['total_found']} total in {elapsed:.0f}s")
+    if sheet_url:
+        print(f"Master Sheet: {sheet_url}")
+    
+    confirmed = [o for o in analyzed_opps if o.status == "confirmed"] if analyzed_opps else []
+    if confirmed:
+        print(f"\n✅ CONFIRMED AUTOMATABLE SITES:")
+        for opp in confirmed:
+            print(f"   - {opp.title}: {opp.profit_per_day}/day (LTC-score: {opp.deep_analysis_score}/10)")
+    
+    if total_new > 0 and analyzed_opps:
+        write_google_doc(report_path, sheet_url, analyzed_opps)
+    elif total_new > 0:
+        write_google_doc(report_path, sheet_url)
+    else:
+        print("[Google Docs] No new findings - skipping doc")
+    print(f"[{datetime.now(timezone.utc).isoformat()}] Done!")
+
+if __name__ == "__main__":
+    main()

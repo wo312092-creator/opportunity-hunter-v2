@@ -27,30 +27,29 @@ jobs:
             ~/.cache/pip
             .venv
             ~/.cache/ms-playwright
-          key: oh2-sa-${{ runner.os }}-${{ hashFiles('**/main.py') }}
+          key: oh2-v6-${{ runner.os }}-${{ hashFiles('**/oh2_v6_unified.py') }}-${{ hashFiles('**/_workflow.yml') }}
 
-      - name: Install dependencies and browsers
+      - name: Install dependencies (skip if cached)
+        if: steps.cache-all.outputs.cache-hit != 'true'
         run: |
           python -m venv .venv
           .venv/bin/pip install requests openpyxl google-auth google-auth-oauthlib google-auth-httplib2 google-api-python-client playwright google-generativeai curl-cffi
-          .venv/bin/playwright install chromium
+          .venv/bin/playwright install --with-deps chromium
+
+      - name: Verify Playwright browsers (cached)
+        if: steps.cache-all.outputs.cache-hit == 'true'
+        run: |
+          .venv/bin/playwright install chromium 2>/dev/null || true
 
       - name: Create data directories
         run: |
           mkdir -p deep_analysis reports
 
-      - name: Run opportunity hunter
+      - name: Run opportunity hunter v6
         env:
           PYTHONUNBUFFERED: 1
-          # ── Service Account (PERMANENT — never expires) ──
-          GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
-
-          # ── OAuth fallback (backward compat, will be removed) ──
-          GOOGLE_OAUTH_CLIENT_ID: ${{ secrets.GOOGLE_OAUTH_CLIENT_ID }}
-          GOOGLE_OAUTH_CLIENT_SECRET: ${{ secrets.GOOGLE_OAUTH_CLIENT_SECRET }}
-          GOOGLE_REFRESH_TOKEN: ${{ secrets.GOOGLE_REFRESH_TOKEN }}
-
-          # ── AI Scoring ──
+          FIRECRAWL_API_KEY: ${{ secrets.FIRECRAWL_API_KEY }}
+          EXA_API_KEY: ${{ secrets.EXA_API_KEY }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           GEMINI_API_KEY_2: ${{ secrets.GEMINI_API_KEY_2 }}
           GEMINI_API_KEY_3: ${{ secrets.GEMINI_API_KEY_3 }}
@@ -65,11 +64,14 @@ jobs:
           OPENROUTER_API_KEY_2: ${{ secrets.OPENROUTER_API_KEY_2 }}
           OPENROUTER_API_KEY_3: ${{ secrets.OPENROUTER_API_KEY_3 }}
           OPENROUTER_API_KEY_4: ${{ secrets.OPENROUTER_API_KEY_4 }}
-
-          # ── Search ──
-          FIRECRAWL_API_KEY: ${{ secrets.FIRECRAWL_API_KEY }}
-          EXA_API_KEY: ${{ secrets.EXA_API_KEY }}
-        run: .venv/bin/python main.py
+          GOOGLE_OAUTH_CLIENT_ID: ${{ secrets.GOOGLE_OAUTH_CLIENT_ID }}
+          GOOGLE_OAUTH_CLIENT_SECRET: ${{ secrets.GOOGLE_OAUTH_CLIENT_SECRET }}
+          GOOGLE_REFRESH_TOKEN: ${{ secrets.GOOGLE_REFRESH_TOKEN }}
+          GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
+          GMAIL_USER: ${{ secrets.GMAIL_USER }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+          NOTIFICATION_EMAIL: ${{ secrets.NOTIFICATION_EMAIL }}
+        run: .venv/bin/python oh2_v6_unified.py
 
       - name: Commit and push changes
         run: |

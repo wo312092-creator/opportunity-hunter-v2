@@ -358,7 +358,7 @@ def groq_generate(prompt_str, model=None):
     print("[Groq] All API keys exhausted")
     return None
 
-OPENROUTER_MODELS = ["x-ai/grok-4.3", "openai/gpt-4o-mini"]
+OPENROUTER_MODELS = ["deepseek/deepseek-v4-flash:free", "meta-llama/llama-3.3-70b-instruct:free", "qwen/qwen3-coder:free"]
 
 def openrouter_generate(prompt_str, model=None):
     global _openrouter_key_index

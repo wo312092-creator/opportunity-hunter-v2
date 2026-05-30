@@ -1,0 +1,100 @@
+name: Opportunity Hunter V2
+
+on:
+  schedule:
+    - cron: "0 0 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  hunt:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Cache Ollama model
+        id: cache-ollama
+        uses: actions/cache@v4
+        with:
+          path: ~/.ollama
+          key: ollama-llama3.2-1b-${{ runner.os }}
+
+      - name: Cache pip + venv + Playwright browsers
+        id: cache-all
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/pip
+            .venv
+            ~/.cache/ms-playwright
+          key: oh2-v6-${{ runner.os }}-${{ hashFiles('**/oh2_v6_unified.py') }}-${{ hashFiles('**/_workflow.yml') }}
+
+      - name: Install dependencies (skip if cached)
+        if: steps.cache-all.outputs.cache-hit != 'true'
+        run: |
+          python -m venv .venv
+          .venv/bin/pip install requests openpyxl google-auth google-auth-oauthlib google-auth-httplib2 google-api-python-client playwright google-generativeai curl-cffi
+          .venv/bin/playwright install --with-deps chromium
+
+      - name: Verify Playwright browsers (cached)
+        if: steps.cache-all.outputs.cache-hit == 'true'
+        run: |
+          .venv/bin/playwright install chromium 2>/dev/null || true
+
+      - name: Install Ollama
+        run: curl -fsSL https://ollama.com/install.sh | sh
+      - name: Pull Ollama model (if not cached)
+        if: steps.cache-ollama.outputs.cache-hit != 'true'
+        run: ollama pull llama3.2:1b
+      - name: Start Ollama server
+        run: |
+          ollama serve &
+          sleep 3
+          echo "Ollama ready"
+          ollama list
+
+      - name: Create data directories
+        run: |
+          mkdir -p deep_analysis reports
+
+      - name: Run opportunity hunter v6
+        env:
+          PYTHONUNBUFFERED: 1
+          FIRECRAWL_API_KEY: ${{ secrets.FIRECRAWL_API_KEY }}
+          EXA_API_KEY: ${{ secrets.EXA_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_API_KEY_2: ${{ secrets.GEMINI_API_KEY_2 }}
+          GEMINI_API_KEY_3: ${{ secrets.GEMINI_API_KEY_3 }}
+          GEMINI_API_KEY_4: ${{ secrets.GEMINI_API_KEY_4 }}
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          GROQ_API_KEY_2: ${{ secrets.GROQ_API_KEY_2 }}
+          GROQ_API_KEY_3: ${{ secrets.GROQ_API_KEY_3 }}
+          GROQ_API_KEY_4: ${{ secrets.GROQ_API_KEY_4 }}
+          GROQ_API_KEY_5: ${{ secrets.GROQ_API_KEY_5 }}
+          GROQ_API_KEY_6: ${{ secrets.GROQ_API_KEY_6 }}
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          OPENROUTER_API_KEY_2: ${{ secrets.OPENROUTER_API_KEY_2 }}
+          OPENROUTER_API_KEY_3: ${{ secrets.OPENROUTER_API_KEY_3 }}
+          OPENROUTER_API_KEY_4: ${{ secrets.OPENROUTER_API_KEY_4 }}
+          GOOGLE_OAUTH_CLIENT_ID: ${{ secrets.GOOGLE_OAUTH_CLIENT_ID }}
+          GOOGLE_OAUTH_CLIENT_SECRET: ${{ secrets.GOOGLE_OAUTH_CLIENT_SECRET }}
+          GOOGLE_REFRESH_TOKEN: ${{ secrets.GOOGLE_REFRESH_TOKEN }}
+          GMAIL_USER: ${{ secrets.GMAIL_USER }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+          NOTIFICATION_EMAIL: ${{ secrets.NOTIFICATION_EMAIL }}
+        run: .venv/bin/python oh2_v6_unified.py
+
+      - name: Commit and push changes
+        run: |
+          git config user.name "opportunity-hunter-bot"
+          git config user.email "bot@opportunity-hunter.gh"
+          git add opportunities.xlsx reports/ bot_memory.json top_automatable_finds.json deep_analysis/
+          git diff --quiet && git diff --staged --quiet || git commit -m "auto: daily opportunity hunt $(date -u '+%Y-%m-%d %H:%M UTC')"
+          git push

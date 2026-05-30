@@ -1067,6 +1067,20 @@ def search_all(query: str, pw: PlaywrightPool, q_idx: int) -> list:
             seen.add(r["url"])
             results.append(r)
     time.sleep(random.uniform(0.3, 0.8))
+    bv_results = search_brave(query, q_idx)
+    print(f"[Brave] {len(bv_results)}", end=" ", flush=True)
+    for r in bv_results:
+        if r["url"] and r["url"] not in seen:
+            seen.add(r["url"])
+            results.append(r)
+    time.sleep(random.uniform(0.3, 0.8))
+    qw_results = search_qwant(query, q_idx)
+    print(f"[Qwant] {len(qw_results)}", end=" ", flush=True)
+    for r in qw_results:
+        if r["url"] and r["url"] not in seen:
+            seen.add(r["url"])
+            results.append(r)
+    time.sleep(random.uniform(0.3, 0.8))
     fc_results = search_firecrawl(query)
     print(f"[Firecrawl] {len(fc_results)}", end=" ", flush=True)
     for r in fc_results:
@@ -1330,6 +1344,36 @@ def classify_site_type(url: str, title: str, body_text: str, page_data: dict) ->
     return "unknown"
 
 # === SCRAPY INTEGRATION ===
+
+def search_brave(query: str, ua_idx: int = 0) -> list:
+    try:
+        resp = requests.get("https://search.brave.com/search", params={"q": query},
+            headers={"User-Agent": USER_AGENTS[ua_idx % len(USER_AGENTS)]}, timeout=15)
+        if resp.status_code != 200:
+            return []
+        results = []
+        for a in re.findall(r'<a[^>]+href="(https://[^"]+)"[^>]*><span[^>]*>(.*?)</span>', resp.text):
+            url, title = a
+            if "brave.com" not in url:
+                results.append({"title": html_mod.unescape(re.sub(r'<[^>]+>', '', title)).strip()[:200], "url": url, "description": ""})
+        return results[:10]
+    except:
+        return []
+
+def search_qwant(query: str, ua_idx: int = 0) -> list:
+    try:
+        resp = requests.get("https://www.qwant.com/", params={"q": query},
+            headers={"User-Agent": USER_AGENTS[ua_idx % len(USER_AGENTS)]}, timeout=15)
+        if resp.status_code != 200:
+            return []
+        results = []
+        for a in re.findall(r'<a[^>]+href="(https://[^"]+)"[^>]*>(.*?)</a>', resp.text):
+            url, title = a
+            if "qwant.com" not in url and len(title) > 15:
+                results.append({"title": html_mod.unescape(re.sub(r'<[^>]+>', '', title)).strip()[:200], "url": url, "description": ""})
+        return results[:10]
+    except:
+        return []
 
 def search_scrapy(query: str, existing_results: list, pw: PlaywrightPool) -> list:
     urls_to_crawl = [r["url"] for r in existing_results[:8] if r.get("url")]

@@ -1,5 +1,5 @@
 {
-  "updated": "2026-05-30T04:02:52.728256+00:00",
+  "updated": "2026-05-30T05:53:26.974306+00:00",
   "top_finds": [
     {
       "title": "Faucet Bot - Multi-Account Claim Automation Engine (2026) - itch.io",
@@ -63,6 +63,15 @@
       "automation_score": 9,
       "automation_reason": "Fully automatable with pre-built trading bots and scripts",
       "tags": "trading,bot,automation"
+    },
+    {
+      "title": "DropHunter | Airdrop Farming on Autopilot",
+      "url": "https://drophunter.xyz/",
+      "category": "Airdrop",
+      "description": "",
+      "automation_score": 9,
+      "automation_reason": "Fully automatable with scripts for airdrop farming, faucet, and task completion.",
+      "tags": "airdrop,crypto,free"
     },
     {
       "title": "Breaking News, Latest News and Videos | CNN",
@@ -260,15 +269,6 @@
       "description": "",
       "automation_score": 8,
       "automation_reason": "auto-click and auto-claim functionality available",
-      "tags": "faucet,crypto,free"
-    },
-    {
-      "title": "Claim Free Dogecoin (DOGE) - claimfreedoge",
-      "url": "https://www.claimfreedoge.com/",
-      "category": "Crypto Faucet",
-      "description": "",
-      "automation_score": 8,
-      "automation_reason": "Fully automatable with scripts for auto-click, auto-claim, and auto-task execution.",
       "tags": "faucet,crypto,free"
     }
   ]

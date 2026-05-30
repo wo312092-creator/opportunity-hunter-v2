@@ -1679,12 +1679,14 @@ def get_or_create_spreadsheet(service, mem):
     sheet_id = HARDCODED_SHEET_ID
     try:
         service.spreadsheets().get(spreadsheetId=sheet_id).execute()
-        print(f"[Sheet] Using hardcoded: https://docs.google.com/spreadsheets/d/{sheet_id}")
+        print(f"[Sheet] Using: https://docs.google.com/spreadsheets/d/{sheet_id}")
         mem["google_sheet_id"] = sheet_id
         return sheet_id
     except Exception as e:
-        print(f"[Sheet] Cannot access hardcoded sheet {sheet_id}: {e}")
-        print(f"[Sheet] Share the sheet with: {SERVICE_ACCOUNT_INFO.get('client_email', 'service account') if SERVICE_ACCOUNT_INFO else 'service account'}")
+        sa_email = SERVICE_ACCOUNT_INFO.get('client_email', '') if SERVICE_ACCOUNT_INFO else ''
+        print(f"[Sheet] Cannot access sheet {sheet_id}: {e}")
+        print(f"[Sheet] SHARE the sheet with: {sa_email} (Editor)")
+        print(f"[Sheet] Or enable APIs: https://console.cloud.google.com/apis/library/sheets.googleapis.com?project=workspace-mcp-497516")
         return None
 
 def create_run_sheet(service, sheet_id, date_str, total_new, categories, verification):

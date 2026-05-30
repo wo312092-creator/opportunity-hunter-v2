@@ -40,6 +40,13 @@ for _i in range(1, 10):
 GOOGLE_OAUTH_CLIENT_ID = os.environ.get("GOOGLE_OAUTH_CLIENT_ID", "")
 GOOGLE_OAUTH_CLIENT_SECRET = os.environ.get("GOOGLE_OAUTH_CLIENT_SECRET", "")
 GOOGLE_REFRESH_TOKEN = os.environ.get("GOOGLE_REFRESH_TOKEN", "")
+GOOGLE_SERVICE_ACCOUNT_JSON = os.environ.get("GOOGLE_SERVICE_ACCOUNT_JSON", "")
+SERVICE_ACCOUNT_INFO = None
+if GOOGLE_SERVICE_ACCOUNT_JSON:
+    try:
+        SERVICE_ACCOUNT_INFO = json.loads(GOOGLE_SERVICE_ACCOUNT_JSON)
+    except (json.JSONDecodeError, TypeError):
+        pass
 OPENROUTER_API_KEYS = []
 _key = os.environ.get("OPENROUTER_API_KEY", "")
 if _key: OPENROUTER_API_KEYS.append(_key)
@@ -1640,9 +1647,18 @@ def deep_analyze_rule_based(opp: Opportunity, page_data: dict) -> Opportunity:
 # === GOOGLE SHEETS / DOCS ===
 
 def get_google_service(api_name, api_version, scopes):
-    if not GOOGLE_REFRESH_TOKEN:
-        return None
     try:
+        from google.oauth2.service_account import Credentials as SACredentials
+        from googleapiclient.discovery import build
+        if SERVICE_ACCOUNT_INFO:
+            creds = SACredentials.from_service_account_info(SERVICE_ACCOUNT_INFO, scopes=scopes)
+            print(f"[Google {api_name}] Using service account (JWT, never expires)")
+            return build(api_name, api_version, credentials=creds)
+    except Exception as e:
+        print(f"[Google {api_name}] Service account auth error: {e}")
+    try:
+        if not GOOGLE_REFRESH_TOKEN:
+            return None
         from google.auth.transport.requests import Request
         from google.oauth2.credentials import Credentials
         from googleapiclient.discovery import build
@@ -1652,6 +1668,7 @@ def get_google_service(api_name, api_version, scopes):
             token_uri="https://oauth2.googleapis.com/token",
             scopes=scopes)
         creds.refresh(Request())
+        print(f"[Google {api_name}] Using OAuth (fallback)")
         return build(api_name, api_version, credentials=creds)
     except Exception as e:
         print(f"[Google {api_name}] Auth error: {e}")
@@ -1839,19 +1856,28 @@ def write_sheet_rows_batch(service, sheet_id, sheet_name, opps, verification):
         print(f"[Sheet] Batch write error: {e}")
         return 0
 
-def write_google_doc(mem, sheet_url="", analyzed_opps=None):
-    if not GOOGLE_REFRESH_TOKEN or not GOOGLE_DOC_ID:
-        print("[Google Docs] No token or doc ID - skipping")
+def write_google_doc(mem, sheet_url="", analyzed_opps=None, all_opps=None, total_new=0, categories=None):
+    if not GOOGLE_DOC_ID:
+        print("[Google Docs] No doc ID - skipping")
         return False
     try:
-        from google.auth.transport.requests import Request as GoogleRequest
-        from google.oauth2.credentials import Credentials
+        from google.oauth2.service_account import Credentials as SACredentials
         from googleapiclient.discovery import build
-        creds = Credentials(token=None, client_id=GOOGLE_OAUTH_CLIENT_ID,
-            client_secret=GOOGLE_OAUTH_CLIENT_SECRET,
-            refresh_token=GOOGLE_REFRESH_TOKEN,
-            token_uri="https://oauth2.googleapis.com/token")
-        creds.refresh(GoogleRequest())
+        if SERVICE_ACCOUNT_INFO:
+            SCOPES = ["https://www.googleapis.com/auth/documents", "https://www.googleapis.com/auth/drive"]
+            creds = SACredentials.from_service_account_info(SERVICE_ACCOUNT_INFO, scopes=SCOPES)
+        elif GOOGLE_REFRESH_TOKEN:
+            from google.auth.transport.requests import Request
+            from google.oauth2.credentials import Credentials
+            creds = Credentials(token=None, client_id=GOOGLE_OAUTH_CLIENT_ID,
+                client_secret=GOOGLE_OAUTH_CLIENT_SECRET,
+                refresh_token=GOOGLE_REFRESH_TOKEN,
+                token_uri="https://oauth2.googleapis.com/token",
+                scopes=["https://www.googleapis.com/auth/documents", "https://www.googleapis.com/auth/drive"])
+            creds.refresh(Request())
+        else:
+            print("[Google Docs] No auth method available - skipping")
+            return False
         docs = build("docs", "v1", credentials=creds)
         date_str = datetime.now(timezone.utc).strftime("%Y-%m-%d")
         doc_id = GOOGLE_DOC_ID
@@ -1861,56 +1887,66 @@ def write_google_doc(mem, sheet_url="", analyzed_opps=None):
         except Exception as e:
             print(f"[Google Docs] Cannot access doc {doc_id}: {e}")
             return False
+        all_opps = all_opps or []
+        analyzed = analyzed_opps or []
         confirmed = [
-            o for o in (analyzed_opps or [])
+            o for o in analyzed
             if o.status == "confirmed"
             and o.deep_analysis_score >= 7
             and o.site_analyzed
             and o.workflow_steps
             and len(o.workflow_steps) > 50
         ]
-        if not confirmed:
-            print("[Google Docs] No verified automatable sites found (need score >=7 + confirmed + analyzed)")
-            return False
         content_parts = []
-        content_parts.append(f"\n\n=== RUN DATE: {date_str} ===")
-        content_parts.append(f"Master Sheet: {sheet_url if sheet_url else 'N/A'}")
-        content_parts.append(f"Verified automatable sites: {len(confirmed)}")
+        content_parts.append(f"\n\n{'='*60}")
+        content_parts.append(f"OPPORTUNITY HUNTER V6 - DAILY REPORT")
+        content_parts.append(f"Run Date: {date_str}")
+        content_parts.append(f"{'='*60}")
         content_parts.append("")
-        for i, opp in enumerate(confirmed, 1):
-            score_str = f"{opp.deep_analysis_score}/10"
-            if opp.deep_analysis_score >= 9:
-                match_label = "Gold (Fully Automatable)"
-            elif opp.deep_analysis_score >= 7:
-                match_label = "High"
-            elif opp.deep_analysis_score >= 5:
-                match_label = "Medium"
-            else:
-                match_label = "Low"
+        content_parts.append("SUMMARY")
+        content_parts.append("-" * 40)
+        content_parts.append(f"  New sites found:    {total_new}")
+        content_parts.append(f"  Total all-time:     {mem.get('total_found', 0)}")
+        content_parts.append(f"  Deep-analyzed:      {len(analyzed)}")
+        content_parts.append(f"  Verified automatable: {len(confirmed)}")
+        content_parts.append(f"  Master Sheet:       {sheet_url if sheet_url else 'N/A'}")
+        content_parts.append("")
+        if categories:
+            content_parts.append("CATEGORIES BREAKDOWN")
+            content_parts.append("-" * 40)
+            for cat, cnt in sorted(categories.items(), key=lambda x: -x[1]):
+                content_parts.append(f"  {cat}: {cnt}")
             content_parts.append("")
-            content_parts.append(f"--- SITE #{i}: {opp.title} ---")
-            content_parts.append(f"URL: {opp.url}")
-            content_parts.append(f"Category: {opp.category or 'Uncategorized'}")
-            content_parts.append(f"LTC Automation Match: {score_str} ({match_label})")
-            content_parts.append("")
-            content_parts.append("HOW IT WORKS:")
-            content_parts.append(opp.workflow_steps if opp.workflow_steps else "N/A")
-            content_parts.append("")
-            content_parts.append("ESTIMATED EARNINGS:")
-            content_parts.append(f"  Per Hour:  {opp.profit_per_hour or 'N/A'}")
-            content_parts.append(f"  Per Day:   {opp.profit_per_day or 'N/A'}")
-            content_parts.append(f"  Per Week:  {opp.profit_per_week or 'N/A'}")
-            content_parts.append(f"  Per Month: {opp.profit_per_month or 'N/A'}")
-            content_parts.append(f"  Per Year:  {opp.profit_per_year or 'N/A'}")
-            content_parts.append("")
-            content_parts.append("AUTOMATION PLAN:")
-            auto_plan = opp.automation_plan or opp.how_to_automate or ""
-            content_parts.append(auto_plan if auto_plan else "N/A")
-            content_parts.append("")
-            content_parts.append("TOOLS & CREDENTIALS NEEDED:")
-            content_parts.append(opp.tools_needed or "N/A")
-            content_parts.append("")
-            content_parts.append(f"DIFFICULTY: {opp.effort_level or 'Medium'}")
+        if all_opps:
+            content_parts.append("ALL NEW SITES FOUND TODAY")
+            content_parts.append("-" * 40)
+            for i, opp in enumerate(all_opps, 1):
+                content_parts.append(f"  {i}. {opp.title}")
+                content_parts.append(f"     URL: {opp.url}")
+                content_parts.append(f"     Category: {opp.category} | Score: {opp.automation_potential}/10 | Status: {opp.status}")
+                content_parts.append("")
+        if analyzed:
+            content_parts.append("DEEP ANALYSIS RESULTS")
+            content_parts.append("-" * 40)
+            for opp in analyzed:
+                score = opp.deep_analysis_score or opp.automation_potential
+                label = "Gold" if score >= 9 else "High" if score >= 7 else "Medium" if score >= 5 else "Low"
+                status = "CONFIRMED" if opp.status == "confirmed" else "REVIEW"
+                content_parts.append(f"  {status}: {opp.title} ({score}/10 - {label})")
+                content_parts.append(f"     URL: {opp.url}")
+                content_parts.append(f"     Per Day: {opp.profit_per_day or '?'}")
+                content_parts.append(f"     How: {opp.workflow_steps[:200] if opp.workflow_steps else opp.how_to_automate[:200] or 'N/A'}")
+                content_parts.append("")
+        if confirmed:
+            content_parts.append("VERIFIED AUTOMATABLE SITES (READY TO BUILD)")
+            content_parts.append("-" * 40)
+            for i, opp in enumerate(confirmed, 1):
+                content_parts.append(f"  SITE #{i}: {opp.title}")
+                content_parts.append(f"     Score: {opp.deep_analysis_score}/10")
+                content_parts.append(f"     URL: {opp.url}")
+                content_parts.append(f"     Earnings: {opp.profit_per_day}/day")
+                content_parts.append(f"     Workflow: {opp.workflow_steps[:300]}")
+                content_parts.append("")
         text_to_append = "\n".join(content_parts)
         docs.documents().batchUpdate(
             documentId=doc_id,
@@ -1918,7 +1954,7 @@ def write_google_doc(mem, sheet_url="", analyzed_opps=None):
                 {"insertText": {"endOfSegmentLocation": {}, "text": text_to_append}}
             ]}
         ).execute()
-        print(f"[Google Docs] Plain text with {len(confirmed)} verified sites appended to doc: https://docs.google.com/document/d/{doc_id}")
+        print(f"[Google Docs] Daily report appended: {len(confirmed)} verified, {total_new} new sites")
         return True
     except Exception as e:
         print(f"[Google Docs] Error: {e}")
@@ -2182,15 +2218,7 @@ def main():
         and o.workflow_steps
         and len(o.workflow_steps) > 50
     ]
-    if strict_confirmed:
-        print(f"\nVERIFIED LTC-AUTOMATABLE SITES (ready for Google Doc):")
-        for opp in strict_confirmed:
-            print(f"   - {opp.title}: {opp.profit_per_day}/day (LTC-score: {opp.deep_analysis_score}/10)")
-        write_google_doc(mem, sheet_url, analyzed_opps)
-    else:
-        print("[Google Docs] No verified LTC-automatable sites this run - skipping doc")
-        if analyzed_opps:
-            print(f"[Google Docs] Analyzed {len(analyzed_opps)} sites, but none passed strict check")
+    write_google_doc(mem, sheet_url, analyzed_opps, new_opps, total_new, categories)
     with open(MEMORY_FILE, "w", encoding="utf-8") as f:
         json.dump(mem, f, indent=2)
     run_num = mem['runs']

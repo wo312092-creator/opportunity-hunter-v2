@@ -1,622 +1,622 @@
 {
-  "runs": 20,
-  "total_found": 3636,
+  "runs": 21,
+  "total_found": 3719,
   "categories_found": {
-    "DeFi / Staking": 924,
-    "Affiliate": 215,
-    "Paid Surveys": 45,
-    "Mining": 101,
-    "General": 1703,
-    "Cashback": 101,
+    "DeFi / Staking": 943,
+    "Affiliate": 220,
+    "Paid Surveys": 46,
+    "Mining": 105,
+    "General": 1720,
+    "Cashback": 103,
     "Arbitrage": 17,
-    "PTC / GPT": 34,
-    "Altcoin Mining": 77,
-    "Trading": 17,
-    "Crypto Faucet": 336,
-    "Micro Tasks": 16,
-    "Crypto Earnings": 21,
+    "PTC / GPT": 38,
+    "Altcoin Mining": 79,
+    "Trading": 18,
+    "Crypto Faucet": 357,
+    "Micro Tasks": 19,
+    "Crypto Earnings": 23,
     "Automation Bot": 3,
     "Play-to-Earn": 7,
-    "Airdrop": 19
+    "Airdrop": 21
   },
-  "last_run": "2026-05-29T21:26:31.839336+00:00",
+  "last_run": "2026-05-30T00:14:26.931789+00:00",
   "learning": [
     {
-      "date": "2026-05-29T21:00:40.080424+00:00",
+      "date": "2026-05-29T23:37:32.631548+00:00",
       "query": "free matic faucet 2026 polygon claim free",
       "results": 22,
-      "new_opps": 0
-    },
-    {
-      "date": "2026-05-29T21:00:55.685549+00:00",
-      "query": "polygon staking earn free matic 2026",
-      "results": 11,
       "new_opps": 1
     },
     {
-      "date": "2026-05-29T21:01:15.530937+00:00",
-      "query": "free polygon matic every hour 2026 no deposit",
+      "date": "2026-05-29T23:37:47.399906+00:00",
+      "query": "polygon staking earn free matic 2026",
       "results": 21,
+      "new_opps": 3
+    },
+    {
+      "date": "2026-05-29T23:38:18.259596+00:00",
+      "query": "free polygon matic every hour 2026 no deposit",
+      "results": 11,
       "new_opps": 0
     },
     {
-      "date": "2026-05-29T21:01:32.080158+00:00",
+      "date": "2026-05-29T23:38:37.523615+00:00",
       "query": "free cardano faucet 2026 claim free ada",
+      "results": 22,
+      "new_opps": 1
+    },
+    {
+      "date": "2026-05-29T23:38:49.191192+00:00",
+      "query": "ada staking earn free cardano 2026",
+      "results": 14,
+      "new_opps": 2
+    },
+    {
+      "date": "2026-05-29T23:39:18.194350+00:00",
+      "query": "free ada every hour claim 2026",
       "results": 12,
       "new_opps": 0
     },
     {
-      "date": "2026-05-29T21:01:47.439814+00:00",
-      "query": "ada staking earn free cardano 2026",
-      "results": 11,
-      "new_opps": 0
-    },
-    {
-      "date": "2026-05-29T21:02:04.582237+00:00",
-      "query": "free ada every hour claim 2026",
-      "results": 22,
-      "new_opps": 0
-    },
-    {
-      "date": "2026-05-29T21:02:18.157574+00:00",
+      "date": "2026-05-29T23:39:35.190635+00:00",
       "query": "earn usd free 2026 no deposit instant payout paypal",
+      "results": 21,
+      "new_opps": 2
+    },
+    {
+      "date": "2026-05-29T23:39:51.511469+00:00",
+      "query": "get paid in usd for simple tasks 2026 no survey",
+      "results": 20,
+      "new_opps": 4
+    },
+    {
+      "date": "2026-05-29T23:40:20.449594+00:00",
+      "query": "earn dollars online free 2026 automated",
       "results": 11,
       "new_opps": 2
     },
     {
-      "date": "2026-05-29T21:02:30.817065+00:00",
-      "query": "get paid in usd for simple tasks 2026 no survey",
-      "results": 10,
-      "new_opps": 1
-    },
-    {
-      "date": "2026-05-29T21:02:47.007847+00:00",
-      "query": "earn dollars online free 2026 automated",
-      "results": 11,
-      "new_opps": 6
-    },
-    {
-      "date": "2026-05-29T21:02:59.620407+00:00",
+      "date": "2026-05-29T23:40:32.259118+00:00",
       "query": "usd earning sites free registration 2026 no fees",
       "results": 11,
       "new_opps": 0
     },
     {
-      "date": "2026-05-29T21:03:12.272503+00:00",
+      "date": "2026-05-29T23:40:44.352483+00:00",
       "query": "earn money paypal instant withdrawal 2026 free",
-      "results": 11,
+      "results": 14,
       "new_opps": 0
     },
     {
-      "date": "2026-05-29T21:03:26.146266+00:00",
+      "date": "2026-05-29T23:40:58.291062+00:00",
       "query": "micro tasks pay usd 2026 no kyc no id",
-      "results": 10,
-      "new_opps": 1
-    },
-    {
-      "date": "2026-05-29T21:03:43.062002+00:00",
-      "query": "click earn usd cash 2026 free automated",
-      "results": 10,
-      "new_opps": 0
-    },
-    {
-      "date": "2026-05-29T21:04:03.031916+00:00",
-      "query": "earn paypal free 2026 every day automated",
       "results": 20,
-      "new_opps": 0
+      "new_opps": 4
     },
     {
-      "date": "2026-05-29T21:04:21.199742+00:00",
-      "query": "passive income usd 2026 no investment free",
-      "results": 18,
-      "new_opps": 8
-    },
-    {
-      "date": "2026-05-29T21:04:39.329726+00:00",
-      "query": "best crypto faucets 2026 free btc eth ltc doge sol",
+      "date": "2026-05-29T23:41:13.839405+00:00",
+      "query": "click earn usd cash 2026 free automated",
       "results": 21,
       "new_opps": 3
     },
     {
-      "date": "2026-05-29T21:04:53.518865+00:00",
+      "date": "2026-05-29T23:41:26.370230+00:00",
+      "query": "earn paypal free 2026 every day automated",
+      "results": 11,
+      "new_opps": 1
+    },
+    {
+      "date": "2026-05-29T23:41:42.575166+00:00",
+      "query": "passive income usd 2026 no investment free",
+      "results": 21,
+      "new_opps": 0
+    },
+    {
+      "date": "2026-05-29T23:41:59.979508+00:00",
+      "query": "best crypto faucets 2026 free btc eth ltc doge sol",
+      "results": 21,
+      "new_opps": 0
+    },
+    {
+      "date": "2026-05-29T23:42:29.496933+00:00",
       "query": "multi crypto faucet claim multiple coins 2026",
       "results": 12,
       "new_opps": 0
     },
     {
-      "date": "2026-05-29T21:05:08.563400+00:00",
+      "date": "2026-05-29T23:42:47.091007+00:00",
       "query": "crypto faucet list 2026 instant withdrawal all coins",
-      "results": 12,
-      "new_opps": 1
+      "results": 22,
+      "new_opps": 0
     },
     {
-      "date": "2026-05-29T21:05:20.565182+00:00",
+      "date": "2026-05-29T23:42:59.568545+00:00",
       "query": "auto claim crypto faucet bot multiple coins 2026",
-      "results": 12,
-      "new_opps": 0
+      "results": 22,
+      "new_opps": 1
     },
     {
-      "date": "2026-05-29T21:05:33.909176+00:00",
+      "date": "2026-05-29T23:43:13.708300+00:00",
       "query": "faucet pay crypto instant free claim all coins",
-      "results": 12,
-      "new_opps": 0
-    },
-    {
-      "date": "2026-05-29T21:05:51.105031+00:00",
-      "query": "crypto mining faucet earn free btc eth ltc doge 2026",
-      "results": 15,
-      "new_opps": 0
-    },
-    {
-      "date": "2026-05-29T21:06:06.197845+00:00",
-      "query": "auto claim crypto faucet bot 2026",
-      "results": 22,
-      "new_opps": 3
-    },
-    {
-      "date": "2026-05-29T21:06:20.728923+00:00",
-      "query": "one click crypto faucet instant pay 2026",
-      "results": 22,
-      "new_opps": 1
-    },
-    {
-      "date": "2026-05-29T21:06:40.481543+00:00",
-      "query": "crypto faucet instant pay to wallet 2026",
-      "results": 22,
-      "new_opps": 1
-    },
-    {
-      "date": "2026-05-29T21:06:52.360309+00:00",
-      "query": "crypto claim bot no survey no tasks 2026",
-      "results": 12,
-      "new_opps": 0
-    },
-    {
-      "date": "2026-05-29T21:07:07.028180+00:00",
-      "query": "micro crypto faucet instant payout 2026",
       "results": 22,
       "new_opps": 2
     },
     {
-      "date": "2026-05-29T21:07:22.428527+00:00",
-      "query": "paid to click sites pay instantly crypto 2026 no survey",
-      "results": 20,
+      "date": "2026-05-29T23:43:34.259280+00:00",
+      "query": "crypto mining faucet earn free btc eth ltc doge 2026",
+      "results": 25,
+      "new_opps": 0
+    },
+    {
+      "date": "2026-05-29T23:43:46.831092+00:00",
+      "query": "auto claim crypto faucet bot 2026",
+      "results": 22,
+      "new_opps": 0
+    },
+    {
+      "date": "2026-05-29T23:44:01.000856+00:00",
+      "query": "one click crypto faucet instant pay 2026",
+      "results": 22,
+      "new_opps": 0
+    },
+    {
+      "date": "2026-05-29T23:44:30.546366+00:00",
+      "query": "crypto faucet instant pay to wallet 2026",
+      "results": 12,
       "new_opps": 1
     },
     {
-      "date": "2026-05-29T21:07:36.938407+00:00",
-      "query": "click one button earn bitcoin free 2026",
-      "results": 21,
-      "new_opps": 3
+      "date": "2026-05-29T23:44:49.954606+00:00",
+      "query": "crypto claim bot no survey no tasks 2026",
+      "results": 22,
+      "new_opps": 0
     },
     {
-      "date": "2026-05-29T21:07:51.276809+00:00",
+      "date": "2026-05-29T23:45:04.033621+00:00",
+      "query": "micro crypto faucet instant payout 2026",
+      "results": 22,
+      "new_opps": 0
+    },
+    {
+      "date": "2026-05-29T23:45:31.077750+00:00",
+      "query": "paid to click sites pay instantly crypto 2026 no survey",
+      "results": 10,
+      "new_opps": 0
+    },
+    {
+      "date": "2026-05-29T23:45:44.004435+00:00",
+      "query": "click one button earn bitcoin free 2026",
+      "results": 21,
+      "new_opps": 1
+    },
+    {
+      "date": "2026-05-29T23:46:13.197984+00:00",
       "query": "ptc sites instant withdrawal crypto 2026",
       "results": 10,
       "new_opps": 1
     },
     {
-      "date": "2026-05-29T21:08:07.383445+00:00",
+      "date": "2026-05-29T23:46:26.787111+00:00",
       "query": "best paid to click sites 2026 crypto payout",
-      "results": 20,
+      "results": 14,
       "new_opps": 0
     },
     {
-      "date": "2026-05-29T21:08:20.768182+00:00",
+      "date": "2026-05-29T23:46:56.884071+00:00",
       "query": "click and earn crypto no tasks free 2026",
       "results": 11,
       "new_opps": 0
     },
     {
-      "date": "2026-05-29T21:08:37.098017+00:00",
+      "date": "2026-05-29T23:47:23.777814+00:00",
       "query": "telegram earning bot crypto free 2026 withdrawal",
-      "results": 22,
-      "new_opps": 7
-    },
-    {
-      "date": "2026-05-29T21:08:55.012281+00:00",
-      "query": "telegram faucet bot crypto 2026 btc eth sol",
-      "results": 21,
-      "new_opps": 1
-    },
-    {
-      "date": "2026-05-29T21:09:11.094791+00:00",
-      "query": "telegram mining bot free payout 2026",
-      "results": 24,
+      "results": 13,
       "new_opps": 0
     },
     {
-      "date": "2026-05-29T21:09:25.831323+00:00",
+      "date": "2026-05-29T23:47:38.861997+00:00",
+      "query": "telegram faucet bot crypto 2026 btc eth sol",
+      "results": 21,
+      "new_opps": 0
+    },
+    {
+      "date": "2026-05-29T23:48:08.412913+00:00",
+      "query": "telegram mining bot free payout 2026",
+      "results": 15,
+      "new_opps": 1
+    },
+    {
+      "date": "2026-05-29T23:48:25.487766+00:00",
       "query": "telegram crypto claim bot instant 2026",
       "results": 21,
       "new_opps": 0
     },
     {
-      "date": "2026-05-29T21:09:37.481465+00:00",
+      "date": "2026-05-29T23:48:41.371212+00:00",
       "query": "best telegram earning bots 2026 no investment",
-      "results": 10,
+      "results": 23,
       "new_opps": 0
     },
     {
-      "date": "2026-05-29T21:09:47.558244+00:00",
+      "date": "2026-05-29T23:48:56.137837+00:00",
       "query": "telegram auto earn bot free withdrawal 2026",
-      "results": 19,
+      "results": 22,
       "new_opps": 0
     },
     {
-      "date": "2026-05-29T21:10:02.360707+00:00",
+      "date": "2026-05-29T23:49:09.031614+00:00",
       "query": "new crypto airdrops 2026 free tokens claim",
-      "results": 10,
-      "new_opps": 0
-    },
-    {
-      "date": "2026-05-29T21:10:16.122724+00:00",
-      "query": "solana airdrop 2026 claim free",
       "results": 12,
       "new_opps": 1
     },
     {
-      "date": "2026-05-29T21:10:29.703783+00:00",
+      "date": "2026-05-29T23:49:37.054423+00:00",
+      "query": "solana airdrop 2026 claim free",
+      "results": 12,
+      "new_opps": 0
+    },
+    {
+      "date": "2026-05-29T23:50:06.443363+00:00",
       "query": "telegram bot airdrop claim 2026",
       "results": 12,
       "new_opps": 0
     },
     {
-      "date": "2026-05-29T21:10:46.337399+00:00",
+      "date": "2026-05-29T23:50:24.782160+00:00",
       "query": "bitcoin airdrop free 2026 claim btc",
+      "results": 22,
+      "new_opps": 0
+    },
+    {
+      "date": "2026-05-29T23:50:39.583820+00:00",
+      "query": "ethereum airdrop 2026 free eth claim",
       "results": 22,
       "new_opps": 1
     },
     {
-      "date": "2026-05-29T21:11:00.917284+00:00",
-      "query": "ethereum airdrop 2026 free eth claim",
-      "results": 12,
-      "new_opps": 1
-    },
-    {
-      "date": "2026-05-29T21:11:20.112197+00:00",
+      "date": "2026-05-29T23:50:58.401929+00:00",
       "query": "passive income crypto staking defi 2026 no minimum",
       "results": 20,
-      "new_opps": 2
-    },
-    {
-      "date": "2026-05-29T21:11:39.300685+00:00",
-      "query": "free crypto staking rewards 2026 multi chain",
-      "results": 21,
-      "new_opps": 2
-    },
-    {
-      "date": "2026-05-29T21:11:51.798813+00:00",
-      "query": "defi yield farming 2026 no minimum deposit",
-      "results": 10,
-      "new_opps": 3
-    },
-    {
-      "date": "2026-05-29T21:12:05.021104+00:00",
-      "query": "passive crypto income 2026 set and forget",
-      "results": 10,
-      "new_opps": 1
-    },
-    {
-      "date": "2026-05-29T21:12:18.697178+00:00",
-      "query": "browser automation earn crypto free 2026",
-      "results": 21,
-      "new_opps": 4
-    },
-    {
-      "date": "2026-05-29T21:12:28.826543+00:00",
-      "query": "telegram bot earn crypto 2026 free automated",
-      "results": 10,
       "new_opps": 0
     },
     {
-      "date": "2026-05-29T21:12:40.635013+00:00",
-      "query": "auto trading crypto bot free 2026",
-      "results": 20,
-      "new_opps": 3
+      "date": "2026-05-29T23:51:17.944626+00:00",
+      "query": "free crypto staking rewards 2026 multi chain",
+      "results": 21,
+      "new_opps": 1
     },
     {
-      "date": "2026-05-29T21:12:52.163378+00:00",
+      "date": "2026-05-29T23:51:35.037031+00:00",
+      "query": "defi yield farming 2026 no minimum deposit",
+      "results": 20,
+      "new_opps": 6
+    },
+    {
+      "date": "2026-05-29T23:51:53.128442+00:00",
+      "query": "passive crypto income 2026 set and forget",
+      "results": 20,
+      "new_opps": 0
+    },
+    {
+      "date": "2026-05-29T23:52:21.269098+00:00",
+      "query": "browser automation earn crypto free 2026",
+      "results": 11,
+      "new_opps": 0
+    },
+    {
+      "date": "2026-05-29T23:52:36.570194+00:00",
+      "query": "telegram bot earn crypto 2026 free automated",
+      "results": 22,
+      "new_opps": 0
+    },
+    {
+      "date": "2026-05-29T23:52:50.121505+00:00",
+      "query": "auto trading crypto bot free 2026",
+      "results": 23,
+      "new_opps": 2
+    },
+    {
+      "date": "2026-05-29T23:53:00.994062+00:00",
       "query": "free crypto arbitrage bot 2026",
       "results": 13,
       "new_opps": 0
     },
     {
-      "date": "2026-05-29T21:13:07.448016+00:00",
+      "date": "2026-05-29T23:53:16.957063+00:00",
       "query": "auto claim bot faucet multi coin 2026",
-      "results": 12,
+      "results": 22,
       "new_opps": 0
     },
     {
-      "date": "2026-05-29T21:13:26.392953+00:00",
+      "date": "2026-05-29T23:53:46.812144+00:00",
       "query": "best cashback apps 2026 free money crypto",
-      "results": 21,
-      "new_opps": 1
+      "results": 11,
+      "new_opps": 2
     },
     {
-      "date": "2026-05-29T21:13:38.701188+00:00",
+      "date": "2026-05-29T23:54:00.645893+00:00",
       "query": "affiliate programs crypto 2026 high paying free",
-      "results": 10,
-      "new_opps": 0
+      "results": 14,
+      "new_opps": 3
     },
     {
-      "date": "2026-05-29T21:13:49.746054+00:00",
+      "date": "2026-05-29T23:54:27.512569+00:00",
       "query": "earn free crypto no deposit 2026 withdraw instantly",
-      "results": 10,
-      "new_opps": 0
-    },
-    {
-      "date": "2026-05-29T21:14:03.543581+00:00",
-      "query": "automatic crypto earning platform 2026 no investment",
       "results": 11,
       "new_opps": 0
     },
     {
-      "date": "2026-05-29T21:14:21.535432+00:00",
+      "date": "2026-05-29T23:54:42.074914+00:00",
+      "query": "automatic crypto earning platform 2026 no investment",
+      "results": 22,
+      "new_opps": 1
+    },
+    {
+      "date": "2026-05-29T23:55:00.890706+00:00",
       "query": "free bitcoin earning sites 2026 withdraw to wallet",
       "results": 21,
+      "new_opps": 1
+    },
+    {
+      "date": "2026-05-29T23:55:31.411376+00:00",
+      "query": "cloud mining free trial 2026 no deposit btc",
+      "results": 15,
       "new_opps": 0
     },
     {
-      "date": "2026-05-29T21:14:40.257645+00:00",
-      "query": "cloud mining free trial 2026 no deposit btc",
-      "results": 25,
-      "new_opps": 2
-    },
-    {
-      "date": "2026-05-29T21:14:52.089116+00:00",
+      "date": "2026-05-29T23:56:01.368808+00:00",
       "query": "web3 earn crypto free 2026 browser mining",
       "results": 15,
       "new_opps": 0
     },
     {
-      "date": "2026-05-29T21:15:09.522608+00:00",
+      "date": "2026-05-29T23:56:19.776956+00:00",
       "query": "telegram mining bot free withdrawal 2026",
       "results": 24,
       "new_opps": 0
     },
     {
-      "date": "2026-05-29T21:15:23.315708+00:00",
+      "date": "2026-05-29T23:56:35.811323+00:00",
       "query": "faucet pay crypto instant 2026 free claim",
-      "results": 12,
+      "results": 22,
       "new_opps": 1
     },
     {
-      "date": "2026-05-29T21:15:38.922541+00:00",
+      "date": "2026-05-29T23:56:46.434129+00:00",
       "query": "crypto faucet no captcha instant withdrawal 2026",
-      "results": 12,
-      "new_opps": 1
-    },
-    {
-      "date": "2026-05-29T21:15:51.330233+00:00",
-      "query": "no captcha bitcoin faucet instant pay 2026",
       "results": 12,
       "new_opps": 0
     },
     {
-      "date": "2026-05-29T21:16:03.932176+00:00",
-      "query": "free crypto no captcha no survey no tasks 2026",
-      "results": 11,
-      "new_opps": 2
-    },
-    {
-      "date": "2026-05-29T21:16:18.674031+00:00",
-      "query": "no captcha faucet faucetpay 2026",
+      "date": "2026-05-29T23:56:58.736805+00:00",
+      "query": "no captcha bitcoin faucet instant pay 2026",
       "results": 12,
       "new_opps": 2
     },
     {
-      "date": "2026-05-29T21:16:31.030463+00:00",
+      "date": "2026-05-29T23:57:09.571487+00:00",
+      "query": "free crypto no captcha no survey no tasks 2026",
+      "results": 11,
+      "new_opps": 0
+    },
+    {
+      "date": "2026-05-29T23:57:22.382302+00:00",
+      "query": "no captcha faucet faucetpay 2026",
+      "results": 12,
+      "new_opps": 0
+    },
+    {
+      "date": "2026-05-29T23:57:34.140535+00:00",
       "query": "auto claim crypto no captcha 2026",
       "results": 12,
       "new_opps": 0
     },
     {
-      "date": "2026-05-29T21:16:43.836281+00:00",
+      "date": "2026-05-29T23:57:48.219788+00:00",
       "query": "earn crypto without captcha 2026 free",
       "results": 11,
       "new_opps": 0
     },
     {
-      "date": "2026-05-29T21:16:58.298067+00:00",
+      "date": "2026-05-29T23:58:16.423765+00:00",
       "query": "no captcha trx faucet instant payout 2026",
       "results": 12,
-      "new_opps": 2
-    },
-    {
-      "date": "2026-05-29T21:17:11.073440+00:00",
-      "query": "no captcha ltc faucet free litecoin 2026",
-      "results": 11,
       "new_opps": 0
     },
     {
-      "date": "2026-05-29T21:17:26.907915+00:00",
+      "date": "2026-05-29T23:58:46.688584+00:00",
+      "query": "no captcha ltc faucet free litecoin 2026",
+      "results": 12,
+      "new_opps": 0
+    },
+    {
+      "date": "2026-05-29T23:59:14.931527+00:00",
       "query": "no captcha doge faucet 2026 instant",
       "results": 12,
-      "new_opps": 1
+      "new_opps": 0
     },
     {
-      "date": "2026-05-29T21:17:40.600419+00:00",
+      "date": "2026-05-29T23:59:27.898447+00:00",
       "query": "no captcha usdt faucet 2026 free tether",
       "results": 12,
-      "new_opps": 1
+      "new_opps": 0
     },
     {
-      "date": "2026-05-29T21:17:53.345302+00:00",
+      "date": "2026-05-29T23:59:58.215824+00:00",
       "query": "auto faucet crypto no manual claim 2026",
       "results": 12,
       "new_opps": 0
     },
     {
-      "date": "2026-05-29T21:18:07.799287+00:00",
+      "date": "2026-05-30T00:00:20.787631+00:00",
       "query": "auto claim bitcoin bot no captcha 2026",
       "results": 12,
-      "new_opps": 3
+      "new_opps": 0
     },
     {
-      "date": "2026-05-29T21:18:20.741764+00:00",
+      "date": "2026-05-30T00:00:32.602526+00:00",
       "query": "telegram auto earn crypto bot no captcha 2026",
       "results": 13,
+      "new_opps": 0
+    },
+    {
+      "date": "2026-05-30T00:00:45.472133+00:00",
+      "query": "auto faucet site no verification 2026 faucetpay",
+      "results": 15,
+      "new_opps": 0
+    },
+    {
+      "date": "2026-05-30T00:01:24.243375+00:00",
+      "query": "set and forget crypto faucet 2026",
+      "results": 12,
       "new_opps": 1
     },
     {
-      "date": "2026-05-29T21:18:35.063030+00:00",
-      "query": "auto faucet site no verification 2026 faucetpay",
-      "results": 12,
-      "new_opps": 3
-    },
-    {
-      "date": "2026-05-29T21:18:51.874915+00:00",
-      "query": "set and forget crypto faucet 2026",
-      "results": 19,
-      "new_opps": 2
-    },
-    {
-      "date": "2026-05-29T21:19:03.779000+00:00",
+      "date": "2026-05-30T00:01:38.381603+00:00",
       "query": "auto claim crypto platform no captcha 2026",
       "results": 12,
       "new_opps": 0
     },
     {
-      "date": "2026-05-29T21:19:19.862031+00:00",
+      "date": "2026-05-30T00:01:52.291571+00:00",
       "query": "automatic crypto faucet faucetpay 2026",
-      "results": 22,
-      "new_opps": 1
+      "results": 18,
+      "new_opps": 0
     },
     {
-      "date": "2026-05-29T21:19:32.819699+00:00",
+      "date": "2026-05-30T00:02:03.845537+00:00",
       "query": "one click crypto faucet no captcha 2026",
       "results": 12,
-      "new_opps": 1
+      "new_opps": 0
     },
     {
-      "date": "2026-05-29T21:19:46.716553+00:00",
+      "date": "2026-05-30T00:02:18.042848+00:00",
       "query": "simple captcha crypto faucet faucetpay 2026",
       "results": 12,
-      "new_opps": 1
+      "new_opps": 0
     },
     {
-      "date": "2026-05-29T21:20:00.359238+00:00",
+      "date": "2026-05-30T00:02:41.118591+00:00",
       "query": "text captcha faucet free crypto 2026",
       "results": 12,
       "new_opps": 1
     },
     {
-      "date": "2026-05-29T21:20:14.848093+00:00",
+      "date": "2026-05-30T00:03:11.307811+00:00",
       "query": "easy captcha bitcoin faucet instant withdrawal 2026",
-      "results": 11,
-      "new_opps": 2
+      "results": 12,
+      "new_opps": 0
     },
     {
-      "date": "2026-05-29T21:20:27.862387+00:00",
+      "date": "2026-05-30T00:03:24.301852+00:00",
       "query": "math captcha crypto faucet free 2026",
       "results": 12,
-      "new_opps": 3
+      "new_opps": 1
     },
     {
-      "date": "2026-05-29T21:20:40.563412+00:00",
+      "date": "2026-05-30T00:03:38.651264+00:00",
       "query": "basic captcha faucet instant faucetpay 2026",
       "results": 12,
-      "new_opps": 3
+      "new_opps": 0
     },
     {
-      "date": "2026-05-29T21:20:54.625071+00:00",
+      "date": "2026-05-30T00:04:07.253789+00:00",
       "query": "anti bot simple captcha crypto faucet 2026",
       "results": 12,
       "new_opps": 1
     },
     {
-      "date": "2026-05-29T21:21:06.892177+00:00",
+      "date": "2026-05-30T00:04:19.068917+00:00",
       "query": "ptc sites instant withdrawal no captcha 2026 faucetpay",
       "results": 10,
-      "new_opps": 4
-    },
-    {
-      "date": "2026-05-29T21:21:19.452670+00:00",
-      "query": "click earn crypto no captcha instant payout 2026",
-      "results": 11,
       "new_opps": 0
     },
     {
-      "date": "2026-05-29T21:21:30.576291+00:00",
+      "date": "2026-05-30T00:04:29.817739+00:00",
+      "query": "click earn crypto no captcha instant payout 2026",
+      "results": 11,
+      "new_opps": 1
+    },
+    {
+      "date": "2026-05-30T00:04:41.233592+00:00",
       "query": "paid to click crypto faucetpay no captcha 2026",
       "results": 10,
       "new_opps": 2
     },
     {
-      "date": "2026-05-29T21:21:42.354496+00:00",
+      "date": "2026-05-30T00:04:52.309776+00:00",
       "query": "shortlink earn crypto no captcha faucetpay 2026",
       "results": 11,
-      "new_opps": 5
+      "new_opps": 1
     },
     {
-      "date": "2026-05-29T21:21:56.578176+00:00",
+      "date": "2026-05-30T00:05:21.713835+00:00",
       "query": "multi coin auto faucet faucetpay 2026",
       "results": 12,
-      "new_opps": 1
+      "new_opps": 0
     },
     {
-      "date": "2026-05-29T21:22:13.862874+00:00",
+      "date": "2026-05-30T00:05:37.998784+00:00",
       "query": "all in one crypto faucet auto claim 2026 faucetpay",
       "results": 22,
-      "new_opps": 5
+      "new_opps": 0
     },
     {
-      "date": "2026-05-29T21:22:26.999640+00:00",
+      "date": "2026-05-30T00:06:06.819275+00:00",
       "query": "bitcoin litecoin doge auto faucet faucetpay 2026 no captcha",
       "results": 12,
-      "new_opps": 2
+      "new_opps": 0
     },
     {
-      "date": "2026-05-29T21:22:43.371012+00:00",
+      "date": "2026-05-30T00:06:19.714540+00:00",
       "query": "telegram crypto faucet bot auto earn faucetpay 2026",
-      "results": 21,
-      "new_opps": 1
+      "results": 14,
+      "new_opps": 0
     },
     {
-      "date": "2026-05-29T21:22:57.158986+00:00",
+      "date": "2026-05-30T00:06:30.372043+00:00",
       "query": "telegram earning bot no captcha free withdrawal 2026",
       "results": 13,
-      "new_opps": 1
+      "new_opps": 0
     },
     {
-      "date": "2026-05-29T21:23:11.884354+00:00",
+      "date": "2026-05-30T00:06:41.987808+00:00",
       "query": "best telegram faucet bot faucetpay 2026 no captcha",
       "results": 12,
       "new_opps": 1
     },
     {
-      "date": "2026-05-29T21:23:27.477753+00:00",
+      "date": "2026-05-30T00:06:57.550997+00:00",
       "query": "telegram mining bot auto claim faucetpay 2026",
-      "results": 15,
-      "new_opps": 1
-    },
-    {
-      "date": "2026-05-29T21:23:41.512063+00:00",
-      "query": "free crypto earning platform no captcha 2026 withdraw",
-      "results": 11,
-      "new_opps": 1
-    },
-    {
-      "date": "2026-05-29T21:23:54.246591+00:00",
-      "query": "earn free crypto automatic faucetpay 2026",
-      "results": 10,
-      "new_opps": 1
-    },
-    {
-      "date": "2026-05-29T21:24:09.673532+00:00",
-      "query": "crypto faucet list no captcha 2026",
-      "results": 12,
-      "new_opps": 2
-    },
-    {
-      "date": "2026-05-29T21:24:22.381123+00:00",
-      "query": "claim free crypto auto faucet instant faucetpay",
-      "results": 12,
+      "results": 24,
       "new_opps": 0
     },
     {
-      "date": "2026-05-29T21:24:37.253502+00:00",
+      "date": "2026-05-30T00:07:09.054578+00:00",
+      "query": "free crypto earning platform no captcha 2026 withdraw",
+      "results": 11,
+      "new_opps": 0
+    },
+    {
+      "date": "2026-05-30T00:07:26.475294+00:00",
+      "query": "earn free crypto automatic faucetpay 2026",
+      "results": 21,
+      "new_opps": 1
+    },
+    {
+      "date": "2026-05-30T00:07:38.262496+00:00",
+      "query": "crypto faucet list no captcha 2026",
+      "results": 10,
+      "new_opps": 0
+    },
+    {
+      "date": "2026-05-30T00:07:56.818067+00:00",
+      "query": "claim free crypto auto faucet instant faucetpay",
+      "results": 19,
+      "new_opps": 2
+    },
+    {
+      "date": "2026-05-30T00:08:09.191940+00:00",
       "query": "best paying crypto faucet no captcha 2026",
       "results": 12,
       "new_opps": 0
@@ -627,9 +627,12 @@
     "http://freedogecoin.top/",
     "http://www.tipc.info/",
     "http://xrp4free.blogspot.com/",
+    "https://1dollaperday.com/reviews/firefaucet",
+    "https://2captcha.com/make-money-online",
     "https://2miners.com/solo-btc-mining-pool",
     "https://3commas.io/affiliate",
     "https://5arz.com/",
+    "https://99bitcoins.com/cryptocurrency/best-crypto-staking-coins/tron/",
     "https://aads.com/blog/legit-ways-to-earn-crypto-watching-videos/",
     "https://account.microsoft.com/account",
     "https://acemoneytransfer.com/blog/19-best-secret-websites-to-make-money-online-in-2026",
@@ -637,6 +640,7 @@
     "https://adbytes.media/earn-adbytes",
     "https://adclaimer.xyz/?r=TJMJtMred6ZJK3BJeEReb9R8WRwZowgJPA",
     "https://adsearnltc.com/?r=1",
+    "https://adsfaucet.com/",
     "https://advcash.gitbook.io/info/advcash-cryptocurrency/crypto-savings-wallet",
     "https://affiliatexblocks.com/best-pay-per-click-affiliate-programs/",
     "https://affmiss.com/affiliate/bybit-affiliate-program/",
@@ -653,6 +657,7 @@
     "https://alpha-maven.com/news/crypto/5-leading-free-bitcoin-dogecoin-cloud-mining-sites-for-2026-earn-daily-passive-crypto-income-with-zero-investment-cryptonews",
     "https://ambcrypto.com/best-free-bitcoin-dogecoin-cloud-mining-platforms-in-2026-earn-passive-crypto-income-easily/",
     "https://anonycrypto.com/is-that-free-usdt-telegram-bot-a-golden-ticket-or-a-gilded-trap-a-scam-investigators-deep-dive/",
+    "https://apexpay.org/posts/how-to-get-free-bitcoin/",
     "https://apps.microsoft.com/detail/9nztwsqntd0s",
     "https://aqru.io/earn-interest-ethereum/",
     "https://aqstr.com/",
@@ -669,17 +674,23 @@
     "https://backend.decentralised.news/12-ways-to-earn-crypto-for-free-in-2026-ranked-by-time-required-and-actual-payout/",
     "https://beefaucet.org/ltc-faucet/",
     "https://beincrypto.com/jack-dorsey-bitcoin-faucet-free-btc-return/",
+    "https://benable.com/TheDealDirect/best-cashback-apps-shopping-rewards-2026-earn-money-back-on-everything-you-buy",
     "https://bestbitcoincasinousa.com/no-deposit-bonus/",
+    "https://bestbuyproxy.com/faucetpay-review-2026-your-ultimate-guide-to-earning-free-crypto-micro-payments/",
+    "https://bestfaucetsites.com/list/ethereum-faucets",
     "https://binarium.supply/browser-mining-bnb",
     "https://bingx.com/en/learn/article/solana-seeker-skr-airdrop-guide-how-to-claim-your-skr-tokens",
     "https://bit2me.com/suite/earn",
     "https://bitbot.plus/",
     "https://bitbuy.ca/en-ca/how-to-stake-in-canada/solana",
     "https://bitcasinosrank.com/offerwalls-with-crypto-payments/",
+    "https://bitclickz.com/list/ADA",
+    "https://bitcoearn.com/",
     "https://bitcoin-collector.com/",
     "https://bitcoin.org/",
     "https://bitcoinchaser.com/binance-bitcoin-button-game-2026/",
     "https://bitcoinfoundation.org/news/bitcoin/what-is-a-crypto-faucet-how-free-bitcoin-and-crypto-rewards-work-in-2026/",
+    "https://bitcoinptc.top/?track=847653545",
     "https://bitcoinrotator.in/more-faucets/free-more-every-1-minutes/",
     "https://bitcompare.net/coins/tether/staking-rewards",
     "https://bitcotasks.com/",
@@ -692,10 +703,12 @@
     "https://bjftradinggroup.com/product/crypto-arbitrage-scanner-free/",
     "https://blinkfaucet.com/",
     "https://blockchainecho.info/2026/05/24/shr-miner-launches-free-cloud-mining-service-for-btc-xrp-doge-eth-holders/",
+    "https://blockchainreporter.net/binance-adds-genius-terminal-genius-as-65th-hodler-airdrop-project/",
     "https://blockchair.com/news/the-5-popular-free-bitcoin-and-litecoin-cloud-mining-apps-of-2026--5c2d58e56c91926d",
     "https://blocklr.com/news/how-to-stake-solana-guide-2026/",
     "https://blockonomi.com/tether-unveils-bitcoin-faucet-feature-in-self-custody-wallet-application/",
     "https://blockster.com/shr-miner-launches-free-cloud-mining-service-for-btc-xrp-eth-holdersearn-daily-passive-income",
+    "https://blog.iambeezy.app/en/micro-task-apps-that-pay-instantly-2026/",
     "https://blog.kraken.com/product/krak/introducing-btc-vaults",
     "https://blog.mexc.com/news/best-platforms-to-stake-usdt-in-2026-comparing-yields-features-across-six-leading-exchanges/",
     "https://blog.portals.fi/defi-yield-farming-strategies-risks-and-how-to-get-started-in-2026/",
@@ -721,6 +734,7 @@
     "https://cadetkupo.com/genki-miner-bot/",
     "https://captcha-ai.com/",
     "https://cardano-faucet.com/",
+    "https://cardano.org/reward-calculator/",
     "https://cash4my.click/",
     "https://cashtoearn.com/",
     "https://chaingain.io/crypto-passive-income-staking-lending-yield-2026/",
@@ -755,6 +769,7 @@
     "https://clickpayz.site/",
     "https://clickscoin.com/?r=1KGHg4gvXzDsps1L44ESSQ633tAf7AN6Ux",
     "https://clicktoearn.co/",
+    "https://clickup.com/",
     "https://cloud.google.com/application/web3/faucet/ethereum",
     "https://clouddoge.biz/",
     "https://cloudminer.live/",
@@ -779,9 +794,11 @@
     "https://coinsutra.com/telegram-crypto-bots/",
     "https://coinswitch.co/switch/crypto/crypto-cloud-mining-platforms/",
     "https://cointap.click/?r=0x6a85863fecF27332EcA9C0D74D9923F4141e30bf",
+    "https://comptroller.nyc.gov/services/for-the-public/claims/file-a-claim/",
     "https://contentrewards.xyz/",
     "https://corpuschristi.craigslist.org/search/zip",
     "https://cpabot.app/",
+    "https://cpstest.org/",
     "https://cpu-miner.software.informer.com/",
     "https://cpuwin.com/",
     "https://cryp2faucet.net/",
@@ -809,6 +826,7 @@
     "https://cryptofuture.co.in/",
     "https://cryptoglobally.com/polygon-matic-faucet-mainnet/",
     "https://cryptolink.click/",
+    "https://cryptolist.co.uk/",
     "https://cryptomaniacs.xyz/learn/ethereum-staking-guide/",
     "https://cryptominerspro.com/can-i-mine-ethereum-for-free/",
     "https://cryptomininggame.com/?force_locale=1",
@@ -817,7 +835,9 @@
     "https://cryptonews.com/cryptocurrency/best-crypto-faucets/",
     "https://cryptonews.net/news/bitcoin/32781271/",
     "https://cryptonewssol.com/how-to-guides/how-to-stake-solana/",
+    "https://cryptonira.com/",
     "https://cryptontradebot.com/",
+    "https://cryptopotato.com/best-cardano-staking-pools/",
     "https://cryptorank.io/drophunting",
     "https://cryptorbix.com/en/b/how-to-build-yield-farming-strategy-in-defi",
     "https://cryptoslate.com/crypto-casinos/no-kyc/",
@@ -829,12 +849,14 @@
     "https://dappradar.com/narratives/gambling",
     "https://darkbot.io/en/blog/automate-trading-in-telegram-crypto-communities-2026-guide",
     "https://decentralised.news/the-15-highest-paying-crypto-affiliate-programmes-in-2026",
+    "https://defillama.com/",
     "https://demofaucet.fun/",
     "https://dev.to/opspawn/how-i-earned-usdc-completing-ai-agent-bounties-on-taskmarket-4mal",
     "https://devel.coinbrain.com/blog/best-telegram-crypto-games-2026",
     "https://developers.tron.network/docs/staking-on-tron-network",
     "https://dictionary.cambridge.org/dictionary/english/earn",
     "https://dietbitcoin.tk/",
+    "https://dippermagazine.co.uk/free-dogecoin-mining-without-hardware-or-stress/",
     "https://directoryplus.org/en/page/free-crypto-from-faucetpay",
     "https://dishfaucet.xyz/best-crypto-faucets-that-pay-instantly-2026/",
     "https://docs.cardano.org/cardano-testnets/tools/faucet",
@@ -851,11 +873,13 @@
     "https://dogefaucet.fun/",
     "https://dogeking.io/",
     "https://dogekong.live/",
+    "https://dol.ny.gov/unemployment/certify-weekly-unemployment-insurance-benefits",
     "https://dollarbreak.co.ke/crypto-apps-that-pay-free-coins/",
     "https://dollarcatalyst.com/free-paypal-money/",
     "https://dollarsprout.com/sign-up-bonus-apps/",
     "https://doublenow.site/",
     "https://dropbitco.in/",
+    "https://due.com/real-ways-to-make-money-from-home-for-free/",
     "https://earn-crypto.co/",
     "https://earn.cex.io/",
     "https://earn.uprowshub.com/",
@@ -873,6 +897,7 @@
     "https://earnify.cc/",
     "https://earnifyhub.com/crypto-web3/passive-income-crypto-7-methods-2026.php",
     "https://earnitz.com/",
+    "https://earnkaro.com/",
     "https://earnlab.com/blog/best-microtask-sites-2026",
     "https://earnmecash.com/post/best-receipt-scanner-rebate-apps-2026",
     "https://earnne.com/get-paid-to-watch-videos",
@@ -894,6 +919,7 @@
     "https://en.faucetbitcoin.it/ripple-faucet-list.html",
     "https://en.m.wikipedia.org/wiki/Litecoin",
     "https://en.wikipedia.org/wiki/Bitcoin",
+    "https://en.wiktionary.org/wiki/get",
     "https://ern.app/",
     "https://ethereum-faucet.org/?r=121565",
     "https://ethereum.org/staking/",
@@ -902,6 +928,7 @@
     "https://ethfree.win/?r=162037",
     "https://evacodes.com/blog/create-telegram-bot",
     "https://everstake.one/staking/protocols/ethereum",
+    "https://everycent.co.ke/get-paid-to-do-microtasks/",
     "https://everythingstablecoin.com/blog/crypto-cashback-reality-check",
     "https://evista.miniorange.com/blogs/news/stop-chasing-windfalls-how-real-people-actually-put-free-cash-in-their-paypal-account",
     "https://ex-faucet.xyz/faucet-ltc/",
@@ -916,6 +943,7 @@
     "https://faucet.cosmoport.tk/",
     "https://faucet.free/",
     "https://faucet.polygon.technology/",
+    "https://faucet.quicknode.com/polygon",
     "https://faucet.rocks/faucet.php?id=claimfreecoinsio-ada",
     "https://faucet.solana.com/",
     "https://faucet.trade/polygon-amoy-matic-faucet",
@@ -1011,6 +1039,7 @@
     "https://greasyfork.org/en/scripts/420828-flbot-free-litecoin-best-and-first-bot-for-free-litecoin-multiplier/code",
     "https://groyourwealth.com/crypto-education/how-to-earn-passive-income-crypto-staking-2026/",
     "https://guardarian.com/buy-ltc-without-verification",
+    "https://h33.ai/botshield/",
     "https://happycapyguide.com/blog/how-to-use-ai-for-passive-income-2026",
     "https://help.3commas.io/en/articles/10062123-3commas-affiliate-program",
     "https://help.wallet.tg/article/628-ton-earn",
@@ -1038,6 +1067,7 @@
     "https://jup.ag/portfolio/airdrop-checker",
     "https://kashkick.com/guide/earn/cash-back-apps-without-receipts/",
     "https://klinkfinance.com/",
+    "https://knowledge-base.faucetcrypto.com/earning-and-leveling/offerwalls",
     "https://koinly.io/blog/top-no-kyc-crypto-exchanges/",
     "https://kotaku.com/download/google-chrome",
     "https://kriptomat.io/earn/",
@@ -1047,6 +1077,7 @@
     "https://lakeshore.edu/",
     "https://langeek.co/en/grammar/course/796/all",
     "https://learn.backpack.exchange/articles/solana-airdrops-guide",
+    "https://learn.microsoft.com/en-us/intune/device-updates/windows/manage-driver-updates",
     "https://learncrypto.com/knowledge-base/how-to-earn-crypto/working-for-crypto",
     "https://learnenglish.britishcouncil.org/free-resources/grammar/b1-b2/passives",
     "https://lemoncash.org/",
@@ -1063,6 +1094,7 @@
     "https://litecoinfarm.cc/",
     "https://litecoinfaucet.com/",
     "https://litecoinrewards.click/",
+    "https://litecoinspace.org/",
     "https://litecointalk.io/t/free-ltc-for-each-click-view/79794",
     "https://liteking.io/",
     "https://liteonion.online/",
@@ -1081,13 +1113,17 @@
     "https://ltcnex.io/?a=cust&page=aboutus",
     "https://ltctime.fun/",
     "https://ltcunit.com/",
+    "https://m.shein.com/us/affiliate/recruit?cdn_rsite=cf&ref=m&rep=dir&ret=mus&msockid=3c98999320ea6d2d22188efb21756c4f",
     "https://madeonsol.com/blog/solana-mobile-skr-token-airdrop-explained",
+    "https://magicsquare.io/blog/how-btc-rush-telegram-game-works",
     "https://mainnetfaucet.com/",
     "https://makemoneyvideos.club/affiliate-income/7-passive-ways-to-earn-paypal-money-realistic-side-income-methods",
     "https://marketcapof.com/blog/best-crypto-faucets/",
     "https://markets.businessinsider.com/news/stocks/saintquant-expands-free-ai-crypto-trading-bot-access-in-2026-empowering-beginners-to-automate-passive-income-with-no-experience-required-1036115480",
     "https://markets.coinpedia.org/airdrops/",
     "https://masterthecrypto.com/cashback-rewards/",
+    "https://math-earn.online/",
+    "https://mathmonks.com/polygon",
     "https://maticfaucet.com/",
     "https://mc-multi.mc-bestpayingfaucet.com/",
     "https://medium.com/write-a-catalyst/10-best-paid-survey-sites-in-2026-that-actually-pay-no-hype-just-real-results-247942457a57",
@@ -1100,6 +1136,7 @@
     "https://minedragons.com/",
     "https://mineswap.gg/",
     "https://miniapp.gate.com/blog/gate-on-chain-earn-launches-usdt-staking-via-spark-protocol-with-4-5-percent-apy",
+    "https://miniappfaucet.com/",
     "https://minifaucet.com/",
     "https://miningltc.xyz/",
     "https://miningonebitcoin.com/",
@@ -1111,6 +1148,7 @@
     "https://mixfaucet.com/?r=Xua7i46HsaVg6iAufJP68UtBksbNuquK1g",
     "https://mobilecryptoreport.com/2026/03/31/how-to-claim-solana-airdrops-on-saga-phone-quick-velt-style-mobile-guide-2026/",
     "https://moddy-ai.com/blog/make-money-telegram-bots-hkbots-review",
+    "https://monacoin.xyz/",
     "https://money-meadow.com/threads/free-mining-%E2%9B%8F%E2%9B%8F-bot-for-ton-cryptocurrency-on-telegram-and-free-withdrawal-to-tonkeeper-wallet.5438/",
     "https://money.com/best-crypto-exchanges/",
     "https://moneyreportai.com/passive-income-with-ai-2026/",
@@ -1139,6 +1177,7 @@
     "https://okbtc.org/bitsmine-launches-a-next-generation-cloud-crypto-mining-platform-with-a-100-free-mining-bonus-for-new-users/",
     "https://omcofaucet.com/ethereum",
     "https://onebitco.com/BTCFaucet",
+    "https://oneclickminer.com/",
     "https://onefaucet.in/",
     "https://onlinemicrojobs.com/",
     "https://onlyfaucet.com/",
@@ -1154,6 +1193,7 @@
     "https://phemex.com/academy/what-is-stableearn-tether-usdt-vault-yield",
     "https://phptrends.com/php-faucet-scripts/",
     "https://pictures.telegram-store.com/catalog/bots/tonfreebieprobot",
+    "https://pig.gy/faucet",
     "https://platform.softwareone.com/product/faucet-collector/PCP-9375-5458",
     "https://play.google.com/store/apps/details?id=crypto.aliens.ltc&hl=en_US",
     "https://playgama.com/game/crypto-mining-tycoon-idle-merge-clicker",
@@ -1175,6 +1215,7 @@
     "https://rakerace.com/page/best-online-casino-no-deposit-bonus",
     "https://recap.io/en-US/blog/best-crypto-staking-platforms",
     "https://reellu.com/",
+    "https://refundyoursol.com/clean",
     "https://registry.npmjs.org/multicaptchabot",
     "https://remitano.com/id/forum/5551-list-of-coinpot-faucets-to-earn-free-bitcoin-ethereum",
     "https://rewardinghub.com/blog/how-to-earn-free-paypal-money-in-2026",
@@ -1217,12 +1258,16 @@
     "https://solstice.finance/yieldvault",
     "https://somptc.com/",
     "https://sourceforge.net/directory/?q=faucet%20auto%20claim",
+    "https://specters.site/",
     "https://spunk.bet/blog/what-is-a-crypto-faucet-how-it-works-2026.html",
+    "https://stablecoininsider.org/best-stablecoin-yields-in-may-2026-where-to-earn-8-to-15-apy-right-now/",
     "https://stake.lido.fi/earn",
     "https://stakely.io/blog/ethereum-staking-delegate-eth-and-get-the-highest-returns",
     "https://staking-polygon.com/",
     "https://staking.polygon.technology/",
     "https://staking.stakely.io/?form=sui_native",
+    "https://staking.web3guides.com/guides/how-to-stake-eth-with-less-than-32-eth-every-practical-option-explained",
+    "https://stakingboard.com/chains",
     "https://stakingradar.com/coins/tether/",
     "https://starboost.app/",
     "https://starsearn.com/guides/telegram-mini-apps-best-2026",
@@ -1236,6 +1281,7 @@
     "https://superalgos.org/crypto-trading-bots-platform.shtml",
     "https://superearn.com/staking",
     "https://superearn.medium.com/daily-passive-income-on-cryptocurrency-in-defi-without-trading-staking-and-liquidity-pools-61cbb648ca2b",
+    "https://support.google.com/youtube/answer/174084?hl=en&co=GENIE.Platform%3DDesktop",
     "https://support.kraken.com/articles/overview-of-rewards-on-kraken",
     "https://support.ledger.com/article/12121265774365-zd",
     "https://symbolsdb.com/micro-symbol",
@@ -1274,6 +1320,7 @@
     "https://topcryptofaucets.com/",
     "https://tr.energy/en/staking-tron/",
     "https://tradersunion.com/interesting-articles/8-best-cloud-mining-sites/best-litecoin-cloud-mining-sites/",
+    "https://trashnothing.com/free/woodstock-oxford-county-ontario-canada-6184365/browse",
     "https://trend-rays.com/free-paypal-games-no-deposit/",
     "https://tron-faucet.com/?r=1620",
     "https://tron.guide/economy/staking/",
@@ -1291,10 +1338,12 @@
     "https://trxtrue.com/",
     "https://trxvault.site/",
     "https://trxzilla.live/",
+    "https://try.novalite.app/",
     "https://trymata.com/blog/make-money-online/",
     "https://tubitv.com/",
     "https://tuoitreit.vn/threads/faucet-bot-24-connected-faucets-btc-eth-doge-ltc-usdt-xrp-ada-sol.50151/",
     "https://turbofaucetscript.in/",
+    "https://unclaimedsol.com/free-solana/",
     "https://usdc-faucet.com/",
     "https://usdpick.io/",
     "https://ventureburn.com/crypto-sign-up-bonus/",
@@ -1305,6 +1354,8 @@
     "https://viewfi.live/",
     "https://viewmynte.com/",
     "https://visiion.io/en/staking",
+    "https://visu.network/blog/best-microtask-apps-that-pay-daily/",
+    "https://vocal.media/01/faucetpay-wallet-explained-registration-profit-methods-trading-and-withdrawals",
     "https://voltfaucet.com/about.php",
     "https://voluum.com/blog/top-15-pay-per-click-affiliate-programs/",
     "https://voxminingpool.us/",
@@ -1327,22 +1378,27 @@
     "https://wurk.fun/",
     "https://www.2cryptoguys.com/rush-bitcoin",
     "https://www.ada4good.com/post/should-i-stake-my-ada",
+    "https://www.adamenfroy.com/best-high-paying-affiliate-programs",
     "https://www.adfi.money/",
     "https://www.adreva.ai/",
     "https://www.adspower.com/blog/how-to-make-money-on-telegram",
+    "https://www.affiliate.com/",
     "https://www.ainvest.com/news/crypto-passive-income-2026-3-yield-trades-pay-2605/",
     "https://www.airbnb.ca/",
     "https://www.airdropit.com/airdrops/ethereum",
     "https://www.alchemy.com/dapps/best/crypto-faucets",
+    "https://www.amazon.com/Faucet/s?k=Faucet",
     "https://www.ankr.com/staking-crypto/polygon-pol/",
     "https://www.aom.vnu.edu.tw/5-Best-Passive-Income-Streams-To-Start-in-2026,-According-to-Financial-Experts",
     "https://www.apexearning.com/",
+    "https://www.arkadium.com/free-online-games/",
     "https://www.atibucks.com/",
     "https://www.autotrader.com/?msockid=0c5174b199f36bcf37c163d998ac6a3c",
     "https://www.autozone.com/?msockid=0c5174b199f36bcf37c163d998ac6a3c",
     "https://www.bankless.com/claimables",
     "https://www.banklesstimes.com/articles/2026/04/29/tether-wallet-unveils-instant-btc-faucet-letting-anyone-claim-free-sats-in-self-custody/",
     "https://www.bestbuy.com/",
+    "https://www.bgames.com/",
     "https://www.binance.com/en/square/post/306075162165746",
     "https://www.binance.us/spot-trade/ltc_usd",
     "https://www.bing.com/ck/a?!&&p=00b3ca34866108e3ab9c56a85e02d3c1a02950c466ba1ae821706c3e82b78d9dJmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=11ee5858-033c-697b-3795-4f3f02166866&u=a1aHR0cHM6Ly93d3cuYXJrYWRpdW0uY29tL2ZyZWUtb25saW5lLWdhbWVzLw&ntb=1",
@@ -1731,6 +1787,8 @@
     "https://www.bing.com/ck/a?!&amp;&amp;p=fd96ff94b97e7674d31495b02fdcf1d0adf9828624d952fd75c117a310ea674dJmltdHM9MTc3OTkyNjQwMA&amp;ptn=3&amp;ver=2&amp;hsh=4&amp;fclid=27f9dbdd-fb08-67ec-1529-ccbafa2c6638&amp;u=a1aHR0cHM6Ly93d3cuYmluYW5jZS5jb20vZW4vcHJpY2UvYml0Y29pbg&amp;ntb=1",
     "https://www.bitara.app/",
     "https://www.bitbrowser.net/blog/airdrop-crypto-telegram-2026",
+    "https://www.bitcoin.com/",
+    "https://www.bitcoinrewards.app/blog/bitcoin-faucet",
     "https://www.bitdegree.org/crypto/tutorials/free-crypto-rewards",
     "https://www.bitget.com/academy/crypto-faucets-2026",
     "https://www.bitget.org/affiliates",
@@ -1739,6 +1797,7 @@
     "https://www.bittime.com/en/blog/cara-claim-airdrop-unitas-solana-panduan-klaim-reward-up",
     "https://www.bleap.finance/blog/which-crypto-card-offers-the-best-cashback-rewards-for-everyday-spending",
     "https://www.blingfi.com/",
+    "https://www.blockchain-council.org/blockchain/defi/",
     "https://www.blockpit.io/blog/no-kyc-crypto-wallet",
     "https://www.blockstats.app/blog/best-crypto-faucets",
     "https://www.blog.citrea.xyz/ctr-is-live-govern-the-bitcoin-economy/",
@@ -1752,7 +1811,9 @@
     "https://www.bydfi.com/en/cointalk/solana-staking-guide-2026",
     "https://www.cada.news/cardano-staking/",
     "https://www.ccn.com/education/crypto/tether-wallet-bitcoin-faucet-free-btc-self-custody/",
+    "https://www.cefirates.com/tron-trx-interest/",
     "https://www.chainlabo.com/blog/ethereum-staking-rewards-guide-2026",
+    "https://www.chfs.ky.gov/agencies/os/oig/dhc/Pages/ltc.aspx",
     "https://www.claimfreedoge.com/",
     "https://www.clickbit.cash/",
     "https://www.clickforcrypto.com/",
@@ -1775,6 +1836,7 @@
     "https://www.cointribune.com/en/how-to-earn-or-spend-litecoin-ltc/",
     "https://www.collinsdictionary.com/dictionary/english/earn",
     "https://www.copytradeinsider.com/blog/crypto-staking-guide-2026/",
+    "https://www.coursera.org/articles/what-is-defi?msockid=075bdc0aa0bc61713fd9cb62a1e1607f",
     "https://www.crazygames.com/",
     "https://www.cryptika.com/new-femitbot-network-uses-telegram-mini-apps-to-push-crypto-fraud-and-android-malware/",
     "https://www.crypto-topics.com/archives/842",
@@ -1791,25 +1853,32 @@
     "https://www.cypherock.com/blogs/solana-staking-guide-earn-rewards-securely?srsltid=AfmBOorHBZSjDkVatFZN0JKVRHAjbDqwIAPSU-pz7dXd1iQt2taDxrIt",
     "https://www.dailymotion.com/video/xa61scc",
     "https://www.datawallet.com/crypto/get-tron-testnet-tokens",
+    "https://www.defi.tech/",
     "https://www.dextools.io/tutorials/telegram-trading-bots-2026-guide",
     "https://www.diadata.org/map/web3-builder-hub/tron-faucets/",
     "https://www.dictionary.com/browse/earn",
     "https://www.digitalnomadwannabe.com/instant-paid-surveys/",
     "https://www.doctorofcredit.com/targeted-paypal-earn-up-to-300-for-receiving-direct-deposits/",
+    "https://www.dogefaucet.com/",
     "https://www.drops.bot/?r=HN",
     "https://www.e-research-global.com/EN/Surveys-for-Money-Online/",
+    "https://www.earn-today.com/2025/12/faucetpay-beginner-guide-2025-how-it.html",
     "https://www.earncrypto.com/earn-free-dogecoin/",
     "https://www.earnfreeltc.com/",
     "https://www.earnin.com/",
     "https://www.earnloop.online/",
+    "https://www.earnly.us/",
     "https://www.earnmob.info/2026/03/how-I-earn-on-telegram-bots.html",
     "https://www.eneba.com/hub/play-to-earn/best-play-to-earn-crypto-games/?srsltid=AfmBOooW5VpdIixyhSiGmtVIjgg4vlfjR5MVLaxpEUXCE88LIr2BqqBN",
     "https://www.ethgas.com/blog/90-days-of-realtime-stake-celebrate",
     "https://www.ethminer.life/",
     "https://www.exodus.com/support/en/articles/8598610-staking-cardano-ada-faqs-exodus-cardano-staking-rewards-support-staking-ada",
+    "https://www.explorerpay.com/",
     "https://www.fastltc.com/",
+    "https://www.faucetdepot.com/",
     "https://www.faucetoshi.com/",
     "https://www.feast-magazine.co.uk/crypto/ftmining-launches-free-mining-service-for-btc-eth-xrp-and-doge-holders-with-daily-earnings-of-up-to-9900-65255",
+    "https://www.fidelity.com/learning-center/trading-investing/what-is-defi",
     "https://www.filecroco.com/download-easyminer/",
     "https://www.finder.com/bitcoin/free-bitcoin",
     "https://www.findmini.app/mineversebot/",
@@ -1826,6 +1895,7 @@
     "https://www.gate.ac/blog/102029/gate-simple-earn-usdt-flexible-savings-yield-idle-asset-appreciation-crypto-interest-account-passive-income-stablecoin-yield-farming",
     "https://www.gate.com/announcements/article/51380",
     "https://www.gemini.com/staking",
+    "https://www.getcopper.com/post/online-surveys-for-paypal-venmo-cash",
     "https://www.getflipx.app/blog/crypto-trading-app-with-cashback",
     "https://www.globenewswire.com/news-release/2026/03/27/3264036/0/en/bitcoin-casino-no-deposit-bonus-2026-bitstarz-rolls-out-50-free-spins-with-real-money-rewards-and-multi-crypto-support.html",
     "https://www.google.com/finance/beta/quote/BTC-USD",
@@ -1834,8 +1904,10 @@
     "https://www.herofaucet.com/",
     "https://www.heypiggy.com/",
     "https://www.hoinex.com/",
+    "https://www.homedepot.com/b/Kitchen-Kitchen-Faucets/N-5yc1vZar0k",
     "https://www.homeincomelab.com/best/game-apps-that-pay-real-money",
     "https://www.honeygain.com/passive-income-app/",
+    "https://www.hzford.com/",
     "https://www.idle-empire.com/rewards/free-litecoin",
     "https://www.idlen.io/",
     "https://www.inboxdollars.com/g/paypal-cash",
@@ -1858,6 +1930,7 @@
     "https://www.ltc.org/",
     "https://www.ltcminex.com/",
     "https://www.ltcmining.site/",
+    "https://www.makejar.com/fresh-list-best-paying-shortlinks-and-pure-scams/bitshorten_io/",
     "https://www.marketwatch.com/investing/stock/ltc",
     "https://www.matclick.com/",
     "https://www.merriam-webster.com/dictionary/earn",
@@ -1880,10 +1953,14 @@
     "https://www.oreillyauto.com/",
     "https://www.originprotocol.com/earn-interest-from-usdt-staking",
     "https://www.oxfordlearnersdictionaries.com/definition/english/earn",
+    "https://www.panaprium.com/blogs/i/liquid-staking-eth-beginner-guide",
     "https://www.panewslab.com/en/articles/019e6327-55dc-735e-a677-946e134f2b1e",
     "https://www.perfect-english-grammar.com/passive.html",
+    "https://www.play2dollar.com/index.php",
     "https://www.plex.tv/watch-free/",
     "https://www.pokertube.com/article/usd-coin-casinos",
+    "https://www.poliigon.com/",
+    "https://www.polygontechnology.org/",
     "https://www.prizerebel.com/",
     "https://www.quicknode.com/builders-guide/top-6-crypto-faucets",
     "https://www.quora.com/Which-PTC-site-pays-fast",
@@ -1897,6 +1974,7 @@
     "https://www.smartincome-guide.com/2026/04/hive-micro-review-2026-how-much-can.html",
     "https://www.softwaretestinghelp.com/best-ethereum-cloud-mining-sites/",
     "https://www.soladex.io/type/gaming",
+    "https://www.spendnode.io/crypto-cards/cashback/",
     "https://www.stakingrewards.com/asset/ethereum-2-0",
     "https://www.techspot.com/downloads/6418-telegram.html",
     "https://www.telegramfaucet.me/",
@@ -1905,9 +1983,11 @@
     "https://www.thefr.app/blog/make-money-online-no-investment-2026",
     "https://www.thefreedictionary.com/earn",
     "https://www.theglobeandmail.com/investing/markets/markets-news/TheNewswire.com/36411042/top-8-free-btc-doge-cloud-mining-sites-for-crypto-investors-in-2025/",
+    "https://www.thepennyhoarder.com/make-money/apps-that-pay-100-a-day/",
     "https://www.tradingview.com/symbols/BTCUSD/",
     "https://www.tronspin.live/",
     "https://www.trustpilot.com/review/freexrp.in",
+    "https://www.trxtraining.com/",
     "https://www.usbank.com/financial-education/save/passive-income.html",
     "https://www.usdtvaults.com/",
     "https://www.viewfaucet.com/",
@@ -1915,6 +1995,7 @@
     "https://www.webopedia.com/crypto/learn/free-crypto-faucets/",
     "https://www.weex.com/learn/articles/how-to-make-money-with-cryptocurrency-2026-25127",
     "https://www.wordreference.com/definition/best",
+    "https://www.wordwebonline.com/en/GET",
     "https://www.youhodler.com/earn-crypto/earn-ltc",
     "https://www.yourdictionary.com/all",
     "https://www.youtube.com/watch?v=ki-U9WCgygw",
@@ -1927,11 +2008,13 @@
     "https://yourdoge.com/?r=jahabardeen",
     "https://zan.top/faucet/solana",
     "https://zarfo.com/blog/zarfo-is-live",
+    "https://zeerk.com/",
     "https://zenmine.io/",
     "https://zerpayz.com/",
     "https://zhenchainmicro.com/blogs/news/litecoin-mining-guide-2026",
     "https://zipmex.com/blog/how-to-mine-eth-free-on-phone/",
-    "https://zonebitcoin.co/en/bittasker/"
+    "https://zonebitcoin.co/en/bittasker/",
+    "lightningbounties.com/"
   ],
   "verification": {
     "https://www.bing.com/ck/a?!&&p=ca9c64a27a26214204094b1bb7fef5dafb58e18f6f0a5681159bd1a37767236dJmltdHM9MTc3OTkyNjQwMA&ptn=3&ver=2&hsh=4&fclid=09980873-47c7-6afa-2eab-1f1446806b55&u=a1aHR0cHM6Ly9lYXJubmUuY29tLw&ntb=1": {
@@ -2860,26 +2943,242 @@
       "last_confirmed": null,
       "deep_score": 5,
       "verified_bad": false
+    },
+    "lightningbounties.com/": {
+      "count": 1,
+      "first_seen": "2026-05-30",
+      "last_confirmed": null,
+      "deep_score": 0,
+      "verified_bad": true
+    },
+    "https://bestfaucetsites.com/list/ethereum-faucets": {
+      "count": 1,
+      "first_seen": "2026-05-30",
+      "last_confirmed": null,
+      "deep_score": 5,
+      "verified_bad": false
+    },
+    "https://www.dogefaucet.com/": {
+      "count": 1,
+      "first_seen": "2026-05-30",
+      "last_confirmed": null,
+      "deep_score": 0,
+      "verified_bad": true
+    },
+    "https://refundyoursol.com/clean": {
+      "count": 1,
+      "first_seen": "2026-05-30",
+      "last_confirmed": "2026-05-30",
+      "deep_score": 8,
+      "verified_bad": false
+    },
+    "https://faucet.quicknode.com/polygon": {
+      "count": 1,
+      "first_seen": "2026-05-30",
+      "last_confirmed": "2026-05-30",
+      "deep_score": 8,
+      "verified_bad": false
+    },
+    "https://pig.gy/faucet": {
+      "count": 1,
+      "first_seen": "2026-05-30",
+      "last_confirmed": "2026-05-30",
+      "deep_score": 8,
+      "verified_bad": false
+    },
+    "https://try.novalite.app/": {
+      "count": 1,
+      "first_seen": "2026-05-30",
+      "last_confirmed": null,
+      "deep_score": 0,
+      "verified_bad": true
+    },
+    "https://1dollaperday.com/reviews/firefaucet": {
+      "count": 1,
+      "first_seen": "2026-05-30",
+      "last_confirmed": null,
+      "deep_score": 0,
+      "verified_bad": true
+    },
+    "https://math-earn.online/": {
+      "count": 1,
+      "first_seen": "2026-05-30",
+      "last_confirmed": null,
+      "deep_score": 0,
+      "verified_bad": true
+    },
+    "https://oneclickminer.com/": {
+      "count": 1,
+      "first_seen": "2026-05-30",
+      "last_confirmed": null,
+      "deep_score": 0,
+      "verified_bad": true
+    },
+    "https://bitclickz.com/list/ADA": {
+      "count": 1,
+      "first_seen": "2026-05-30",
+      "last_confirmed": null,
+      "deep_score": 0,
+      "verified_bad": true
+    },
+    "https://specters.site/": {
+      "count": 1,
+      "first_seen": "2026-05-30",
+      "last_confirmed": null,
+      "deep_score": 0,
+      "verified_bad": true
+    },
+    "https://cryptolist.co.uk/": {
+      "count": 1,
+      "first_seen": "2026-05-30",
+      "last_confirmed": null,
+      "deep_score": 0,
+      "verified_bad": true
+    },
+    "https://magicsquare.io/blog/how-btc-rush-telegram-game-works": {
+      "count": 1,
+      "first_seen": "2026-05-30",
+      "last_confirmed": null,
+      "deep_score": 0,
+      "verified_bad": true
+    },
+    "https://blog.iambeezy.app/en/micro-task-apps-that-pay-instantly-2026/": {
+      "count": 1,
+      "first_seen": "2026-05-30",
+      "last_confirmed": null,
+      "deep_score": 0,
+      "verified_bad": true
+    },
+    "https://bitcoearn.com/": {
+      "count": 1,
+      "first_seen": "2026-05-30",
+      "last_confirmed": null,
+      "deep_score": 3,
+      "verified_bad": false
+    },
+    "https://dippermagazine.co.uk/free-dogecoin-mining-without-hardware-or-stress/": {
+      "count": 1,
+      "first_seen": "2026-05-30",
+      "last_confirmed": null,
+      "deep_score": 0,
+      "verified_bad": true
+    },
+    "https://unclaimedsol.com/free-solana/": {
+      "count": 1,
+      "first_seen": "2026-05-30",
+      "last_confirmed": null,
+      "deep_score": 4,
+      "verified_bad": false
+    },
+    "https://monacoin.xyz/": {
+      "count": 1,
+      "first_seen": "2026-05-30",
+      "last_confirmed": null,
+      "deep_score": 4,
+      "verified_bad": false
+    },
+    "https://99bitcoins.com/cryptocurrency/best-crypto-staking-coins/tron/": {
+      "count": 1,
+      "first_seen": "2026-05-30",
+      "last_confirmed": null,
+      "deep_score": 0,
+      "verified_bad": true
+    },
+    "https://www.cefirates.com/tron-trx-interest/": {
+      "count": 1,
+      "first_seen": "2026-05-30",
+      "last_confirmed": null,
+      "deep_score": 0,
+      "verified_bad": true
+    },
+    "https://www.play2dollar.com/index.php": {
+      "count": 1,
+      "first_seen": "2026-05-30",
+      "last_confirmed": null,
+      "deep_score": 4,
+      "verified_bad": false
+    },
+    "https://www.earnly.us/": {
+      "count": 1,
+      "first_seen": "2026-05-30",
+      "last_confirmed": null,
+      "deep_score": 4,
+      "verified_bad": false
+    },
+    "https://earnkaro.com/": {
+      "count": 1,
+      "first_seen": "2026-05-30",
+      "last_confirmed": null,
+      "deep_score": 4,
+      "verified_bad": false
+    },
+    "https://www.explorerpay.com/": {
+      "count": 1,
+      "first_seen": "2026-05-30",
+      "last_confirmed": null,
+      "deep_score": 3,
+      "verified_bad": false
+    },
+    "https://visu.network/blog/best-microtask-apps-that-pay-daily/": {
+      "count": 1,
+      "first_seen": "2026-05-30",
+      "last_confirmed": null,
+      "deep_score": 0,
+      "verified_bad": true
+    },
+    "https://www.getcopper.com/post/online-surveys-for-paypal-venmo-cash": {
+      "count": 1,
+      "first_seen": "2026-05-30",
+      "last_confirmed": null,
+      "deep_score": 3,
+      "verified_bad": false
+    },
+    "https://stakingboard.com/chains": {
+      "count": 1,
+      "first_seen": "2026-05-30",
+      "last_confirmed": null,
+      "deep_score": 4,
+      "verified_bad": false
+    },
+    "https://cryptonira.com/": {
+      "count": 1,
+      "first_seen": "2026-05-30",
+      "last_confirmed": "2026-05-30",
+      "deep_score": 7,
+      "verified_bad": false
+    },
+    "https://knowledge-base.faucetcrypto.com/earning-and-leveling/offerwalls": {
+      "count": 1,
+      "first_seen": "2026-05-30",
+      "last_confirmed": null,
+      "deep_score": 4,
+      "verified_bad": false
     }
   },
   "google_doc_id": "1MQswVUee3z94Xj7r74QY9cehf_hesQkOaVlJz93pCqs",
   "seen_domains": [
+    "1dollaperday.com",
+    "2captcha.com",
     "2cryptoguys.com",
     "2miners.com",
     "3commas.io",
     "5arz.com",
+    "99bitcoins.com",
     "aads.com",
     "account.microsoft.com",
     "acemoneytransfer.com",
     "acryptominer.io",
     "ada4good.com",
+    "adamenfroy.com",
     "adbytes.media",
     "adclaimer.xyz",
     "adfi.money",
     "adreva.ai",
     "adsearnltc.com",
+    "adsfaucet.com",
     "adspower.com",
     "advcash.gitbook.io",
+    "affiliate.com",
     "affiliatexblocks.com",
     "affmiss.com",
     "ai-frb.com",
@@ -2897,16 +3196,19 @@
     "alearesearch.substack.com",
     "allcoins.pw",
     "alpha-maven.com",
+    "amazon.com",
     "ambcrypto.com",
     "ankr.com",
     "anonycrypto.com",
     "aom.vnu.edu.tw",
     "apexearning.com",
+    "apexpay.org",
     "apps.microsoft.com",
     "aqru.io",
     "aqstr.com",
     "arbitragescanner.io",
     "arcmine.io",
+    "arkadium.com",
     "askfuzz.ai",
     "atibucks.com",
     "atlasfreecloudmining.com",
@@ -2923,8 +3225,12 @@
     "banklesstimes.com",
     "beefaucet.org",
     "beincrypto.com",
+    "benable.com",
     "bestbitcoincasinousa.com",
     "bestbuy.com",
+    "bestbuyproxy.com",
+    "bestfaucetsites.com",
+    "bgames.com",
     "binance.com",
     "binance.us",
     "binarium.supply",
@@ -2935,10 +3241,15 @@
     "bitbrowser.net",
     "bitbuy.ca",
     "bitcasinosrank.com",
+    "bitclickz.com",
+    "bitcoearn.com",
     "bitcoin-collector.com",
+    "bitcoin.com",
     "bitcoin.org",
     "bitcoinchaser.com",
     "bitcoinfoundation.org",
+    "bitcoinptc.top",
+    "bitcoinrewards.app",
     "bitcoinrotator.in",
     "bitcompare.net",
     "bitcotasks.com",
@@ -2958,7 +3269,9 @@
     "bleap.finance",
     "blingfi.com",
     "blinkfaucet.com",
+    "blockchain-council.org",
     "blockchainecho.info",
+    "blockchainreporter.net",
     "blockchair.com",
     "blocklr.com",
     "blockonomi.com",
@@ -2966,6 +3279,7 @@
     "blockstats.app",
     "blockster.com",
     "blog.citrea.xyz",
+    "blog.iambeezy.app",
     "blog.kraken.com",
     "blog.mexc.com",
     "blog.portals.fi",
@@ -3000,9 +3314,11 @@
     "cadetkupo.com",
     "captcha-ai.com",
     "cardano-faucet.com",
+    "cardano.org",
     "cash4my.click",
     "cashtoearn.com",
     "ccn.com",
+    "cefirates.com",
     "chaingain.io",
     "chainlabo.com",
     "chainplay.gg",
@@ -3011,6 +3327,7 @@
     "changehero.io",
     "changenow.io",
     "chequity.io",
+    "chfs.ky.gov",
     "chorus.one",
     "chromewebstore.google.com",
     "citrusrate.com",
@@ -3041,6 +3358,7 @@
     "clickspaid.com",
     "clicktoearn.co",
     "clicktoearn.site",
+    "clickup.com",
     "clickvieweducation.com",
     "cloud.google.com",
     "clouddoge.biz",
@@ -3081,10 +3399,13 @@
     "cointracker.io",
     "cointribune.com",
     "collinsdictionary.com",
+    "comptroller.nyc.gov",
     "contentrewards.xyz",
     "copytradeinsider.com",
     "corpuschristi.craigslist.org",
+    "coursera.org",
     "cpabot.app",
+    "cpstest.org",
     "cpu-miner.software.informer.com",
     "cpuwin.com",
     "crazygames.com",
@@ -3116,6 +3437,7 @@
     "cryptoglobally.com",
     "cryptohopper.com",
     "cryptolink.click",
+    "cryptolist.co.uk",
     "cryptomaniacs.xyz",
     "cryptominerbros.com",
     "cryptominerspro.com",
@@ -3126,8 +3448,10 @@
     "cryptonews.net",
     "cryptonewssol.com",
     "cryptoninjas.net",
+    "cryptonira.com",
     "cryptontradebot.com",
     "cryptopolitan.com",
+    "cryptopotato.com",
     "cryptorank.io",
     "cryptorbix.com",
     "cryptoryancy.com",
@@ -3148,6 +3472,8 @@
     "darkbot.io",
     "datawallet.com",
     "decentralised.news",
+    "defi.tech",
+    "defillama.com",
     "demofaucet.fun",
     "dev.to",
     "devel.coinbrain.com",
@@ -3158,6 +3484,7 @@
     "dictionary.com",
     "dietbitcoin.tk",
     "digitalnomadwannabe.com",
+    "dippermagazine.co.uk",
     "directoryplus.org",
     "dishfaucet.xyz",
     "docs.cardano.org",
@@ -3172,17 +3499,21 @@
     "dogecoin.com",
     "dogecoinpal.com",
     "dogefast.live",
+    "dogefaucet.com",
     "dogefaucet.fun",
     "dogeking.io",
     "dogekong.live",
+    "dol.ny.gov",
     "dollarbreak.co.ke",
     "dollarcatalyst.com",
     "dollarsprout.com",
     "doublenow.site",
     "dropbitco.in",
     "drops.bot",
+    "due.com",
     "e-research-global.com",
     "earn-crypto.co",
+    "earn-today.com",
     "earn.cex.io",
     "earn.uprowshub.com",
     "earnbase.finance",
@@ -3202,8 +3533,10 @@
     "earnifyhub.com",
     "earnin.com",
     "earnitz.com",
+    "earnkaro.com",
     "earnlab.com",
     "earnloop.online",
+    "earnly.us",
     "earnmecash.com",
     "earnmob.info",
     "earnne.com",
@@ -3225,6 +3558,7 @@
     "en.faucetbitcoin.it",
     "en.m.wikipedia.org",
     "en.wikipedia.org",
+    "en.wiktionary.org",
     "eneba.com",
     "ern.app",
     "ethereum-faucet.org",
@@ -3236,11 +3570,13 @@
     "ethminer.life",
     "evacodes.com",
     "everstake.one",
+    "everycent.co.ke",
     "everythingstablecoin.com",
     "evista.miniorange.com",
     "ex-faucet.xyz",
     "exchangetraffic.net",
     "exodus.com",
+    "explorerpay.com",
     "fabelo.io",
     "faq.faucetpay.io",
     "fastcoin.ga",
@@ -3252,6 +3588,7 @@
     "faucet.cosmoport.tk",
     "faucet.free",
     "faucet.polygon.technology",
+    "faucet.quicknode.com",
     "faucet.rocks",
     "faucet.solana.com",
     "faucet.trade",
@@ -3261,6 +3598,7 @@
     "faucetcollector.com",
     "faucetcrypto.com",
     "faucetcryptochain.com",
+    "faucetdepot.com",
     "faucetearner.org",
     "faucetfortune.com",
     "faucethouse.cv",
@@ -3278,6 +3616,7 @@
     "fdg.exchanging.app",
     "feast-magazine.co.uk",
     "fexapay.com",
+    "fidelity.com",
     "filecroco.com",
     "finalautoclaim.com",
     "finance.yahoo.com",
@@ -3354,6 +3693,7 @@
     "gemini.com",
     "gemwallet-airdrop.vercel.app",
     "getblock.io",
+    "getcopper.com",
     "getfinancepulse.com",
     "getflipx.app",
     "getfree.co.in",
@@ -3369,6 +3709,7 @@
     "greasyfork.org",
     "groyourwealth.com",
     "guardarian.com",
+    "h33.ai",
     "happycapyguide.com",
     "helius.dev",
     "help.3commas.io",
@@ -3381,6 +3722,7 @@
     "hi.com",
     "hirro.kesug.com",
     "hoinex.com",
+    "homedepot.com",
     "homeincomelab.com",
     "honeygain.com",
     "howtogetfreematic.com",
@@ -3389,6 +3731,7 @@
     "hub.docker.com",
     "hubaggregator.com",
     "humanrail.com",
+    "hzford.com",
     "icospeaks.com",
     "icucu.icu",
     "idle-empire.com",
@@ -3414,6 +3757,7 @@
     "kerberus.com",
     "kiln.fi",
     "klinkfinance.com",
+    "knowledge-base.faucetcrypto.com",
     "koinly.io",
     "kotaku.com",
     "kraken.com",
@@ -3426,6 +3770,7 @@
     "langeek.co",
     "laniertech.edu",
     "learn.backpack.exchange",
+    "learn.microsoft.com",
     "learncrypto.com",
     "learnenglish.britishcouncil.org",
     "ledn.io",
@@ -3445,6 +3790,7 @@
     "litecoinfaucet.com",
     "litecoinpool.org",
     "litecoinrewards.click",
+    "litecoinspace.org",
     "litecointalk.io",
     "litefinance.org",
     "liteking.io",
@@ -3468,8 +3814,11 @@
     "ltcnex.io",
     "ltctime.fun",
     "ltcunit.com",
+    "m.shein.com",
     "madeonsol.com",
+    "magicsquare.io",
     "mainnetfaucet.com",
+    "makejar.com",
     "makemoneyvideos.club",
     "marketcapof.com",
     "markets.businessinsider.com",
@@ -3477,6 +3826,8 @@
     "marketwatch.com",
     "masterthecrypto.com",
     "matclick.com",
+    "math-earn.online",
+    "mathmonks.com",
     "maticfaucet.com",
     "mc-multi.mc-bestpayingfaucet.com",
     "medium.com",
@@ -3495,6 +3846,7 @@
     "mineswap.gg",
     "mini-mine.online",
     "miniapp.gate.com",
+    "miniappfaucet.com",
     "minifaucet.com",
     "minijob.click",
     "miningltc.xyz",
@@ -3507,6 +3859,7 @@
     "mixfaucet.com",
     "mobilecryptoreport.com",
     "moddy-ai.com",
+    "monacoin.xyz",
     "money-meadow.com",
     "money.com",
     "moneyreportai.com",
@@ -3543,6 +3896,7 @@
     "okx.com",
     "omcofaucet.com",
     "onebitco.com",
+    "oneclickminer.com",
     "onefaucet.in",
     "onlinemicrojobs.com",
     "onlyfaucet.com",
@@ -3554,6 +3908,7 @@
     "originprotocol.com",
     "os.kryll.io",
     "oxfordlearnersdictionaries.com",
+    "panaprium.com",
     "panewslab.com",
     "paragraph.com",
     "passivedrip.com",
@@ -3565,8 +3920,10 @@
     "phemex.com",
     "phptrends.com",
     "pictures.telegram-store.com",
+    "pig.gy",
     "platform.softwareone.com",
     "play.google.com",
+    "play2dollar.com",
     "playgama.com",
     "playtoearn.com",
     "plex.tv",
@@ -3574,7 +3931,9 @@
     "plume.org",
     "poearn.com",
     "pokertube.com",
+    "poliigon.com",
     "polygon.technology",
+    "polygontechnology.org",
     "pool.kryptex.com",
     "poolpartynodes.com",
     "popularcoinsfree.website",
@@ -3592,6 +3951,7 @@
     "recap.io",
     "reddit.com",
     "reellu.com",
+    "refundyoursol.com",
     "registry.npmjs.org",
     "remitano.com",
     "remotasks.com",
@@ -3643,12 +4003,17 @@
     "solstice.finance",
     "somptc.com",
     "sourceforge.net",
+    "specters.site",
+    "spendnode.io",
     "spunk.bet",
+    "stablecoininsider.org",
     "stake.lido.fi",
     "stakely.io",
     "staking-polygon.com",
     "staking.polygon.technology",
     "staking.stakely.io",
+    "staking.web3guides.com",
+    "stakingboard.com",
     "stakingradar.com",
     "stakingrewards.com",
     "starboost.app",
@@ -3663,6 +4028,7 @@
     "superalgos.org",
     "superearn.com",
     "superearn.medium.com",
+    "support.google.com",
     "support.kraken.com",
     "support.ledger.com",
     "symbolsdb.com",
@@ -3697,6 +4063,7 @@
     "theglobeandmail.com",
     "theledgermind.com",
     "theluwizz.medium.com",
+    "thepennyhoarder.com",
     "timepays.cloud",
     "timestabloid.com",
     "tipc.info",
@@ -3710,6 +4077,7 @@
     "tr.energy",
     "tradersunion.com",
     "tradingview.com",
+    "trashnothing.com",
     "trend-rays.com",
     "tron-faucet.com",
     "tron.guide",
@@ -3726,13 +4094,16 @@
     "trustwallet.com",
     "trxfast.live",
     "trxpayz.com",
+    "trxtraining.com",
     "trxtrue.com",
     "trxvault.site",
     "trxzilla.live",
+    "try.novalite.app",
     "trymata.com",
     "tubitv.com",
     "tuoitreit.vn",
     "turbofaucetscript.in",
+    "unclaimedsol.com",
     "usbank.com",
     "usdc-faucet.com",
     "usdpick.io",
@@ -3746,7 +4117,9 @@
     "viewfi.live",
     "viewmynte.com",
     "visiion.io",
+    "visu.network",
     "vocabulary.com",
+    "vocal.media",
     "voltfaucet.com",
     "voluum.com",
     "voxminingpool.us",
@@ -3767,6 +4140,7 @@
     "wise.com",
     "wiseloaded.com",
     "wordreference.com",
+    "wordwebonline.com",
     "woty.glamour.com",
     "wundertrading.com",
     "wurk.fun",
@@ -3783,6 +4157,7 @@
     "youtube.com",
     "zan.top",
     "zarfo.com",
+    "zeerk.com",
     "zenmine.io",
     "zerpayz.com",
     "zhenchainmicro.com",

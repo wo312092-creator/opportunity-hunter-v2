@@ -358,50 +358,53 @@ def groq_generate(prompt_str, model=None):
     print("[Groq] All API keys exhausted")
     return None
 
+OPENROUTER_MODELS = ["x-ai/grok-4.3", "openai/gpt-4o-mini"]
+
 def openrouter_generate(prompt_str, model=None):
     global _openrouter_key_index
     if not OPENROUTER_API_KEYS:
         print("[OpenRouter] No API keys configured")
         return None
-    if model is None:
-        model = "openai/gpt-4o-mini"
-    for _ in range(len(OPENROUTER_API_KEYS)):
-        key = OPENROUTER_API_KEYS[_openrouter_key_index]
-        try:
-            headers = {
-                "Authorization": f"Bearer {key}",
-                "Content-Type": "application/json",
-                "HTTP-Referer": "https://github.com/wo312092-creator/opportunity-hunter-v2",
-                "X-Title": "Opportunity Hunter V2"
-            }
-            body = {
-                "model": model,
-                "messages": [{"role": "user", "content": prompt_str}],
-                "temperature": 0.2,
-                "max_tokens": 800
-            }
-            r = requests.post("https://openrouter.ai/api/v1/chat/completions",
-                              headers=headers, json=body, timeout=30)
-            data = r.json()
-            if r.status_code == 200:
-                return data["choices"][0]["message"]["content"]
-            err_msg = data.get("error", {}).get("message", "")
-            if "429" in str(r.status_code) or "rate" in err_msg.lower():
-                print(f"[OpenRouter] Key {_openrouter_key_index+1}/{len(OPENROUTER_API_KEYS)} rate limited, trying next...")
+    models_to_try = [model] if model else OPENROUTER_MODELS
+    for model_attempt in models_to_try:
+        for _ in range(len(OPENROUTER_API_KEYS)):
+            key = OPENROUTER_API_KEYS[_openrouter_key_index]
+            try:
+                headers = {
+                    "Authorization": f"Bearer {key}",
+                    "Content-Type": "application/json",
+                    "HTTP-Referer": "https://github.com/wo312092-creator/opportunity-hunter-v2",
+                    "X-Title": "Opportunity Hunter V2"
+                }
+                body = {
+                    "model": model_attempt,
+                    "messages": [{"role": "user", "content": prompt_str}],
+                    "temperature": 0.2,
+                    "max_tokens": 800
+                }
+                r = requests.post("https://openrouter.ai/api/v1/chat/completions",
+                                  headers=headers, json=body, timeout=30)
+                data = r.json()
+                if r.status_code == 200:
+                    return data["choices"][0]["message"]["content"]
+                err_msg = data.get("error", {}).get("message", "")
+                if "429" in str(r.status_code) or "rate" in err_msg.lower():
+                    print(f"[OpenRouter] Key {_openrouter_key_index+1}/{len(OPENROUTER_API_KEYS)} rate limited, trying next...")
+                    _openrouter_key_index = (_openrouter_key_index + 1) % len(OPENROUTER_API_KEYS)
+                    time.sleep(1)
+                    continue
+                print(f"[OpenRouter] Key {_openrouter_key_index+1} error {r.status_code}: {err_msg[:60]}")
+                _openrouter_key_index = (_openrouter_key_index + 1) % len(OPENROUTER_API_KEYS)
+            except requests.exceptions.Timeout:
+                print(f"[OpenRouter] Key {_openrouter_key_index+1} timeout, trying next...")
                 _openrouter_key_index = (_openrouter_key_index + 1) % len(OPENROUTER_API_KEYS)
                 time.sleep(1)
-                continue
-            print(f"[OpenRouter] Key {_openrouter_key_index+1} error {r.status_code}: {err_msg[:60]}")
-            _openrouter_key_index = (_openrouter_key_index + 1) % len(OPENROUTER_API_KEYS)
-        except requests.exceptions.Timeout:
-            print(f"[OpenRouter] Key {_openrouter_key_index+1} timeout, trying next...")
-            _openrouter_key_index = (_openrouter_key_index + 1) % len(OPENROUTER_API_KEYS)
-            time.sleep(1)
-        except Exception as e:
-            print(f"[OpenRouter] Key {_openrouter_key_index+1} exception: {str(e)[:60]}")
-            _openrouter_key_index = (_openrouter_key_index + 1) % len(OPENROUTER_API_KEYS)
-            time.sleep(1)
-    print("[OpenRouter] All API keys exhausted")
+            except Exception as e:
+                print(f"[OpenRouter] Key {_openrouter_key_index+1} exception: {str(e)[:60]}")
+                _openrouter_key_index = (_openrouter_key_index + 1) % len(OPENROUTER_API_KEYS)
+                time.sleep(1)
+        print(f"[OpenRouter] Model {model_attempt} exhausted all keys, trying next model...")
+    print("[OpenRouter] All models and keys exhausted")
     return None
 
 def gemini_generate(model, prompt_str):
@@ -1035,6 +1038,34 @@ def search_all(query: str, pw: PlaywrightPool, q_idx: int) -> list:
             if r["url"] not in seen:
                 seen.add(r["url"])
                 results.append(r)
+    time.sleep(random.uniform(0.3, 0.8))
+    ddg_results = search_ddg(query, q_idx)
+    print(f"[DDG] {len(ddg_results)}", end=" ", flush=True)
+    for r in ddg_results:
+        if r["url"] and r["url"] not in seen:
+            seen.add(r["url"])
+            results.append(r)
+    time.sleep(random.uniform(0.3, 0.8))
+    sp_results = search_startpage(query, q_idx)
+    print(f"[Startpage] {len(sp_results)}", end=" ", flush=True)
+    for r in sp_results:
+        if r["url"] and r["url"] not in seen:
+            seen.add(r["url"])
+            results.append(r)
+    time.sleep(random.uniform(0.3, 0.8))
+    yh_results = search_yahoo(query, q_idx)
+    print(f"[Yahoo] {len(yh_results)}", end=" ", flush=True)
+    for r in yh_results:
+        if r["url"] and r["url"] not in seen:
+            seen.add(r["url"])
+            results.append(r)
+    time.sleep(random.uniform(0.3, 0.8))
+    rd_results = search_reddit(query, q_idx)
+    print(f"[Reddit] {len(rd_results)}", end=" ", flush=True)
+    for r in rd_results:
+        if r["url"] and r["url"] not in seen:
+            seen.add(r["url"])
+            results.append(r)
     time.sleep(random.uniform(0.3, 0.8))
     fc_results = search_firecrawl(query)
     print(f"[Firecrawl] {len(fc_results)}", end=" ", flush=True)

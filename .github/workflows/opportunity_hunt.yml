@@ -27,7 +27,7 @@ jobs:
             ~/.cache/pip
             .venv
             ~/.cache/ms-playwright
-          key: oh2-v6-${{ runner.os }}-${{ hashFiles('**/oh2_v6_unified.py') }}
+          key: oh2-sa-${{ runner.os }}-${{ hashFiles('**/main.py') }}
 
       - name: Install dependencies and browsers
         run: |
@@ -39,11 +39,18 @@ jobs:
         run: |
           mkdir -p deep_analysis reports
 
-      - name: Run opportunity hunter v6
+      - name: Run opportunity hunter
         env:
           PYTHONUNBUFFERED: 1
-          FIRECRAWL_API_KEY: ${{ secrets.FIRECRAWL_API_KEY }}
-          EXA_API_KEY: ${{ secrets.EXA_API_KEY }}
+          # ── Service Account (PERMANENT — never expires) ──
+          GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
+
+          # ── OAuth fallback (backward compat, will be removed) ──
+          GOOGLE_OAUTH_CLIENT_ID: ${{ secrets.GOOGLE_OAUTH_CLIENT_ID }}
+          GOOGLE_OAUTH_CLIENT_SECRET: ${{ secrets.GOOGLE_OAUTH_CLIENT_SECRET }}
+          GOOGLE_REFRESH_TOKEN: ${{ secrets.GOOGLE_REFRESH_TOKEN }}
+
+          # ── AI Scoring ──
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           GEMINI_API_KEY_2: ${{ secrets.GEMINI_API_KEY_2 }}
           GEMINI_API_KEY_3: ${{ secrets.GEMINI_API_KEY_3 }}
@@ -58,13 +65,11 @@ jobs:
           OPENROUTER_API_KEY_2: ${{ secrets.OPENROUTER_API_KEY_2 }}
           OPENROUTER_API_KEY_3: ${{ secrets.OPENROUTER_API_KEY_3 }}
           OPENROUTER_API_KEY_4: ${{ secrets.OPENROUTER_API_KEY_4 }}
-          GOOGLE_OAUTH_CLIENT_ID: ${{ secrets.GOOGLE_OAUTH_CLIENT_ID }}
-          GOOGLE_OAUTH_CLIENT_SECRET: ${{ secrets.GOOGLE_OAUTH_CLIENT_SECRET }}
-          GOOGLE_REFRESH_TOKEN: ${{ secrets.GOOGLE_REFRESH_TOKEN }}
-          GMAIL_USER: ${{ secrets.GMAIL_USER }}
-          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
-          NOTIFICATION_EMAIL: ${{ secrets.NOTIFICATION_EMAIL }}
-        run: .venv/bin/python oh2_v6_unified.py
+
+          # ── Search ──
+          FIRECRAWL_API_KEY: ${{ secrets.FIRECRAWL_API_KEY }}
+          EXA_API_KEY: ${{ secrets.EXA_API_KEY }}
+        run: .venv/bin/python main.py
 
       - name: Commit and push changes
         run: |
